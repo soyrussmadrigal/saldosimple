@@ -1,293 +1,75 @@
-import { PageBanner } from "@/components/Banner";
-import PlaxLayout from "@/layouts/PlaxLayout";
+import { PageBanner } from "../../components/Banner";
+import PlaxLayout from "../../layouts/PlaxLayout";
 import Link from "next/link";
-const page = () => {
+import client from "@/lib/sanityClient";
+
+async function getPosts() {
+  const query = `
+    *[_type == "post"] | order(publishedAt desc) {
+      title,
+      slug,
+      categoria,
+      excerpt,
+      coverImage {
+        asset->{ url }
+      },
+      publishedAt
+    }
+  `;
+  const posts = await client.fetch(query);
+  return posts;
+}
+
+export default async function Page() {
+  const posts = await getPosts();
+
   return (
     <PlaxLayout>
-      <PageBanner
-        pageName="Blog"
-        title="Your Source of Financial Information"
-      />
+      <PageBanner pageName="Artículos" title="Tus fuentes de información financiera" />
 
-      {/* banner end */}
       {/* blog list */}
       <div className="mil-blog-list mil-p-0-160">
         <div className="container">
           <div className="row">
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/1.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <div key={post.slug.current} className="col-xl-4 col-md-6">
+                  <Link
+                    href={`/articulos/${post.categoria}/${post.slug.current}`}
+                    className="mil-blog-card mil-mb-30 mil-up"
+                  >
+                    <div className="mil-card-cover">
+                      {post.coverImage?.asset?.url ? (
+                        <img
+                          src={post.coverImage.asset.url}
+                          alt={post.title}
+                          className="mil-scale-img"
+                          data-value-1={1}
+                          data-value-2="1.2"
+                        />
+                      ) : (
+                        <div style={{ height: "300px", backgroundColor: "#f0f0f0" }} />
+                      )}
+                    </div>
+                    <div className="mil-descr">
+                      <p className="mil-text-xs mil-accent mil-mb-15">
+                        {post.categoria}
+                      </p>
+                      <h4>{post.title}</h4>
+                    </div>
+                  </Link>
                 </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Financial Advice
-                  </p>
-                  <h4>How to Send Money Safely</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/2.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Personal Finance
-                  </p>
-                  <h4>The Benefits of Using Virtual Cards</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/3.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Business Payments
-                  </p>
-                  <h4>How to Optimize Business Payments</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/4.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Financial Inclusion
-                  </p>
-                  <h4>The Importance of Financial Inclusion in the world</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/5.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Product Updates
-                  </p>
-                  <h4>New Features in Plax Enterprise: What Can You Expect?</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/6.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Savings Tips
-                  </p>
-                  <h4>Tips to Save on International Transactions</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/7.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Financial Advice
-                  </p>
-                  <h4>How to Send Money Safely</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/8.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Personal Finance
-                  </p>
-                  <h4>The Benefits of Using Virtual Cards</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/9.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Business Payments
-                  </p>
-                  <h4>How to Optimize Business Payments</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/10.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Financial Inclusion
-                  </p>
-                  <h4>The Importance of Financial Inclusion in the world</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/11.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Product Updates
-                  </p>
-                  <h4>New Features in Plax Enterprise: What Can You Expect?</h4>
-                </div>
-              </Link>
-            </div>
-            <div className="col-xl-4 col-md-6">
-              <Link
-                href="publication"
-                className="mil-blog-card mil-mb-30 mil-up"
-              >
-                <div className="mil-card-cover">
-                  <img
-                    src="img/inner-pages/blog/12.png"
-                    alt="cover"
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-                <div className="mil-descr">
-                  <p className="mil-text-xs mil-accent mil-mb-15">
-                    Savings Tips
-                  </p>
-                  <h4>Tips to Save on International Transactions</h4>
-                </div>
-              </Link>
-            </div>
+              ))
+            ) : (
+              <div className="col-12 text-center">
+                <p>No hay artículos disponibles todavía.</p>
+              </div>
+            )}
           </div>
-          <div className="mil-text-center mil-mt-30 mil-up">
-            <a href="#" className="mil-btn mil-m mil-add-arrow">
-              Loads more publications
-            </a>
-          </div>
+          {/* Puedes agregar paginación más adelante si quieres */}
         </div>
       </div>
       {/* blog list end */}
     </PlaxLayout>
   );
-};
-export default page;
+}

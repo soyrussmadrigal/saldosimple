@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@portabletext/react": "^3.2.1",
+    "@sanity/client": "^6.29.1",
+    "groq": "^3.86.1",
     "gsap": "^3.12.5",
     "next": "14.2.2",
     "react": "^18",
