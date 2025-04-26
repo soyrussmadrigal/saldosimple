@@ -3,9 +3,14 @@ import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
 
-async function getPosts() {
+const POSTS_PER_PAGE = 10;
+
+async function getPosts(page) {
+  const start = (page - 1) * POSTS_PER_PAGE;
+  const end = start + POSTS_PER_PAGE;
+
   const query = `
-    *[_type == "post"] | order(publishedAt desc)[0...10] {
+    *[_type == "post"] | order(publishedAt desc)[${start}...${end}] {
       title,
       slug,
       categoria,
@@ -16,25 +21,30 @@ async function getPosts() {
       publishedAt
     }
   `;
+
   const posts = await client.fetch(query);
   return posts;
 }
 
-export const metadata = {
-  title: "Artículos de Finanzas - SaldoSimple",
-  description: "Explora los mejores artículos de finanzas, ahorro y tarjetas en Costa Rica.",
-  alternates: {
-    canonical: "https://www.saldosimple.com/articulos",
-  },
-};
+export async function generateMetadata({ params }) {
+  const page = params.page || 1;
+  return {
+    title: `Artículos de Finanzas - Página ${page} | SaldoSimple`,
+    description: `Página ${page} de artículos de finanzas, ahorro y tarjetas en Costa Rica.`,
+    alternates: {
+      canonical: `https://www.saldosimple.com/articulos/pagina/${page}`,
+    },
+  };
+}
 
-export default async function Page() {
-  const posts = await getPosts();
+export default async function Page({ params }) {
+  const pageNumber = parseInt(params.page) || 1;
+  const posts = await getPosts(pageNumber);
 
   return (
     <PlaxLayout>
       <PageBanner 
-        pageName="Artículos" 
+        pageName={`Artículos - Página ${pageNumber}`} 
         title="Tus fuentes de información financiera" 
       />
 
@@ -73,15 +83,15 @@ export default async function Page() {
               ))
             ) : (
               <div className="col-12 text-center">
-                <p>No hay artículos disponibles todavía.</p>
+                <p>No hay artículos disponibles.</p>
               </div>
             )}
           </div>
 
-          {/* Paginación */}
+          {/* Paginación siguiente */}
           <div className="mil-text-center mil-mt-30 mil-up">
-            <Link href="/articulos/pagina/2" className="mil-btn mil-m mil-add-arrow">
-              Ver más artículos
+            <Link href={`/articulos/pagina/${pageNumber + 1}`} className="mil-btn mil-m mil-add-arrow">
+              Página siguiente
             </Link>
           </div>
         </div>
