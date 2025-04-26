@@ -247,15 +247,9 @@ export default async function PostPage({ params }) {
               )}
             </div>
 
-            {/* DisclaimerBox debajo de la imagen */}
-            <div className="col-xl-9 mil-p-40-40">
-              <div
-                className="mil-up"
-                style={{ marginTop: "30px", marginBottom: "30px" }}
-              >
-                <DisclaimerBox text="SaldoSimple podría recibir compensaciones de nuestros socios. Sin embargo, nuestras opiniones son propias.SaldoSimple podría recibir compensaciones de nuestros socios. Sin embargo, nuestras opiniones son propias." />
-              </div>
-            </div>
+            {/* DisclaimerBox*/}
+
+            <DisclaimerBox />
 
             {/* Contenido principal */}
             <div className="col-xl-9 mil-p-80-80">
