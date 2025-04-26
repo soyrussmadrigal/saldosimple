@@ -26,3 +26,31 @@
   color: white;
 }
 
+/* Mejoras visuales al menú como NerdWallet */
+
+.mil-top-menu ul.mil-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 30px; /* Separación entre ítems */
+}
+
+.mil-top-menu ul.mil-nav-list li a {
+  text-decoration: none;
+  color: #222; /* Letra más oscura */
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.mil-top-menu ul.mil-nav-list li a:hover {
+  color: #0070f3; /* Azul clarito para hover, como NerdWallet */
+}
+
+.mil-top-menu ul.mil-nav-list li.mil-active a {
+  color: #0070f3;
+  border-bottom: 2px solid #0070f3;
+  padding-bottom: 4px;
+}
+

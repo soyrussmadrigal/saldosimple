@@ -11,7 +11,6 @@ const Navbar = ({ dark }) => {
   const isActive = (routes) =>
     routes.some((route) => currentPath.includes(route)) ? "mil-active" : "";
 
-  // Función para cerrar menú cuando se hace clic en un enlace
   const handleLinkClick = () => {
     setToggle(false);
   };
@@ -29,22 +28,19 @@ const Navbar = ({ dark }) => {
         </Link>
 
         <nav className={`mil-top-menu ${toggle ? "mil-active" : ""}`}>
-          <ul>
-            {/* Inicio */}
+          <ul className="mil-nav-list">
             <li className={currentPath === "/" ? "mil-active" : ""}>
               <Link href="/" onClick={handleLinkClick}>
                 Inicio
               </Link>
             </li>
 
-            {/* Artículos */}
             <li className={isActive(["articulos", "publication"])}>
               <Link href="/articulos" onClick={handleLinkClick}>
                 Artículos
               </Link>
             </li>
 
-            {/* Contacto */}
             <li className={isActive(["contact"])}>
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto
@@ -54,7 +50,6 @@ const Navbar = ({ dark }) => {
         </nav>
 
         <div className="mil-menu-buttons">
-          {/* Botón hamburguesa */}
           <div
             className={`mil-menu-btn ${toggle ? "mil-active" : ""}`}
             onClick={() => setToggle(!toggle)}
