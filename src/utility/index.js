@@ -1,4 +1,4 @@
-import { ScrollSmoother, ScrollTrigger } from "@/lib/plugins";
+import { ScrollSmoother, ScrollTrigger } from "../plugins/index";
 import { gsap } from "gsap";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 export const plaxUtility = {

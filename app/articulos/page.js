@@ -1,5 +1,5 @@
-import { PageBanner } from "../../src/components/Banner";
-import PlaxLayout from "../../src/layouts/PlaxLayout";
+import { PageBanner } from "@/components/Banner";
+import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
 
