@@ -1,5 +1,5 @@
 "use client";
-import EmbedPopup from "@/components/EmbedPopup";
+import EmbedPopup from "@/components/ui/EmbedPopup";
 import { plaxUtility } from "@/utility";
 import { Fragment, useEffect } from "react";
 import Footer from "./Footer";

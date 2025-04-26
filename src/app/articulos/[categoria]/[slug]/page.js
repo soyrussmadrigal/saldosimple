@@ -1,4 +1,4 @@
-import DisclaimerBox from "@/components/DisclaimerBox";
+import DisclaimerBox from "@/components/post/DisclaimerBox";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";

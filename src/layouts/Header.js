@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "@/components/Navbar"; // ✅ Importamos el nuevo Navbar
+import Navbar from "@/components/common/Navbar"; // ✅ Importamos el nuevo Navbar
 
 const Header = ({ dark }) => {
   return (

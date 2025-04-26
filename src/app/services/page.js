@@ -1,5 +1,5 @@
-import { PageBanner } from "@/components/Banner";
-import { CallToAction2 } from "@/components/CallToAction";
+import { PageBanner } from "@/components/sections/Banner";
+import { CallToAction2 } from "@/components/sections/CallToAction";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 const page = () => {

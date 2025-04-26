@@ -1,4 +1,4 @@
-import { CallToAction2 } from "@/components/CallToAction";
+import { CallToAction2 } from "@/components/sections/CallToAction";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 const page = () => {

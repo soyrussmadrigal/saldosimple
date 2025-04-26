@@ -1,4 +1,4 @@
-import { PageBanner } from "@/components/Banner";
+import { PageBanner } from "@/components/sections/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 const page = () => {
   return (

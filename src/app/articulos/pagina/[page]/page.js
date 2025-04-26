@@ -1,8 +1,8 @@
-import { PageBanner } from "@/components/Banner";
+import { PageBanner } from "@/components/sections/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
-import Pagination from "@/components/Pagination"; // Nuevo import
+import Pagination from "@/components/ui/Pagination"; // Nuevo import
 
 const POSTS_PER_PAGE = 10;
 

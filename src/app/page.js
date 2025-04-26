@@ -1,8 +1,8 @@
 "use client";
-import Banner from "@/components/Banner";
-import { CallToAction2 } from "@/components/CallToAction";
-import PlaxAccordion from "@/components/PlaxAccordion";
-import Testimonials1 from "@/components/Testimonials";
+import Banner from "@/components/sections/Banner";
+import { CallToAction2 } from "@/components/sections/CallToAction";
+import PlaxAccordion from "@/components/ui/PlaxAccordion";
+import Testimonials1 from "@/components/sections/Testimonials";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 

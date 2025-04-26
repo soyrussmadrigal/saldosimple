@@ -1,6 +1,6 @@
 "use client";
-import { CallToAction2 } from "@/components/CallToAction";
-import Pricing from "@/components/Pricing";
+import { CallToAction2 } from "@/components/sections/CallToAction";
+import Pricing from "@/components/sections/Pricing";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 const page = () => {
