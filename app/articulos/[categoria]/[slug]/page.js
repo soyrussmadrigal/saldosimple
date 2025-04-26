@@ -4,6 +4,7 @@ import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/lib/portableTextConfig";
 
+/* 🚀 1) Función para obtener el post */
 async function getPost(slug) {
   const query = `
     *[_type == "post" && slug.current == $slug][0] {
@@ -15,7 +16,9 @@ async function getPost(slug) {
         asset->{ url }
       },
       publishedAt,
-      content
+      content,
+      metaTitle,
+      metaDescription
     }
   `;
   const params = { slug };
@@ -23,6 +26,28 @@ async function getPost(slug) {
   return post;
 }
 
+/* 🚀 2) SEO dinámico */
+export async function generateMetadata({ params }) {
+  const { slug } = params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {
+      title: "Artículo no encontrado",
+      description: "Este artículo no está disponible en SaldoSimple.",
+    };
+  }
+
+  return {
+    title: post.metaTitle || post.title,
+    description: post.metaDescription || post.excerpt || "Información financiera actualizada en SaldoSimple.",
+    alternates: {
+      canonical: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
+    },
+  };
+}
+
+/* 🚀 3) Página del post */
 export default async function PostPage({ params }) {
   const { slug } = params;
   const post = await getPost(slug);
@@ -85,11 +110,11 @@ export default async function PostPage({ params }) {
             <div className="col-xl-9 mil-p-80-80">
               {/* Contenido enriquecido con estilo */}
               <div className="mil-up" style={{ wordBreak: "break-word" }}>
-  <PortableText
-    value={post.content}
-    components={portableTextComponents}
-  />
-</div>
+                <PortableText
+                  value={post.content}
+                  components={portableTextComponents}
+                />
+              </div>
             </div>
           </div>
         </div>

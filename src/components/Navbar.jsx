@@ -11,10 +11,15 @@ const Navbar = ({ dark }) => {
   const isActive = (routes) =>
     routes.some((route) => currentPath.includes(route)) ? "mil-active" : "";
 
+  // Función para cerrar menú cuando se hace clic en un enlace
+  const handleLinkClick = () => {
+    setToggle(false);
+  };
+
   return (
     <div className={`mil-top-panel ${dark ? "mil-dark-2" : ""}`}>
       <div className="container">
-        <Link href="/" className="mil-logo">
+        <Link href="/" className="mil-logo" onClick={handleLinkClick}>
           <img
             src={dark ? "/img/logo-light.png" : "/img/logo.png"}
             alt="SaldoSimple"
@@ -27,23 +32,29 @@ const Navbar = ({ dark }) => {
           <ul>
             {/* Inicio */}
             <li className={currentPath === "/" ? "mil-active" : ""}>
-              <Link href="/">Inicio</Link>
+              <Link href="/" onClick={handleLinkClick}>
+                Inicio
+              </Link>
             </li>
 
-            {/* Artículos sin dropdown */}
+            {/* Artículos */}
             <li className={isActive(["articulos", "publication"])}>
-              <Link href="/articulos">Artículos</Link>
+              <Link href="/articulos" onClick={handleLinkClick}>
+                Artículos
+              </Link>
             </li>
 
             {/* Contacto */}
             <li className={isActive(["contact"])}>
-              <Link href="/contact">Contacto</Link>
+              <Link href="/contact" onClick={handleLinkClick}>
+                Contacto
+              </Link>
             </li>
           </ul>
         </nav>
 
         <div className="mil-menu-buttons">
-          {/* Botón hamburguesa para mobile */}
+          {/* Botón hamburguesa */}
           <div
             className={`mil-menu-btn ${toggle ? "mil-active" : ""}`}
             onClick={() => setToggle(!toggle)}
