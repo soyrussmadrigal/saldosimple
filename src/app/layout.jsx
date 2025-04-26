@@ -1,5 +1,4 @@
 import { Questrial } from "next/font/google";
-
 import "@fonts/css/switzer.css";
 import "./globals.css";
 import "@fonts/font-awesome.min.css";
@@ -21,7 +20,8 @@ const secondaryFont = Questrial({
 // Metadata base del sitio
 export const metadata = {
   title: "SaldoSimple - Controla tus Finanzas",
-  description: "La plataforma para calcular, comparar y entender tus finanzas en Costa Rica.",
+  description:
+    "La plataforma para calcular, comparar y entender tus finanzas en Costa Rica.",
 };
 
 export default function RootLayout({ children }) {

@@ -52,9 +52,9 @@ export default async function Page({ params }) {
 
   return (
     <PlaxLayout>
-      <PageBanner 
-        pageName={`Artículos - Página ${pageNumber}`} 
-        title="Tus fuentes de información financiera" 
+      <PageBanner
+        pageName={`Artículos - Página ${pageNumber}`}
+        title="Tus fuentes de información financiera"
       />
 
       {/* blog list */}
@@ -78,11 +78,18 @@ export default async function Page({ params }) {
                           data-value-2="1.2"
                         />
                       ) : (
-                        <div style={{ height: "300px", backgroundColor: "#f0f0f0" }} />
+                        <div
+                          style={{
+                            height: "300px",
+                            backgroundColor: "#f0f0f0",
+                          }}
+                        />
                       )}
                     </div>
                     <div className="mil-descr">
-                      <p className="mil-text-xs mil-accent mil-mb-15">{post.categoria}</p>
+                      <p className="mil-text-xs mil-accent mil-mb-15">
+                        {post.categoria}
+                      </p>
                       <h4>{post.title}</h4>
                     </div>
                   </Link>

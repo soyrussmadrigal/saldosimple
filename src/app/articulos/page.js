@@ -2,13 +2,16 @@ import { PageBanner } from "@/components/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
-import Pagination from "@/components/Pagination"; // Nuevo import
+import Pagination from "@/components/Pagination";
 
 const POSTS_PER_PAGE = 10;
 
-async function getPosts() {
+async function getPosts(page) {
+  const start = (page - 1) * POSTS_PER_PAGE;
+  const end = start + POSTS_PER_PAGE;
+
   const query = `
-    *[_type == "post"] | order(publishedAt desc)[0...${POSTS_PER_PAGE}] {
+    *[_type == "post"] | order(publishedAt desc)[${start}...${end}] {
       title,
       slug,
       categoria,
@@ -29,27 +32,30 @@ async function getTotalPosts() {
   return total;
 }
 
-export const metadata = {
-  title: "Artículos de Finanzas - SaldoSimple",
-  description: "Explora los mejores artículos de finanzas, ahorro y tarjetas en Costa Rica.",
-  alternates: {
-    canonical: "https://www.saldosimple.com/articulos",
-  },
-};
+export async function generateMetadata({ params }) {
+  const page = params.page || 1;
+  return {
+    title: `Artículos de Finanzas - Página ${page} | SaldoSimple`,
+    description: `Página ${page} de artículos de finanzas, ahorro y tarjetas en Costa Rica.`,
+    alternates: {
+      canonical: `https://www.saldosimple.com/articulos/pagina/${page}`,
+    },
+  };
+}
 
-export default async function Page() {
-  const posts = await getPosts();
+export default async function Page({ params }) {
+  const pageNumber = parseInt(params.page) || 1;
+  const posts = await getPosts(pageNumber);
   const totalPosts = await getTotalPosts();
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   return (
     <PlaxLayout>
       <PageBanner 
-        pageName="Artículos" 
+        pageName={`Artículos - Página ${pageNumber}`} 
         title="Tus fuentes de información financiera" 
       />
 
-      {/* blog list */}
       <div className="mil-blog-list mil-p-0-160">
         <div className="container">
           <div className="row">
@@ -82,13 +88,13 @@ export default async function Page() {
               ))
             ) : (
               <div className="col-12 text-center">
-                <p>No hay artículos disponibles todavía.</p>
+                <p>No hay artículos disponibles.</p>
               </div>
             )}
           </div>
 
           {/* Paginación */}
-          <Pagination currentPage={1} totalPages={totalPages} />
+          <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
       </div>
     </PlaxLayout>
