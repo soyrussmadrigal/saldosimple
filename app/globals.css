@@ -43,14 +43,3 @@
   font-size: 16px;
   transition: color 0.3s ease;
 }
-
-.mil-top-menu ul.mil-nav-list li a:hover {
-  color: #0070f3; /* Azul clarito para hover, como NerdWallet */
-}
-
-.mil-top-menu ul.mil-nav-list li.mil-active a {
-  color: #0070f3;
-  border-bottom: 2px solid #0070f3;
-  padding-bottom: 4px;
-}
-
