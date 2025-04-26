@@ -1,4 +1,4 @@
-import PlaxLayout from "../../../../layouts/PlaxLayout";
+import PlaxLayout from "../../../../src/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
