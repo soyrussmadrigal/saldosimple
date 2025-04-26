@@ -2,10 +2,13 @@ import { PageBanner } from "@/components/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
+import Pagination from "@/components/Pagination"; // Nuevo import
+
+const POSTS_PER_PAGE = 10;
 
 async function getPosts() {
   const query = `
-    *[_type == "post"] | order(publishedAt desc)[0...10] {
+    *[_type == "post"] | order(publishedAt desc)[0...${POSTS_PER_PAGE}] {
       title,
       slug,
       categoria,
@@ -20,6 +23,12 @@ async function getPosts() {
   return posts;
 }
 
+async function getTotalPosts() {
+  const countQuery = `count(*[_type == "post"])`;
+  const total = await client.fetch(countQuery);
+  return total;
+}
+
 export const metadata = {
   title: "Artículos de Finanzas - SaldoSimple",
   description: "Explora los mejores artículos de finanzas, ahorro y tarjetas en Costa Rica.",
@@ -30,6 +39,8 @@ export const metadata = {
 
 export default async function Page() {
   const posts = await getPosts();
+  const totalPosts = await getTotalPosts();
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   return (
     <PlaxLayout>
@@ -63,9 +74,7 @@ export default async function Page() {
                       )}
                     </div>
                     <div className="mil-descr">
-                      <p className="mil-text-xs mil-accent mil-mb-15">
-                        {post.categoria}
-                      </p>
+                      <p className="mil-text-xs mil-accent mil-mb-15">{post.categoria}</p>
                       <h4>{post.title}</h4>
                     </div>
                   </Link>
@@ -79,14 +88,9 @@ export default async function Page() {
           </div>
 
           {/* Paginación */}
-          <div className="mil-text-center mil-mt-30 mil-up">
-            <Link href="/articulos/pagina/2" className="mil-btn mil-m mil-add-arrow">
-              Ver más artículos
-            </Link>
-          </div>
+          <Pagination currentPage={1} totalPages={totalPages} />
         </div>
       </div>
-      {/* blog list end */}
     </PlaxLayout>
   );
 }

@@ -2,6 +2,7 @@ import { PageBanner } from "@/components/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
+import Pagination from "@/components/Pagination"; // Nuevo import
 
 const POSTS_PER_PAGE = 10;
 
@@ -26,6 +27,12 @@ async function getPosts(page) {
   return posts;
 }
 
+async function getTotalPosts() {
+  const countQuery = `count(*[_type == "post"])`;
+  const total = await client.fetch(countQuery);
+  return total;
+}
+
 export async function generateMetadata({ params }) {
   const page = params.page || 1;
   return {
@@ -40,6 +47,8 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const pageNumber = parseInt(params.page) || 1;
   const posts = await getPosts(pageNumber);
+  const totalPosts = await getTotalPosts();
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   return (
     <PlaxLayout>
@@ -73,9 +82,7 @@ export default async function Page({ params }) {
                       )}
                     </div>
                     <div className="mil-descr">
-                      <p className="mil-text-xs mil-accent mil-mb-15">
-                        {post.categoria}
-                      </p>
+                      <p className="mil-text-xs mil-accent mil-mb-15">{post.categoria}</p>
                       <h4>{post.title}</h4>
                     </div>
                   </Link>
@@ -88,15 +95,10 @@ export default async function Page({ params }) {
             )}
           </div>
 
-          {/* Paginación siguiente */}
-          <div className="mil-text-center mil-mt-30 mil-up">
-            <Link href={`/articulos/pagina/${pageNumber + 1}`} className="mil-btn mil-m mil-add-arrow">
-              Página siguiente
-            </Link>
-          </div>
+          {/* Paginación */}
+          <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
       </div>
-      {/* blog list end */}
     </PlaxLayout>
   );
 }
