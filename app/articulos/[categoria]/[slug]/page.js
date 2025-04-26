@@ -40,7 +40,10 @@ export async function generateMetadata({ params }) {
 
   return {
     title: post.metaTitle || post.title,
-    description: post.metaDescription || post.excerpt || "Información financiera actualizada en SaldoSimple.",
+    description:
+      post.metaDescription ||
+      post.excerpt ||
+      "Información financiera actualizada en SaldoSimple.",
     alternates: {
       canonical: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
