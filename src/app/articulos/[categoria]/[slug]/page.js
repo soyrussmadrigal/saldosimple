@@ -9,10 +9,12 @@ import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/lib/portableTextConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Breadcrumb from "@/components/post/Breadcrumb";
+import SEOJsonLd from "@/components/seo/SEOJsonLd";
 
 export const revalidate = 60;
 
-// ✅ Restauramos tu función getPost
+// Fetch Post
 async function getPost(slug) {
   if (!slug || typeof slug !== "string") {
     console.error("getPost() llamado sin slug válido:", slug);
@@ -45,7 +47,6 @@ async function getPost(slug) {
       }
     }
   `;
-
   try {
     return await client.fetch(query);
   } catch (error) {
@@ -54,6 +55,7 @@ async function getPost(slug) {
   }
 }
 
+// Metadata SEO
 export async function generateMetadata({ params }) {
   const { slug } = params;
   if (!slug || typeof slug !== "string") return {};
@@ -86,6 +88,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// Render
 export default async function PostPage({ params }) {
   const { slug } = params;
   const post = await getPost(slug);
@@ -94,8 +97,68 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
+  // 🎯 JSON-LD Schema generation
+  const blogPostingSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.metaTitle || post.title,
+    description: post.metaDescription || post.excerpt,
+    datePublished: post.publishedAt,
+    image:
+      post.coverImage?.asset?.url ||
+      "https://www.saldosimple.com/default-image.jpg",
+    articleSection: post.categoria,
+    author: { "@type": "Organization", name: "SaldoSimple" },
+    publisher: {
+      "@type": "Organization",
+      name: "SaldoSimple",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.saldosimple.com/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: "https://www.saldosimple.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: post.categoria,
+        item: `https://www.saldosimple.com/articulos/${post.categoria}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
+      },
+    ],
+  };
+
   return (
     <>
+      {/* Inject JSON-LD Schema */}
+      <SEOJsonLd
+        schemas={{
+          blogPosting: blogPostingSchema,
+          breadcrumbList: breadcrumbSchema,
+          // si quieres agregar más
+        }}
+      />
+
       <PlaxLayout>
         {/* Banner */}
         <div className="small-padding"></div>
@@ -103,24 +166,22 @@ export default async function PostPage({ params }) {
         {/* Post Content */}
         <div className="mil-blog-list mil-p-0-160">
           <div className="container mx-auto flex flex-col lg:flex-row gap-12">
-            {/* Contenido principal */}
+            {/* Main Content */}
             <div className="w-full lg:w-3/4">
-              {/* 🔥 Aquí movemos el título */}
               <div className="pt-16 pb-8">
                 <h1 className="text-4xl font-bold text-black leading-tight mb-2">
                   {post.title}
                 </h1>
-                <div className="text-sm text-gray-500">{post.categoria}</div>
+
+                <Breadcrumb categoria={post.categoria} titulo={post.title} />
               </div>
 
-              {/* Excerpt */}
               {post.excerpt && (
                 <div className="mb-6">
                   <ExcerptBox excerpt={post.excerpt} />
                 </div>
               )}
 
-              {/* Fact Checked */}
               <div className="mb-6">
                 <FactCheckBox
                   publishedAt={post.publishedAt}
@@ -136,7 +197,6 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              {/* Imagen destacada */}
               <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg mb-6">
                 <Image
                   src={post.coverImage.asset.url}
@@ -147,22 +207,19 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              {/* Caption */}
               {post.coverImage.caption && (
                 <p className="text-center text-xs text-gray-500 mt-2 max-w-2xl mx-auto">
                   {post.coverImage.caption}
                 </p>
               )}
 
-              {/* Disclaimer */}
               <div className="mt-6">
                 <DisclaimerBox />
               </div>
 
-              {/* 🔥 TOC Trigger */}
+              {/* TOC Trigger */}
               <div id="toc-trigger" className="h-0"></div>
 
-              {/* Body */}
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
                 <PortableText
                   value={post.content}
@@ -170,7 +227,6 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              {/* Author */}
               {post.author && (
                 <div className="mt-10">
                   <AuthorBox
