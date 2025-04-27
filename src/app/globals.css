@@ -1,7 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@import "tailwindcss/preflight"; /* Equivalente a base */
+@import "tailwindcss/utilities"; /* Utilidades de Tailwind */
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Questrial");
 
