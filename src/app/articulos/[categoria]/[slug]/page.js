@@ -1,6 +1,8 @@
+
 import DisclaimerBox from "@/components/post/DisclaimerBox";
 import AuthorBox from "@/components/post/AuthorBox";
 import ExcerptBox from "@/components/post/ExcerptBox";
+import FactCheckBox from "@/components/post/FactCheckBox"; // ✅ Import correcto
 import PlaxLayout from "@/layouts/PlaxLayout";
 import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
@@ -79,7 +81,7 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  // 🎯 Creamos el Schema Markup aquí
+  // 🎯 Schema Markup
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -108,7 +110,7 @@ export default async function PostPage({ params }) {
 
   return (
     <>
-      {/* Inyectamos el Schema Markup */}
+      {/* Inyectamos Schema Markup */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
@@ -151,6 +153,22 @@ export default async function PostPage({ params }) {
                   <ExcerptBox excerpt={post.excerpt} />
                 </div>
               )}
+
+              {/* FactCheckBox */}
+              <div className="col-xl-9 mb-6">
+                <FactCheckBox
+                  publishedAt={post.publishedAt}
+                  content={post.content}
+                  author={{
+                    name: post.author?.name || "SaldoSimple",
+                    image: post.author?.image?.asset?.url || "/default-avatar.png",
+                  }}
+                  editor={{
+                    name: "Editor de Contenido",
+                    image: "/default-editor.png",
+                  }}
+                />
+              </div>
 
               {/* Imagen destacada */}
               <div className="relative w-full max-w-2xl mx-auto aspect-[4/2] overflow-hidden rounded-lg">
