@@ -1,4 +1,3 @@
-
 import DisclaimerBox from "@/components/post/DisclaimerBox";
 import AuthorBox from "@/components/post/AuthorBox";
 import ExcerptBox from "@/components/post/ExcerptBox";
@@ -63,7 +62,9 @@ export async function generateMetadata({ params }) {
       url: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
       images: [
         {
-          url: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-og.jpg",
+          url:
+            post.coverImage?.asset?.url ||
+            "https://www.saldosimple.com/default-og.jpg",
           width: 800,
           height: 600,
           alt: post.title,
@@ -88,7 +89,9 @@ export default async function PostPage({ params }) {
     headline: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
     datePublished: post.publishedAt,
-    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
+    image:
+      post.coverImage?.asset?.url ||
+      "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria,
     author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
@@ -104,7 +107,11 @@ export default async function PostPage({ params }) {
       "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
     articleBody: post.content
-      ?.map((block) => (block._type === "block" ? block.children.map((child) => child.text).join(" ") : ""))
+      ?.map((block) =>
+        block._type === "block"
+          ? block.children.map((child) => child.text).join(" ")
+          : ""
+      )
       .join("\n\n"),
   };
 
@@ -123,19 +130,8 @@ export default async function PostPage({ params }) {
             <div className="row align-items-center justify-content-center">
               <div className="col-xl-8">
                 <div className="mil-banner-text mil-text-center">
+                  <h1 className="mil-mb-20">{post.title}</h1>
                   <div className="mil-text-m mil-mb-20">{post.categoria}</div>
-                  <h1 className="mil-mb-60">{post.title}</h1>
-                  <ul className="mil-breadcrumbs mil-pub-info mil-center">
-                    <li>
-                      <span>
-                        {new Date(post.publishedAt).toLocaleDateString("es-CR", {
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -146,7 +142,6 @@ export default async function PostPage({ params }) {
         <div className="mil-blog-list mil-p-0-160">
           <div className="container">
             <div className="row justify-content-center">
-
               {/* ExcerptBox */}
               {post.excerpt && (
                 <div className="col-xl-9 mb-6">
@@ -161,7 +156,8 @@ export default async function PostPage({ params }) {
                   content={post.content}
                   author={{
                     name: post.author?.name || "SaldoSimple",
-                    image: post.author?.image?.asset?.url || "/default-avatar.png",
+                    image:
+                      post.author?.image?.asset?.url || "/default-avatar.png",
                   }}
                   editor={{
                     name: "Editor de Contenido",
