@@ -1,13 +1,16 @@
 import DisclaimerBox from "@/components/post/DisclaimerBox";
 import AuthorBox from "@/components/post/AuthorBox";
 import ExcerptBox from "@/components/post/ExcerptBox";
-import FactCheckBox from "@/components/post/FactCheckBox"; // ✅ Import correcto
+import FactCheckBox from "@/components/post/FactCheckBox";
+import TableOfContents from "@/components/post/TableOfContents"; // 👈 NUEVO
 import PlaxLayout from "@/layouts/PlaxLayout";
 import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/lib/portableTextConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+
+export const revalidate = 60; // Cada 60 segundos, Next.js vuelve a consultar Sanity
 
 async function getPost(slug) {
   if (!slug || typeof slug !== "string") {
@@ -21,17 +24,20 @@ async function getPost(slug) {
       slug,
       categoria,
       excerpt,
-      coverImage { asset->{ url } },
+      coverImage {
+        asset->{ url },
+        alt,
+        caption
+      },
       publishedAt,
       content,
       metaTitle,
       metaDescription,
       author -> {
         name,
-        bio,
         image { asset->{ url } }
       },
-      lastEditedBy -> { // 👈 Agregado aquí
+      lastEditedBy -> {
         name,
         image { asset->{ url } }
       }
@@ -144,17 +150,18 @@ export default async function PostPage({ params }) {
 
         {/* Publicación */}
         <div className="mil-blog-list mil-p-0-160">
-          <div className="container">
-            <div className="row justify-content-center">
+          <div className="container mx-auto flex flex-col lg:flex-row gap-10">
+            {/* Columna de contenido */}
+            <div className="w-full lg:w-3/4">
               {/* ExcerptBox */}
               {post.excerpt && (
-                <div className="col-xl-9 mb-6">
+                <div className="mb-6">
                   <ExcerptBox excerpt={post.excerpt} />
                 </div>
               )}
 
               {/* FactCheckBox */}
-              <div className="col-xl-9 mb-6">
+              <div className="mb-6">
                 <FactCheckBox
                   publishedAt={post.publishedAt}
                   content={post.content}
@@ -170,34 +177,39 @@ export default async function PostPage({ params }) {
               </div>
 
               {/* Imagen destacada */}
-              <div className="relative w-full max-w-2xl mx-auto aspect-[4/2] overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg">
                 <Image
                   src={post.coverImage.asset.url}
-                  alt={post.title}
+                  alt={post.coverImage.alt || post.title}
                   fill
                   className="object-cover"
                   priority
                 />
               </div>
 
-              {/* DisclaimerBox */}
-              <div className="col-xl-9 mt-6">
+              {/* Caption debajo */}
+              {post.coverImage.caption && (
+                <p className="text-center text-xs text-gray-500 mt-2 max-w-2xl mx-auto">
+                  {post.coverImage.caption}
+                </p>
+              )}
+
+              {/* Disclaimer */}
+              <div className="mt-6">
                 <DisclaimerBox />
               </div>
 
               {/* Contenido principal */}
-              <div className="col-xl-9 mil-p-40-40">
-                <div className="mil-up" style={{ wordBreak: "break-word" }}>
-                  <PortableText
-                    value={post.content}
-                    components={portableTextComponents}
-                  />
-                </div>
+              <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
+                <PortableText
+                  value={post.content}
+                  components={portableTextComponents}
+                />
               </div>
 
               {/* AuthorBox */}
               {post.author && (
-                <div className="col-xl-9 mil-p-40-40">
+                <div className="mt-10">
                   <AuthorBox
                     name={post.author.name}
                     bio={post.author.bio}
@@ -205,6 +217,11 @@ export default async function PostPage({ params }) {
                   />
                 </div>
               )}
+            </div>
+
+            {/* Columna de índice (ToC) */}
+            <div className="hidden lg:block w-1/4">
+              <TableOfContents />
             </div>
           </div>
         </div>

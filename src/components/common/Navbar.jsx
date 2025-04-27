@@ -16,8 +16,12 @@ const Navbar = ({ dark }) => {
   };
 
   return (
-    <div className={`mil-top-panel ${dark ? "mil-dark-2" : ""}`}>
-      <div className="container">
+    <div
+      className={`fixed top-0 left-0 w-full z-50 ${dark ? "mil-dark-2" : "bg-white shadow"}`}
+      style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50 }}
+    >
+      <div className="container flex items-center justify-between py-4">
+        {/* Logo */}
         <Link href="/" className="mil-logo" onClick={handleLinkClick}>
           <img
             src={dark ? "/img/logo-light.png" : "/img/logo.png"}
@@ -27,6 +31,7 @@ const Navbar = ({ dark }) => {
           />
         </Link>
 
+        {/* Menu */}
         <nav className={`mil-top-menu ${toggle ? "mil-active" : ""}`}>
           <ul className="mil-nav-list">
             <li className={currentPath === "/" ? "mil-active" : ""}>
@@ -49,6 +54,7 @@ const Navbar = ({ dark }) => {
           </ul>
         </nav>
 
+        {/* Botón hamburguesa */}
         <div className="mil-menu-buttons">
           <div
             className={`mil-menu-btn ${toggle ? "mil-active" : ""}`}

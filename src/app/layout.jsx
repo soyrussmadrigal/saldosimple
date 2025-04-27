@@ -27,7 +27,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es-CR" className={secondaryFont.variable}>
-      <body>{children}</body>
+      <body>
+        <main className="pt-24">
+          {/* 👆 Agregamos padding top para evitar que el navbar tape el contenido */}
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

@@ -24,6 +24,20 @@ export default {
       name: 'coverImage',
       type: 'image',
       title: 'Imagen Principal',
+      fields: [
+        {
+          name: 'alt',
+          type: 'string',
+          title: 'Texto Alternativo (alt)',
+          description: 'Descripción breve para accesibilidad y SEO.',
+        },
+        {
+          name: 'caption',
+          type: 'string',
+          title: 'Pie de foto (caption)',
+          description: 'Texto que se mostrará debajo de la imagen destacada.',
+        },
+      ],
     },
     {
       name: 'publishedAt',
