@@ -30,10 +30,14 @@ async function getPost(slug) {
         name,
         bio,
         image { asset->{ url } }
+      },
+      lastEditedBy -> {
+        name,
+        bio,
+        image { asset->{ url } }
       }
     }
   `;
-
   try {
     return await client.fetch(query);
   } catch (error) {
@@ -155,13 +159,12 @@ export default async function PostPage({ params }) {
                   publishedAt={post.publishedAt}
                   content={post.content}
                   author={{
-                    name: post.author?.name || "SaldoSimple",
-                    image:
-                      post.author?.image?.asset?.url || "/default-avatar.png",
+                    name: post.author?.name,
+                    image: post.author?.image?.asset?.url,
                   }}
                   editor={{
-                    name: "Editor de Contenido",
-                    image: "/default-editor.png",
+                    name: post.lastEditedBy?.name,
+                    image: post.lastEditedBy?.image?.asset?.url,
                   }}
                 />
               </div>

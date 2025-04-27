@@ -36,13 +36,22 @@ export default {
       title: 'Categoría',
     },
 
-    // 👤 Autor
+    // 👤 Autor Principal
     {
       name: 'author',
       type: 'reference',
       title: 'Autor',
       to: [{ type: 'author' }],
-      description: 'Selecciona el autor de este artículo.',
+      description: 'Selecciona el autor principal de este artículo.',
+    },
+
+    // ✏️ Última Edición (Editor)
+    {
+      name: 'lastEditedBy',
+      type: 'reference',
+      title: 'Editado por',
+      to: [{ type: 'author' }],
+      description: 'Selecciona quién fue el último en editar este artículo.',
     },
 
     // 🔍 SEO
