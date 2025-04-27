@@ -1,15 +1,21 @@
 import DisclaimerBox from "@/components/post/DisclaimerBox";
-import AuthorBox from "@/components/post/AuthorBox"; // Nuevo Import
+import AuthorBox from "@/components/post/AuthorBox";
+import ExcerptBox from "@/components/post/ExcerptBox"; // 👈 Importado correctamente
 import PlaxLayout from "@/layouts/PlaxLayout";
-import Link from "next/link";
 import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/lib/portableTextConfig";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 async function getPost(slug) {
+  if (!slug || typeof slug !== "string") {
+    console.error("getPost() llamado sin slug válido:", slug);
+    return null;
+  }
+
   const query = `
-    *[_type == "post" && slug.current == $slug][0] {
+    *[_type == "post" && slug.current == "${slug}"][0] {
       title,
       slug,
       categoria,
@@ -26,12 +32,19 @@ async function getPost(slug) {
       }
     }
   `;
-  const params = { slug };
-  return await client.fetch(query, params);
+
+  try {
+    return await client.fetch(query);
+  } catch (error) {
+    console.error("Error al consultar Sanity:", error);
+    return null;
+  }
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
+  if (!slug || typeof slug !== "string") return {};
+
   const post = await getPost(slug);
   if (!post) return {};
 
@@ -53,10 +66,7 @@ export async function generateMetadata({ params }) {
       post.coverImage?.asset?.url ||
       "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria,
-    author: {
-      "@type": "Organization",
-      name: "SaldoSimple",
-    },
+    author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
       "@type": "Organization",
       name: "SaldoSimple",
@@ -70,37 +80,6 @@ export async function generateMetadata({ params }) {
       "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
     articleBody: plainText || "",
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Inicio",
-        item: "https://www.saldosimple.com/",
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Artículos",
-        item: "https://www.saldosimple.com/articulos",
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: post.categoria,
-        item: `https://www.saldosimple.com/articulos/${post.categoria}`,
-      },
-      {
-        "@type": "ListItem",
-        position: 4,
-        name: post.title,
-        item: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
-      },
-    ],
   };
 
   return {
@@ -126,7 +105,7 @@ export async function generateMetadata({ params }) {
       ],
     },
     other: {
-      "structured-data": JSON.stringify([blogPostingSchema, breadcrumbSchema]),
+      "structured-data": JSON.stringify([blogPostingSchema]),
     },
   };
 }
@@ -170,18 +149,22 @@ export default async function PostPage({ params }) {
       <div className="mil-blog-list mil-p-0-160">
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-xl-12">
-              {post.coverImage?.asset?.url && (
-                <div className="mil-pub-cover mil-up">
-                  <img
-                    src={post.coverImage.asset.url}
-                    alt={post.title}
-                    className="mil-scale-img"
-                    data-value-1={1}
-                    data-value-2="1.2"
-                  />
-                </div>
-              )}
+            {/* ExcerptBox agregado AQUÍ */}
+            {post.excerpt && (
+              <div className="col-xl-9 mb-6">
+                <ExcerptBox excerpt={post.excerpt} />
+              </div>
+            )}
+
+            {/* Imagen destacada */}
+            <div className="relative w-full max-w-2xl mx-auto aspect-[4/2] overflow-hidden rounded-lg">
+              <Image
+                src={post.coverImage.asset.url}
+                alt={post.title}
+                fill
+                className="object-cover"
+                priority
+              />
             </div>
 
             {/* DisclaimerBox */}
@@ -199,7 +182,7 @@ export default async function PostPage({ params }) {
               </div>
             </div>
 
-            {/* AuthorBox (Al final del contenido) */}
+            {/* AuthorBox */}
             {post.author && (
               <div className="col-xl-9 mil-p-40-40">
                 <AuthorBox
