@@ -2,8 +2,8 @@ export default function ExcerptBox({ excerpt }) {
   if (!excerpt) return null;
 
   return (
-    <div className="excerpt-box">
-      <p>{excerpt}</p>
+    <div className="text-black text-lg leading-relaxed mb-6">
+      {excerpt}
     </div>
   );
 }

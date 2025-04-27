@@ -94,66 +94,24 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  const blogPostingSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.metaTitle || post.title,
-    description: post.metaDescription || post.excerpt,
-    datePublished: post.publishedAt,
-    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
-    articleSection: post.categoria,
-    author: { "@type": "Organization", name: "SaldoSimple" },
-    publisher: {
-      "@type": "Organization",
-      name: "SaldoSimple",
-      logo: {
-        "@type": "ImageObject",
-        url: "https://www.saldosimple.com/logo.png",
-      },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
-    },
-    articleBody: post.content?.map((block) =>
-      block._type === "block"
-        ? block.children.map((child) => child.text).join(" ")
-        : ""
-    ).join("\n\n"),
-  };
-
   return (
     <>
-      {/* Inject schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
-      />
-
       <PlaxLayout>
-        {/* Banner decorativo */}
-        <div className="mil-banner mil-banner-inner mil-dissolve">
-          <div className="container">
-            <div className="row align-items-center justify-content-center">
-              <div className="col-xl-8">
-                <div className="mil-banner-text mil-text-center">
-                  <h1 className="mil-mb-1">{post.title}</h1>
-                  <div className="mil-text-m mil-mb-20">{post.categoria}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Banner */}
+        <div className="small-padding"></div>
 
-        {/* Publicación */}
+        {/* Post Content */}
         <div className="mil-blog-list mil-p-0-160">
           <div className="container mx-auto flex flex-col lg:flex-row gap-12">
-
             {/* Contenido principal */}
             <div className="w-full lg:w-3/4">
-
-              {/* H1 real */}
-              <h1 className="text-3xl font-bold text-gray-800 mb-6">{post.title}</h1>
+              {/* 🔥 Aquí movemos el título */}
+              <div className="pt-16 pb-8">
+                <h1 className="text-4xl font-bold text-black leading-tight mb-2">
+                  {post.title}
+                </h1>
+                <div className="text-sm text-gray-500">{post.categoria}</div>
+              </div>
 
               {/* Excerpt */}
               {post.excerpt && (
@@ -201,7 +159,10 @@ export default async function PostPage({ params }) {
                 <DisclaimerBox />
               </div>
 
-              {/* Contenido */}
+              {/* 🔥 TOC Trigger */}
+              <div id="toc-trigger" className="h-0"></div>
+
+              {/* Body */}
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
                 <PortableText
                   value={post.content}
@@ -221,16 +182,14 @@ export default async function PostPage({ params }) {
               )}
             </div>
 
-            {/* Tabla de contenido */}
+            {/* Sidebar */}
             <div className="hidden lg:block w-1/4">
-              <div className="sticky top-32">
-                <TableOfContents />
+              <div className="sticky top-16">
+                <TableOfContents triggerId="toc-trigger" />
               </div>
             </div>
-
           </div>
         </div>
-
       </PlaxLayout>
     </>
   );
