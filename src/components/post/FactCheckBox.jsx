@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import * as Popover from "@radix-ui/react-popover";
+import * as Tooltip from "@radix-ui/react-tooltip"; // 👈 Agregamos Tooltip aquí
 
 export default function FactCheckBox({ publishedAt, content, author, editor }) {
   const readingTime = useMemo(() => {
@@ -23,9 +24,9 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // 👈 Si el ancho es <= 768px consideramos "móvil"
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize(); // Inicial
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -38,6 +39,22 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
     year: "numeric",
   });
 
+  const isRecentlyPublished = (() => {
+    if (!publishedAt) return false;
+    const now = new Date();
+    const publishedDate = new Date(publishedAt);
+    const diffDays = (now - publishedDate) / (1000 * 60 * 60 * 24);
+    return diffDays <= 30;
+  })();
+
+  const badgeClasses = isRecentlyPublished
+    ? "inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-green-100 text-green-700 rounded-full"
+    : "inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full";
+
+  const tooltipText = isRecentlyPublished
+    ? "Publicado recientemente y verificado"
+    : "Artículo verificado";
+
   return (
     <div className="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col gap-6 mb-10">
       {/* Fecha + Fact Checked */}
@@ -47,23 +64,40 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
         </div>
 
         <div className="flex flex-col items-center md:items-end">
-          <span className="mt-2 md:mt-0 inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 text-blue-600"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Fact Checked
-          </span>
+          {/* Tooltip */}
+          <Tooltip.Provider delayDuration={100}>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <span className={`mt-2 md:mt-0 ${badgeClasses} cursor-pointer`}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  Fact Checked
+                </span>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content
+                  className="bg-gray-800 text-white px-3 py-2 rounded-md text-xs shadow-lg animate-fadeIn"
+                  side="top"
+                  sideOffset={8}
+                >
+                  {tooltipText}
+                  <Tooltip.Arrow className="fill-gray-800" />
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
 
-          {/* 📱 Mobile → Popover con clic / 🖥️ Desktop → HoverCard */}
+          {/* 📱 Mobile → Popover / 🖥️ Desktop → HoverCard */}
           {isMobile ? (
             <Popover.Root>
               <Popover.Trigger asChild>
@@ -81,10 +115,7 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
                   sideOffset={8}
                 >
                   <p>
-                    <strong>Proceso de Verificación:</strong> Todos los
-                    artículos son revisados por nuestro equipo editorial y
-                    validados con fuentes primarias confiables. Nuestro objetivo
-                    es brindar información precisa y transparente.
+                    <strong>Proceso de Verificación:</strong> Todos los artículos son revisados por nuestro equipo editorial y validados con fuentes primarias confiables. Nuestro objetivo es brindar información precisa y transparente.
                   </p>
                   <Popover.Arrow className="fill-white" />
                 </Popover.Content>
@@ -103,10 +134,7 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
                 sideOffset={8}
               >
                 <p>
-                  <strong>Proceso de Verificación:</strong> Todos los artículos
-                  son revisados por nuestro equipo editorial y validados con
-                  fuentes primarias confiables. Nuestro objetivo es brindar
-                  información precisa y transparente.
+                  <strong>Proceso de Verificación:</strong> Todos los artículos son revisados por nuestro equipo editorial y validados con fuentes primarias confiables. Nuestro objetivo es brindar información precisa y transparente.
                 </p>
                 <HoverCard.Arrow className="fill-white" />
               </HoverCard.Content>
