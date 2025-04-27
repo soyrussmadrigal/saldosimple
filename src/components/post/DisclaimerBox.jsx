@@ -2,7 +2,7 @@
 
 export default function DisclaimerBox() {
   return (
-    <div className="w-full max-w-3xl mx-auto bg-gray-100 rounded-md p-6 my-8">
+    <div className="w-full max-w-3xl mx-auto bg-gray-50 rounded-md p-6 my-8">
       <div className="flex items-start gap-3">
         <p className="text-sm text-gray-600 leading-relaxed">
           SaldoSimple podría recibir compensaciones de nuestros socios. Sin

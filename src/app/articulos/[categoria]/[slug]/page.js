@@ -168,9 +168,7 @@ export default async function PostPage({ params }) {
             </div>
 
             {/* DisclaimerBox */}
-            <div className="col-xl-9 mt-6">
-              <DisclaimerBox />
-            </div>
+            <DisclaimerBox />
 
             {/* Contenido principal */}
             <div className="col-xl-9 mil-p-40-40">
