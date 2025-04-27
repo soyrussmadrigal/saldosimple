@@ -61,3 +61,12 @@
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out forwards;
 }
+
+.mil-banner.mil-banner-inner {
+  height: auto !important;
+  background-color: transparent !important;
+  min-height: 380px !important;
+  padding-top: 80px !important;
+  padding-bottom: 20px !important;
+  margin-top: 0 !important;
+}

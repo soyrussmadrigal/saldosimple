@@ -133,7 +133,7 @@ export default async function PostPage({ params }) {
             <div className="row align-items-center justify-content-center">
               <div className="col-xl-8">
                 <div className="mil-banner-text mil-text-center">
-                  <h1 className="mil-mb-20">{post.title}</h1>
+                  <h1 className="mil-mb-1">{post.title}</h1>
                   <div className="mil-text-m mil-mb-20">{post.categoria}</div>
                 </div>
               </div>
