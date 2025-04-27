@@ -28,16 +28,15 @@ async function getPost(slug) {
       metaDescription,
       author -> {
         name,
-        bio,
         image { asset->{ url } }
       },
-      lastEditedBy -> {
+      lastEditedBy -> { // 👈 Agregado aquí
         name,
-        bio,
         image { asset->{ url } }
       }
     }
   `;
+
   try {
     return await client.fetch(query);
   } catch (error) {

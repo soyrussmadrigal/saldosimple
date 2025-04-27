@@ -1,45 +1,122 @@
-'use client';
+"use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
+import * as HoverCard from "@radix-ui/react-hover-card";
+import * as Popover from "@radix-ui/react-popover";
 
 export default function FactCheckBox({ publishedAt, content, author, editor }) {
-  if (!publishedAt) return null;
-
-  // Formatear fecha de publicación
-  const formattedDate = new Date(publishedAt).toLocaleDateString('es-CR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-
-  // Calcular tiempo de lectura
   const readingTime = useMemo(() => {
     if (!content) return 1;
     const plainText = content
-      ?.map((block) => (block._type === "block" ? block.children.map((child) => child.text).join(" ") : ""))
+      ?.map((block) =>
+        block._type === "block"
+          ? block.children.map((child) => child.text).join(" ")
+          : ""
+      )
       .join(" ");
     const wordCount = plainText.trim().split(/\s+/).length;
     return Math.max(1, Math.round(wordCount / 200));
   }, [content]);
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // 👈 Si el ancho es <= 768px consideramos "móvil"
+    };
+    handleResize(); // Inicial
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (!publishedAt) return null;
+
+  const formattedDate = new Date(publishedAt).toLocaleDateString("es-CR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
     <div className="bg-gray-50 p-6 rounded-lg shadow-md flex flex-col gap-6 mb-10">
-
-      {/* Publicado + Fact Checked Badge */}
+      {/* Fecha + Fact Checked */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center text-sm text-gray-600">
         <div>
           Publicado el {formattedDate} · {readingTime} min de lectura
         </div>
-        <span className="mt-2 md:mt-0 inline-block px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">
-          Fact Checked
-        </span>
+
+        <div className="flex flex-col items-center md:items-end">
+          <span className="mt-2 md:mt-0 inline-flex items-center gap-2 px-3 py-1 text-xs font-semibold bg-blue-100 text-blue-700 rounded-full">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 text-blue-600"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.707a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Fact Checked
+          </span>
+
+          {/* 📱 Mobile → Popover con clic / 🖥️ Desktop → HoverCard */}
+          {isMobile ? (
+            <Popover.Root>
+              <Popover.Trigger asChild>
+                <span
+                  className="text-xs text-blue-600 hover:underline mt-2 cursor-pointer"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  ¿Cómo verificamos los hechos?
+                </span>
+              </Popover.Trigger>
+              <Popover.Portal>
+                <Popover.Content
+                  className="p-4 bg-white rounded-md shadow-md border max-w-sm text-gray-700 text-sm z-50 animate-fadeIn"
+                  side="top"
+                  sideOffset={8}
+                >
+                  <p>
+                    <strong>Proceso de Verificación:</strong> Todos los
+                    artículos son revisados por nuestro equipo editorial y
+                    validados con fuentes primarias confiables. Nuestro objetivo
+                    es brindar información precisa y transparente.
+                  </p>
+                  <Popover.Arrow className="fill-white" />
+                </Popover.Content>
+              </Popover.Portal>
+            </Popover.Root>
+          ) : (
+            <HoverCard.Root openDelay={200}>
+              <HoverCard.Trigger asChild>
+                <span className="text-xs text-blue-600 hover:underline mt-2 cursor-pointer">
+                  ¿Cómo verificamos los hechos?
+                </span>
+              </HoverCard.Trigger>
+              <HoverCard.Content
+                className="p-4 bg-white rounded-md shadow-md border max-w-sm text-gray-700 text-sm z-50 animate-fadeIn"
+                side="top"
+                sideOffset={8}
+              >
+                <p>
+                  <strong>Proceso de Verificación:</strong> Todos los artículos
+                  son revisados por nuestro equipo editorial y validados con
+                  fuentes primarias confiables. Nuestro objetivo es brindar
+                  información precisa y transparente.
+                </p>
+                <HoverCard.Arrow className="fill-white" />
+              </HoverCard.Content>
+            </HoverCard.Root>
+          )}
+        </div>
       </div>
 
       {/* Autor y Editor */}
       <div className="flex flex-col gap-6 md:flex-row md:items-center">
-
-        {/* Autor */}
         {author?.name && (
           <div className="flex items-center gap-4">
             <div className="relative w-12 h-12">
@@ -57,7 +134,6 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
           </div>
         )}
 
-        {/* Editor */}
         {editor?.name && (
           <div className="flex items-center gap-4">
             <div className="relative w-12 h-12">
@@ -74,9 +150,7 @@ export default function FactCheckBox({ publishedAt, content, author, editor }) {
             </div>
           </div>
         )}
-
       </div>
-
     </div>
   );
 }
