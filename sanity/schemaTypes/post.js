@@ -36,6 +36,15 @@ export default {
       title: 'Categoría',
     },
 
+    // 👤 Autor
+    {
+      name: 'author',
+      type: 'reference',
+      title: 'Autor',
+      to: [{ type: 'author' }],
+      description: 'Selecciona el autor de este artículo.',
+    },
+
     // 🔍 SEO
     {
       name: 'metaTitle',

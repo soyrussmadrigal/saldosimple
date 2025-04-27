@@ -1,4 +1,5 @@
 import DisclaimerBox from "@/components/post/DisclaimerBox";
+import AuthorBox from "@/components/post/AuthorBox"; // Nuevo Import
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
@@ -17,7 +18,12 @@ async function getPost(slug) {
       publishedAt,
       content,
       metaTitle,
-      metaDescription
+      metaDescription,
+      author -> {
+        name,
+        bio,
+        image { asset->{ url } }
+      }
     }
   `;
   const params = { slug };
@@ -56,7 +62,7 @@ export async function generateMetadata({ params }) {
       name: "SaldoSimple",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.saldosimple.com/logo.png",
+        "url": "https://www.saldosimple.com/logo.png",
       },
     },
     mainEntityOfPage: {
@@ -135,76 +141,7 @@ export default async function PostPage({ params }) {
 
   return (
     <PlaxLayout>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            {
-              "@context": "https://schema.org",
-              "@type": "BlogPosting",
-              headline: post.metaTitle || post.title,
-              description: post.metaDescription || post.excerpt,
-              datePublished: post.publishedAt,
-              image:
-                post.coverImage?.asset?.url ||
-                "https://www.saldosimple.com/default-image.jpg",
-              articleSection: post.categoria,
-              author: { "@type": "Organization", name: "SaldoSimple" },
-              publisher: {
-                "@type": "Organization",
-                name: "SaldoSimple",
-                logo: {
-                  "@type": "ImageObject",
-                  url: "https://www.saldosimple.com/logo.png",
-                },
-              },
-              mainEntityOfPage: {
-                "@type": "WebPage",
-                "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
-              },
-              articleBody:
-                post.content
-                  ?.map((block) =>
-                    block._type === "block"
-                      ? block.children.map((child) => child.text).join(" ")
-                      : ""
-                  )
-                  .join("\n\n") || "",
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Inicio",
-                  item: "https://www.saldosimple.com/",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: "Artículos",
-                  item: "https://www.saldosimple.com/articulos",
-                },
-                {
-                  "@type": "ListItem",
-                  position: 3,
-                  name: post.categoria,
-                  item: `https://www.saldosimple.com/articulos/${post.categoria}`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 4,
-                  name: post.title,
-                  item: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
-                },
-              ],
-            },
-          ]),
-        }}
-      />
-
+      {/* Banner */}
       <div className="mil-banner mil-banner-inner mil-dissolve">
         <div className="container">
           <div className="row align-items-center justify-content-center">
@@ -247,8 +184,7 @@ export default async function PostPage({ params }) {
               )}
             </div>
 
-            {/* DisclaimerBox*/}
-
+            {/* DisclaimerBox */}
             <DisclaimerBox />
 
             {/* Contenido principal */}
@@ -260,6 +196,17 @@ export default async function PostPage({ params }) {
                 />
               </div>
             </div>
+
+            {/* AuthorBox (Al final del contenido) */}
+            {post.author && (
+              <div className="col-xl-9 mil-p-40-40">
+                <AuthorBox
+                  name={post.author.name}
+                  bio={post.author.bio}
+                  image={post.author.image?.asset?.url}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
