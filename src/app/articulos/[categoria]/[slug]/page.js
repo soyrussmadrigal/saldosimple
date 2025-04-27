@@ -62,7 +62,7 @@ export async function generateMetadata({ params }) {
       name: "SaldoSimple",
       logo: {
         "@type": "ImageObject",
-        "url": "https://www.saldosimple.com/logo.png",
+        url: "https://www.saldosimple.com/logo.png",
       },
     },
     mainEntityOfPage: {
@@ -185,10 +185,12 @@ export default async function PostPage({ params }) {
             </div>
 
             {/* DisclaimerBox */}
-            <DisclaimerBox />
+            <div className="col-xl-9 mt-6">
+              <DisclaimerBox />
+            </div>
 
             {/* Contenido principal */}
-            <div className="col-xl-9 mil-p-80-80">
+            <div className="col-xl-9 mil-p-40-40">
               <div className="mil-up" style={{ wordBreak: "break-word" }}>
                 <PortableText
                   value={post.content}
