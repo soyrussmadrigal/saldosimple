@@ -2,7 +2,7 @@ import DisclaimerBox from "@/components/post/DisclaimerBox";
 import AuthorBox from "@/components/post/AuthorBox";
 import ExcerptBox from "@/components/post/ExcerptBox";
 import FactCheckBox from "@/components/post/FactCheckBox";
-import TableOfContents from "@/components/post/TableOfContents"; // 👈 NUEVO
+import TableOfContents from "@/components/post/TableOfContents";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import client from "@/lib/sanityClient";
 import { PortableText } from "@portabletext/react";
@@ -10,8 +10,9 @@ import { portableTextComponents } from "@/lib/portableTextConfig";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-export const revalidate = 60; // Cada 60 segundos, Next.js vuelve a consultar Sanity
+export const revalidate = 60;
 
+// ✅ Restauramos tu función getPost
 async function getPost(slug) {
   if (!slug || typeof slug !== "string") {
     console.error("getPost() llamado sin slug válido:", slug);
@@ -35,6 +36,7 @@ async function getPost(slug) {
       metaDescription,
       author -> {
         name,
+        bio,
         image { asset->{ url } }
       },
       lastEditedBy -> {
@@ -92,16 +94,13 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  // 🎯 Schema Markup
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
     datePublished: post.publishedAt,
-    image:
-      post.coverImage?.asset?.url ||
-      "https://www.saldosimple.com/default-image.jpg",
+    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria,
     author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
@@ -116,25 +115,23 @@ export default async function PostPage({ params }) {
       "@type": "WebPage",
       "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
-    articleBody: post.content
-      ?.map((block) =>
-        block._type === "block"
-          ? block.children.map((child) => child.text).join(" ")
-          : ""
-      )
-      .join("\n\n"),
+    articleBody: post.content?.map((block) =>
+      block._type === "block"
+        ? block.children.map((child) => child.text).join(" ")
+        : ""
+    ).join("\n\n"),
   };
 
   return (
     <>
-      {/* Inyectamos Schema Markup */}
+      {/* Inject schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingSchema) }}
       />
 
       <PlaxLayout>
-        {/* Banner */}
+        {/* Banner decorativo */}
         <div className="mil-banner mil-banner-inner mil-dissolve">
           <div className="container">
             <div className="row align-items-center justify-content-center">
@@ -150,17 +147,22 @@ export default async function PostPage({ params }) {
 
         {/* Publicación */}
         <div className="mil-blog-list mil-p-0-160">
-          <div className="container mx-auto flex flex-col lg:flex-row gap-10">
-            {/* Columna de contenido */}
+          <div className="container mx-auto flex flex-col lg:flex-row gap-12">
+
+            {/* Contenido principal */}
             <div className="w-full lg:w-3/4">
-              {/* ExcerptBox */}
+
+              {/* H1 real */}
+              <h1 className="text-3xl font-bold text-gray-800 mb-6">{post.title}</h1>
+
+              {/* Excerpt */}
               {post.excerpt && (
                 <div className="mb-6">
                   <ExcerptBox excerpt={post.excerpt} />
                 </div>
               )}
 
-              {/* FactCheckBox */}
+              {/* Fact Checked */}
               <div className="mb-6">
                 <FactCheckBox
                   publishedAt={post.publishedAt}
@@ -177,7 +179,7 @@ export default async function PostPage({ params }) {
               </div>
 
               {/* Imagen destacada */}
-              <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg mb-6">
                 <Image
                   src={post.coverImage.asset.url}
                   alt={post.coverImage.alt || post.title}
@@ -187,7 +189,7 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              {/* Caption debajo */}
+              {/* Caption */}
               {post.coverImage.caption && (
                 <p className="text-center text-xs text-gray-500 mt-2 max-w-2xl mx-auto">
                   {post.coverImage.caption}
@@ -199,7 +201,7 @@ export default async function PostPage({ params }) {
                 <DisclaimerBox />
               </div>
 
-              {/* Contenido principal */}
+              {/* Contenido */}
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
                 <PortableText
                   value={post.content}
@@ -207,7 +209,7 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              {/* AuthorBox */}
+              {/* Author */}
               {post.author && (
                 <div className="mt-10">
                   <AuthorBox
@@ -219,12 +221,16 @@ export default async function PostPage({ params }) {
               )}
             </div>
 
-            {/* Columna de índice (ToC) */}
+            {/* Tabla de contenido */}
             <div className="hidden lg:block w-1/4">
-              <TableOfContents />
+              <div className="sticky top-32">
+                <TableOfContents />
+              </div>
             </div>
+
           </div>
         </div>
+
       </PlaxLayout>
     </>
   );
