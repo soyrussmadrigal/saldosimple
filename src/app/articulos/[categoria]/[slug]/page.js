@@ -28,6 +28,7 @@ async function getPost(slug) {
       metaDescription,
       author -> {
         name,
+        bio,
         image { asset->{ url } }
       },
       lastEditedBy -> { // 👈 Agregado aquí
