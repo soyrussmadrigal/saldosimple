@@ -1,53 +1,49 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { Plus, Minus } from "lucide-react";
 
-const FaqAccordion = ({ faqs }) => {
+export default function FAQsSection({ faqs }) {
   const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleFaq = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
 
   if (!faqs || faqs.length === 0) return null;
 
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <div className="space-y-4 mt-16 max-w-3xl mx-auto">
-      <h3 className="text-2xl font-bold text-black mb-6">
-        Preguntas Frecuentes
-      </h3>
-
-      {faqs.map((faq, index) => (
-        <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
-          <button
-            onClick={() => toggleFaq(index)}
-            className="w-full text-left px-6 py-4 bg-gray-100 hover:bg-gray-200 flex justify-between items-center"
+    <section className="mt-16">
+      <h2 className="text-2xl font-bold mb-8">Preguntas Frecuentes</h2>
+      <div className="space-y-4">
+        {faqs.map((faq, index) => (
+          <div
+            key={index}
+            className={`border-b border-blue-500 px-4 py-4 cursor-pointer transition-all ${
+              openIndex === index ? "bg-transparent" : "bg-transparent"
+            } ${index === faqs.length - 1 ? "rounded-br-2xl" : ""}`}
+            onClick={() => toggleFAQ(index)}
           >
-            <span className="text-lg font-semibold text-black">{faq.question}</span>
-            <span className="text-2xl text-gray-500">{openIndex === index ? '-' : '+'}</span>
-          </button>
-
-          <AnimatePresence initial={false}>
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-black">
+                {faq.question}
+              </h3>
+              <div className="ml-4">
+                {openIndex === index ? (
+                  <Minus size={18} strokeWidth={2.5} />
+                ) : (
+                  <Plus size={18} strokeWidth={2.5} />
+                )}
+              </div>
+            </div>
             {openIndex === index && (
-              <motion.div
-                key="content"
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="px-6 overflow-hidden bg-white"
-              >
-                <div className="py-4 text-gray-600 break-words">
-                  {faq.answer}
-                </div>
-              </motion.div>
+              <div className="mt-2 px-4 text-gray-600 break-words overflow-hidden">
+                {faq.answer}
+              </div>
             )}
-          </AnimatePresence>
-        </div>
-      ))}
-    </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
-};
-
-export default FaqAccordion;
+}
