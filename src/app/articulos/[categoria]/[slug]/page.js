@@ -11,10 +11,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Breadcrumb from "@/components/post/Breadcrumb";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
+import FAQsSection from "@/components/post/FAQsSection";
 
 export const revalidate = 60;
 
-// Fetch Post
 async function getPost(slug) {
   if (!slug || typeof slug !== "string") {
     console.error("getPost() llamado sin slug válido:", slug);
@@ -44,7 +44,8 @@ async function getPost(slug) {
       lastEditedBy -> {
         name,
         image { asset->{ url } }
-      }
+      },
+      faqs
     }
   `;
   try {
@@ -55,7 +56,6 @@ async function getPost(slug) {
   }
 }
 
-// Metadata SEO
 export async function generateMetadata({ params }) {
   const { slug } = params;
   if (!slug || typeof slug !== "string") return {};
@@ -76,9 +76,7 @@ export async function generateMetadata({ params }) {
       url: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
       images: [
         {
-          url:
-            post.coverImage?.asset?.url ||
-            "https://www.saldosimple.com/default-og.jpg",
+          url: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-og.jpg",
           width: 800,
           height: 600,
           alt: post.title,
@@ -88,7 +86,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// Render
 export default async function PostPage({ params }) {
   const { slug } = params;
   const post = await getPost(slug);
@@ -97,16 +94,14 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  // 🎯 JSON-LD Schema generation
+  // JSON-LD: BlogPosting
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
     datePublished: post.publishedAt,
-    image:
-      post.coverImage?.asset?.url ||
-      "https://www.saldosimple.com/default-image.jpg",
+    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria,
     author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
@@ -123,6 +118,7 @@ export default async function PostPage({ params }) {
     },
   };
 
+  // JSON-LD: BreadcrumbList
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -136,43 +132,61 @@ export default async function PostPage({ params }) {
       {
         "@type": "ListItem",
         position: 2,
+        name: "Artículos",
+        item: "https://www.saldosimple.com/articulos",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
         name: post.categoria,
         item: `https://www.saldosimple.com/articulos/${post.categoria}`,
       },
       {
         "@type": "ListItem",
-        position: 3,
+        position: 4,
         name: post.title,
         item: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
       },
     ],
   };
 
+  // JSON-LD: FAQPage (solo si existen faqs)
+  const faqSchema = post.faqs?.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      }
+    : null;
+
   return (
     <>
-      {/* Inject JSON-LD Schema */}
+      {/* SEO JSON-LD */}
       <SEOJsonLd
         schemas={{
           blogPosting: blogPostingSchema,
           breadcrumbList: breadcrumbSchema,
-          // si quieres agregar más
+          ...(faqSchema ? { faqPage: faqSchema } : {}),
         }}
       />
 
       <PlaxLayout>
-        {/* Banner */}
         <div className="small-padding"></div>
 
-        {/* Post Content */}
         <div className="mil-blog-list mil-p-0-160">
           <div className="container mx-auto flex flex-col lg:flex-row gap-12">
-            {/* Main Content */}
             <div className="w-full lg:w-3/4">
               <div className="pt-16 pb-8">
                 <h1 className="text-4xl font-bold text-black leading-tight mb-2">
                   {post.title}
                 </h1>
-
                 <Breadcrumb categoria={post.categoria} titulo={post.title} />
               </div>
 
@@ -217,15 +231,14 @@ export default async function PostPage({ params }) {
                 <DisclaimerBox />
               </div>
 
-              {/* TOC Trigger */}
               <div id="toc-trigger" className="h-0"></div>
 
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
-                <PortableText
-                  value={post.content}
-                  components={portableTextComponents}
-                />
+                <PortableText value={post.content} components={portableTextComponents} />
               </div>
+
+              {/* FAQs Section */}
+              {post.faqs?.length > 0 && <FAQsSection faqs={post.faqs} />}
 
               {post.author && (
                 <div className="mt-10">

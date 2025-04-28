@@ -89,5 +89,32 @@ export default {
       title: 'Contenido',
       of: [{ type: 'block' }],
     },
+
+    // ❓ FAQs
+    {
+      name: 'faqs',
+      type: 'array',
+      title: 'Preguntas Frecuentes (FAQs)',
+      description: 'Agrega preguntas y respuestas relacionadas con el artículo.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'question',
+              type: 'string',
+              title: 'Pregunta',
+              validation: Rule => Rule.required().min(10).max(150),
+            },
+            {
+              name: 'answer',
+              type: 'text',
+              title: 'Respuesta',
+              validation: Rule => Rule.required().min(20).max(1000),
+            },
+          ],
+        },
+      ],
+    },
   ],
 };
