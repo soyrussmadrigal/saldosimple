@@ -14,9 +14,9 @@ const FaqAccordion = ({ faqs }) => {
 
   return (
     <div className="space-y-4 mt-16 max-w-3xl mx-auto">
-      <h2 className="text-2xl font-bold text-black mb-6">
+      <h3 className="text-2xl font-bold text-black mb-6">
         Preguntas Frecuentes
-      </h2>
+      </h3>
 
       {faqs.map((faq, index) => (
         <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
