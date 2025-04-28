@@ -197,7 +197,7 @@ export default async function PostPage({ params }) {
                 />
               </div>
 
-              <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg mb-6">
+              <div className="relative w-full aspect-[4/2] overflow-hidden rounded-lg mb-2">
                 <Image
                   src={post.coverImage.asset.url}
                   alt={post.coverImage.alt || post.title}
@@ -208,7 +208,7 @@ export default async function PostPage({ params }) {
               </div>
 
               {post.coverImage.caption && (
-                <p className="text-center text-xs text-gray-500 mt-2 max-w-2xl mx-auto">
+                <p className="text-center text-xs text-gray-600 leading-tight mt-1 max-w-2xl mx-auto">
                   {post.coverImage.caption}
                 </p>
               )}
