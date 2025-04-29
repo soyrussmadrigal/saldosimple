@@ -76,7 +76,9 @@ export async function generateMetadata({ params }) {
       url: `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
       images: [
         {
-          url: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-og.jpg",
+          url:
+            post.coverImage?.asset?.url ||
+            "https://www.saldosimple.com/default-og.jpg",
           width: 800,
           height: 600,
           alt: post.title,
@@ -101,7 +103,9 @@ export default async function PostPage({ params }) {
     headline: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
     datePublished: post.publishedAt,
-    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
+    image:
+      post.coverImage?.asset?.url ||
+      "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria,
     author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
@@ -150,21 +154,22 @@ export default async function PostPage({ params }) {
     ],
   };
 
-  // JSON-LD: FAQPage (solo si existen faqs)
-  const faqSchema = post.faqs?.length > 0
-    ? {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: post.faqs.map((faq) => ({
-          "@type": "Question",
-          name: faq.question,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.answer,
-          },
-        })),
-      }
-    : null;
+  // JSON-LD: FAQPage (si hay FAQs)
+  const faqSchema =
+    post.faqs?.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: post.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
 
   return (
     <>
@@ -182,6 +187,7 @@ export default async function PostPage({ params }) {
 
         <div className="mil-blog-list mil-p-0-160">
           <div className="container mx-auto flex flex-col lg:flex-row gap-12">
+            {/* Main Content */}
             <div className="w-full lg:w-3/4">
               <div className="pt-16 pb-8">
                 <h1 className="text-4xl font-bold text-black leading-tight mb-2">
@@ -231,15 +237,21 @@ export default async function PostPage({ params }) {
                 <DisclaimerBox />
               </div>
 
+              {/* Trigger para TOC */}
               <div id="toc-trigger" className="h-0"></div>
 
+              {/* Post Body */}
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
-                <PortableText value={post.content} components={portableTextComponents} />
+                <PortableText
+                  value={post.content}
+                  components={portableTextComponents}
+                />
               </div>
 
               {/* FAQs Section */}
               {post.faqs?.length > 0 && <FAQsSection faqs={post.faqs} />}
 
+              {/* Author Box */}
               {post.author && (
                 <div className="mt-10">
                   <AuthorBox
@@ -253,7 +265,7 @@ export default async function PostPage({ params }) {
 
             {/* Sidebar */}
             <div className="hidden lg:block w-1/4">
-              <div className="sticky top-16">
+              <div className="sticky top-300">
                 <TableOfContents triggerId="toc-trigger" />
               </div>
             </div>

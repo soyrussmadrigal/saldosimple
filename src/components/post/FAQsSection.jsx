@@ -14,7 +14,7 @@ export default function FAQsSection({ faqs }) {
 
   return (
     <section className="mt-16">
-      <h2 className="text-2xl font-bold mb-8">Preguntas Frecuentes</h2>
+      <h3 className="text-2xl font-bold mb-8">Preguntas Frecuentes</h3>
       <div className="space-y-4">
         {faqs.map((faq, index) => (
           <div
