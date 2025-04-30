@@ -22,32 +22,39 @@ async function getPost(slug) {
   }
 
   const query = `
-    *[_type == "post" && slug.current == "${slug}"][0] {
-      title,
-      slug,
-      categoria,
-      excerpt,
-      coverImage {
-        asset->{ url },
-        alt,
-        caption
-      },
-      publishedAt,
-      content,
-      metaTitle,
-      metaDescription,
-      author -> {
-        name,
-        bio,
-        image { asset->{ url } }
-      },
-      lastEditedBy -> {
-        name,
-        image { asset->{ url } }
-      },
-      faqs
-    }
-  `;
+  *[_type == "post" && slug.current == "${slug}"][0] {
+    title,
+    slug,
+    categoria,
+    excerpt,
+    coverImage {
+      asset->{ url },
+      alt,
+      caption
+    },
+    publishedAt,
+    content,
+    metaTitle,
+    metaDescription,
+    
+    author -> {
+      name,
+      bio,
+      verified,
+      image { asset->{ url } },
+      socialLinks
+    },
+    
+    lastEditedBy -> {
+      name,
+       verified,
+      image { asset->{ url } }
+    },
+    
+    faqs
+  }
+`;
+
   try {
     return await client.fetch(query);
   } catch (error) {

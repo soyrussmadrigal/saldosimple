@@ -50,7 +50,7 @@ export default {
       title: 'Categoría',
     },
 
-    // 👤 Referencias de autor y editor
+    // 👤 Autor y editor (referencias a documents author.js)
     {
       name: 'author',
       type: 'reference',
@@ -80,7 +80,7 @@ export default {
       description: 'Descripción SEO para buscadores. Máximo 160 caracteres recomendado.',
     },
 
-    // 📄 Contenido principal
+    // 📄 Contenido enriquecido
     {
       name: 'content',
       type: 'array',
@@ -88,14 +88,22 @@ export default {
       of: [
         { type: 'block' },
 
-        // 🟨 Bloque CTA (llamada a la acción)
+        // 🟨 Bloque CTA
         {
           type: 'object',
           name: 'ctaBox',
           title: 'Caja CTA',
           fields: [
-            { name: 'title', type: 'string', title: 'Título del CTA' },
-            { name: 'emoji', type: 'string', title: 'Emoji (opcional)' },
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Título del CTA',
+            },
+            {
+              name: 'emoji',
+              type: 'string',
+              title: 'Emoji (opcional)',
+            },
             {
               name: 'backgroundColor',
               type: 'string',
@@ -124,8 +132,16 @@ export default {
                   name: 'ctaButton',
                   title: 'Botón CTA',
                   fields: [
-                    { name: 'label', type: 'string', title: 'Texto del botón' },
-                    { name: 'url', type: 'url', title: 'Enlace' },
+                    {
+                      name: 'label',
+                      type: 'string',
+                      title: 'Texto del botón',
+                    },
+                    {
+                      name: 'url',
+                      type: 'url',
+                      title: 'Enlace',
+                    },
                     {
                       name: 'style',
                       type: 'string',
@@ -152,15 +168,15 @@ export default {
           ],
           preview: {
             select: { title: 'title' },
-            prepare: (selection) => ({
-              title: `📣 CTA: ${selection.title}`,
+            prepare: ({ title }) => ({
+              title: `📣 CTA: ${title}`,
             }),
           },
         },
       ],
     },
 
-    // ❓ Preguntas Frecuentes (FAQs)
+    // ❓ Preguntas frecuentes
     {
       name: 'faqs',
       type: 'array',

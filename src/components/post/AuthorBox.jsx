@@ -5,6 +5,7 @@ import {
   FaTwitter,
   FaFacebook,
   FaGlobe,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 const platformIcons = {
@@ -14,7 +15,9 @@ const platformIcons = {
   website: <FaGlobe />,
 };
 
-export default function AuthorBox({ name, bio, image, socialLinks = [] }) {
+export default function AuthorBox({ name, bio, image, socialLinks = [], verified = false }){
+
+
   return (
     <div className="w-full max-w-2xl mx-auto bg-gray-50 rounded-md p-6 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-sm">
       {image && (
@@ -25,9 +28,18 @@ export default function AuthorBox({ name, bio, image, socialLinks = [] }) {
         />
       )}
       <div className="text-center sm:text-left w-full">
-        <h4 className="text-lg font-semibold text-gray-800">
+        <h4 className="text-lg font-semibold text-gray-800 flex items-center justify-center sm:justify-start gap-2">
           {name || "Autor desconocido"}
+          {verified && (
+            <span className="text-green-600 text-sm flex items-center gap-1">
+              <FaCheckCircle className="text-base" />
+              <span className="text-xs font-medium border border-green-600 px-2 py-0.5 rounded-full">
+                Verificado
+              </span>
+            </span>
+          )}
         </h4>
+
         {bio && <p className="text-sm text-gray-600 mt-2">{bio}</p>}
 
         {socialLinks.length > 0 && (
