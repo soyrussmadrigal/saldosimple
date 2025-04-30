@@ -3,7 +3,7 @@ export default {
   type: 'document',
   title: 'Artículo',
   fields: [
-    // 🏷️ Información Principal
+    // 🏷️ Información principal
     {
       name: 'title',
       type: 'string',
@@ -13,7 +13,7 @@ export default {
       name: 'slug',
       type: 'slug',
       title: 'Slug',
-      options: {source: 'title', maxLength: 96},
+      options: { source: 'title', maxLength: 96 },
     },
     {
       name: 'excerpt',
@@ -50,21 +50,19 @@ export default {
       title: 'Categoría',
     },
 
-    // 👤 Autor Principal
+    // 👤 Referencias de autor y editor
     {
       name: 'author',
       type: 'reference',
       title: 'Autor',
-      to: [{type: 'author'}],
+      to: [{ type: 'author' }],
       description: 'Selecciona el autor principal de este artículo.',
     },
-
-    // ✏️ Última Edición (Editor)
     {
       name: 'lastEditedBy',
       type: 'reference',
       title: 'Editado por',
-      to: [{type: 'author'}],
+      to: [{ type: 'author' }],
       description: 'Selecciona quién fue el último en editar este artículo.',
     },
 
@@ -82,30 +80,22 @@ export default {
       description: 'Descripción SEO para buscadores. Máximo 160 caracteres recomendado.',
     },
 
-    // 📄 Contenido
+    // 📄 Contenido principal
     {
       name: 'content',
       type: 'array',
       title: 'Contenido',
       of: [
-        {type: 'block'},
+        { type: 'block' },
 
-        // 🟡 Bloque CTA personalizado
+        // 🟨 Bloque CTA (llamada a la acción)
         {
           type: 'object',
           name: 'ctaBox',
           title: 'Caja CTA',
           fields: [
-            {
-              name: 'title',
-              type: 'string',
-              title: 'Título del CTA',
-            },
-            {
-              name: 'emoji',
-              type: 'string',
-              title: 'Emoji (opcional)',
-            },
+            { name: 'title', type: 'string', title: 'Título del CTA' },
+            { name: 'emoji', type: 'string', title: 'Emoji (opcional)' },
             {
               name: 'backgroundColor',
               type: 'string',
@@ -117,10 +107,10 @@ export default {
               type: 'array',
               title: 'Contenido del CTA',
               of: [
-                {type: 'block'},
+                { type: 'block' },
                 {
                   type: 'image',
-                  options: {hotspot: true},
+                  options: { hotspot: true },
                   fields: [
                     {
                       name: 'alt',
@@ -134,24 +124,16 @@ export default {
                   name: 'ctaButton',
                   title: 'Botón CTA',
                   fields: [
-                    {
-                      name: 'label',
-                      type: 'string',
-                      title: 'Texto del botón',
-                    },
-                    {
-                      name: 'url',
-                      type: 'url',
-                      title: 'Enlace',
-                    },
+                    { name: 'label', type: 'string', title: 'Texto del botón' },
+                    { name: 'url', type: 'url', title: 'Enlace' },
                     {
                       name: 'style',
                       type: 'string',
                       title: 'Estilo',
                       options: {
                         list: [
-                          {title: 'Primario (azul)', value: 'primary'},
-                          {title: 'Secundario (gris)', value: 'secondary'},
+                          { title: 'Primario (azul)', value: 'primary' },
+                          { title: 'Secundario (gris)', value: 'secondary' },
                         ],
                         layout: 'radio',
                       },
@@ -159,8 +141,8 @@ export default {
                     },
                   ],
                   preview: {
-                    select: {title: 'label'},
-                    prepare: ({title}) => ({
+                    select: { title: 'label' },
+                    prepare: ({ title }) => ({
                       title: `🔘 Botón: ${title}`,
                     }),
                   },
@@ -169,20 +151,16 @@ export default {
             },
           ],
           preview: {
-            select: {
-              title: 'title',
-            },
-            prepare(selection) {
-              return {
-                title: `📣 CTA: ${selection.title}`,
-              }
-            },
+            select: { title: 'title' },
+            prepare: (selection) => ({
+              title: `📣 CTA: ${selection.title}`,
+            }),
           },
         },
       ],
     },
 
-    // ❓ FAQs
+    // ❓ Preguntas Frecuentes (FAQs)
     {
       name: 'faqs',
       type: 'array',
@@ -209,4 +187,4 @@ export default {
       ],
     },
   ],
-}
+};

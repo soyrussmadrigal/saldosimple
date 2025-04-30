@@ -23,7 +23,7 @@ const PlaxLayout = ({ children, bg, margin, noFooter, dark, footer }) => {
         <ScrollProgress />
         {/* scroll progress end */}
         {/* back to top */}
-        
+
         {/* top panel end */}
         <Header dark={dark} />
         {/* top panel end */}

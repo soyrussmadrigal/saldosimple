@@ -258,6 +258,8 @@ export default async function PostPage({ params }) {
                     name={post.author.name}
                     bio={post.author.bio}
                     image={post.author.image?.asset?.url}
+                    socialLinks={post.author.socialLinks}
+                    verified={post.author.verified}
                   />
                 </div>
               )}
