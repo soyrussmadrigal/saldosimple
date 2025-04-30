@@ -13,6 +13,7 @@ import Breadcrumb from "@/components/post/Breadcrumb";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 import FAQsSection from "@/components/post/FAQsSection";
 
+
 export const revalidate = 60;
 
 async function getPost(slug) {
@@ -265,8 +266,8 @@ export default async function PostPage({ params }) {
 
             {/* Sidebar */}
             <div className="hidden lg:block w-1/4">
-              <div className="sticky top-300">
-                <TableOfContents triggerId="toc-trigger" />
+            <div className="sticky top-[150vh]">
+            <TableOfContents triggerId="toc-trigger" />
               </div>
             </div>
           </div>
