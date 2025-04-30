@@ -20,7 +20,7 @@ const page = () => {
         </div>
         {/* scroll progress end */}
         {/* back to top */}
-        <div className="progress-wrap active-progress" />
+        {/* <div className="progress-wrap active-progress" />*/}
         {/* content */}
         <div id="smooth-content">
           {/* banner */}
