@@ -49,7 +49,7 @@ export default function TableOfContents({ triggerId = "toc-trigger" }) {
         isSticky ? "sticky top-20" : "relative"
       } bg-gray-50 rounded-lg shadow-md p-4 w-64`}
     >
-      <h3 className="text-lg font-semibold mb-4">En este artículo</h3>
+      <h3 className="text-lg font-semibold mb-4">Índice</h3>
       <ul className="space-y-3 text-sm text-gray-700">
         {headings.map((heading) => (
           <li key={heading.id}>
