@@ -13,7 +13,7 @@ export default {
       name: 'slug',
       type: 'slug',
       title: 'Slug',
-      options: { source: 'title', maxLength: 96 },
+      options: {source: 'title', maxLength: 96},
     },
     {
       name: 'excerpt',
@@ -55,7 +55,7 @@ export default {
       name: 'author',
       type: 'reference',
       title: 'Autor',
-      to: [{ type: 'author' }],
+      to: [{type: 'author'}],
       description: 'Selecciona el autor principal de este artículo.',
     },
 
@@ -64,7 +64,7 @@ export default {
       name: 'lastEditedBy',
       type: 'reference',
       title: 'Editado por',
-      to: [{ type: 'author' }],
+      to: [{type: 'author'}],
       description: 'Selecciona quién fue el último en editar este artículo.',
     },
 
@@ -87,7 +87,99 @@ export default {
       name: 'content',
       type: 'array',
       title: 'Contenido',
-      of: [{ type: 'block' }],
+      of: [
+        {type: 'block'},
+
+        // 🟡 Bloque CTA personalizado
+        {
+          type: 'object',
+          name: 'ctaBox',
+          title: 'Caja CTA',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Título del CTA',
+            },
+            {
+              name: 'emoji',
+              type: 'string',
+              title: 'Emoji (opcional)',
+            },
+            {
+              name: 'backgroundColor',
+              type: 'string',
+              title: 'Color de fondo',
+              initialValue: '#FFF8E1',
+            },
+            {
+              name: 'body',
+              type: 'array',
+              title: 'Contenido del CTA',
+              of: [
+                {type: 'block'},
+                {
+                  type: 'image',
+                  options: {hotspot: true},
+                  fields: [
+                    {
+                      name: 'alt',
+                      type: 'string',
+                      title: 'Texto alternativo',
+                    },
+                  ],
+                },
+                {
+                  type: 'object',
+                  name: 'ctaButton',
+                  title: 'Botón CTA',
+                  fields: [
+                    {
+                      name: 'label',
+                      type: 'string',
+                      title: 'Texto del botón',
+                    },
+                    {
+                      name: 'url',
+                      type: 'url',
+                      title: 'Enlace',
+                    },
+                    {
+                      name: 'style',
+                      type: 'string',
+                      title: 'Estilo',
+                      options: {
+                        list: [
+                          {title: 'Primario (azul)', value: 'primary'},
+                          {title: 'Secundario (gris)', value: 'secondary'},
+                        ],
+                        layout: 'radio',
+                      },
+                      initialValue: 'primary',
+                    },
+                  ],
+                  preview: {
+                    select: {title: 'label'},
+                    prepare: ({title}) => ({
+                      title: `🔘 Botón: ${title}`,
+                    }),
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+            },
+            prepare(selection) {
+              return {
+                title: `📣 CTA: ${selection.title}`,
+              }
+            },
+          },
+        },
+      ],
     },
 
     // ❓ FAQs
@@ -104,17 +196,17 @@ export default {
               name: 'question',
               type: 'string',
               title: 'Pregunta',
-              validation: Rule => Rule.required().min(10).max(150),
+              validation: (Rule) => Rule.required().min(10).max(150),
             },
             {
               name: 'answer',
               type: 'text',
               title: 'Respuesta',
-              validation: Rule => Rule.required().min(20).max(1000),
+              validation: (Rule) => Rule.required().min(20).max(1000),
             },
           ],
         },
       ],
     },
   ],
-};
+}
