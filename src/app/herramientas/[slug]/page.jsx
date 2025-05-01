@@ -94,7 +94,7 @@ export default async function ToolPage({ params }) {
         {/* Contenido dinámico desde Sanity */}
 
         {data.content && (
-          <section className="px-6 pb-20 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
+          <section className="px-6 pb-0 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
             <PortableText
               value={data.content}
               components={{
@@ -116,7 +116,7 @@ export default async function ToolPage({ params }) {
 
         {/* FAQs dinámicas */}
         {data.faqs?.length > 0 && (
-          <div className="max-w-3xl mx-auto px-6 mt-12">
+          <div className="max-w-3xl mx-auto px-6 mt-4">
             <FAQsSection faqs={data.faqs} />
           </div>
         )}
