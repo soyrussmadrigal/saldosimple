@@ -46,6 +46,12 @@ const Navbar = ({ dark }) => {
               </Link>
             </li>
 
+            <li className={isActive(["articulos", "publication"])}>
+              <Link href="/herramientas" onClick={handleLinkClick}>
+                Herramientas
+              </Link>
+            </li>
+
             <li className={isActive(["contact"])}>
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto

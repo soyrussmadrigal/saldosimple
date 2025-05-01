@@ -4,9 +4,9 @@ import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 
 export const metadata = {
-  title: "Calculadora de IVA en Costa Rica - Herramienta Online | SaldoSimple",
+  title: "Calculadora de IVA para LATAM y España - Herramienta Online | SaldoSimple",
   description:
-    "Calcula fácilmente el IVA en Costa Rica con nuestra herramienta gratuita. Ingresa el monto sin impuesto y obtén el total con IVA en segundos.",
+    "Calcula fácilmente el IVA en países de Latinoamérica y España con nuestra herramienta gratuita. Ingresa el monto sin impuesto y obtén el total con IVA en segundos.",
   alternates: {
     canonical: "https://www.saldosimple.com/herramientas/calculadora-iva",
   },
@@ -17,30 +17,39 @@ export default function CalculadoraIVAPage() {
     <>
       <SEOJsonLd
         schemas={{
-          softwareApplication: {
+          calculator: {
             "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "Calculadora de IVA en Costa Rica",
-            applicationCategory: "FinanceApplication",
-            operatingSystem: "Web",
-            url: "https://www.saldosimple.com/herramientas/calculadora-iva",
-            description:
-              "Calculadora en línea para obtener el monto con IVA a partir del monto neto. Herramienta gratuita y rápida para Costa Rica.",
-            publisher: {
-              "@type": "Organization",
-              name: "SaldoSimple",
-              url: "https://www.saldosimple.com",
-              logo: {
-                "@type": "ImageObject",
-                url: "https://www.saldosimple.com/logo.png",
-              },
-            },
-            offers: {
+            "@type": "WebApplication",
+            "name": "Calculadora de IVA LATAM",
+            "applicationCategory": "Finanzas",
+            "operatingSystem": "All",
+            "url": "https://www.saldosimple.com/herramientas/calculadora-iva",
+            "description":
+              "Calculadora de IVA para países de Latinoamérica y España. Calcula fácilmente el impuesto agregado seleccionando moneda, país y porcentaje.",
+            "inLanguage": "es",
+            "dateModified": new Date().toISOString().split("T")[0],
+            "offers": {
               "@type": "Offer",
-              price: "0.00",
-              priceCurrency: "CRC",
+              "price": "0.00",
+              "priceCurrency": "USD"
             },
-          },
+            "publisher": {
+              "@type": "Organization",
+              "name": "SaldoSimple",
+              "url": "https://www.saldosimple.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://www.saldosimple.com/logo.png"
+              }
+            },
+            "creator": {
+              "@type": "Person",
+              "name": "Rus Madrigal",
+              "url": "https://rusmadrigal.com"
+            },
+            "isAccessibleForFree": true,
+            "featureList": "Cálculo instantáneo, IVA editable, Selección de país, Moneda local, Copiar total al portapapeles"
+          }
         }}
       />
 
@@ -52,10 +61,10 @@ export default function CalculadoraIVAPage() {
               className="text-4xl sm:text-5xl font-bold leading-tight mb-4"
               style={{ color: "rgb(13, 81, 82)" }}
             >
-              Calculadora de IVA en Costa Rica
+              Calculadora de IVA
             </h1>
             <p className="text-lg sm:text-xl text-gray-600">
-              Calcula rápidamente el IVA aplicable según el monto sin impuesto.
+              Calcula rápidamente el IVA aplicable según el monto sin impuesto para tu país.
             </p>
           </div>
         </section>
@@ -75,23 +84,18 @@ export default function CalculadoraIVAPage() {
         {/* Contenido SEO */}
         <section className="mt-10 px-6 pb-24 max-w-3xl mx-auto text-[rgb(90,91,96)] text-base leading-relaxed">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            ¿Qué es el IVA y cómo se calcula en Costa Rica?
+            ¿Qué es el IVA y cómo se calcula?
           </h2>
           <p className="mb-4">
-            El Impuesto al Valor Agregado (IVA) en Costa Rica es un tributo que
-            se aplica al consumo de bienes y servicios. Actualmente, la tasa
-            general es del 13%, aunque algunos productos y servicios pueden
-            tener tasas diferenciadas o estar exentos.
+            El Impuesto al Valor Agregado (IVA) es un tributo que se aplica al consumo de bienes y servicios en la mayoría de países de habla hispana. 
+            La tasa varía por país, siendo del 13% en Costa Rica, del 21% en España, entre otros.
           </p>
           <p className="mb-4">
-            Para calcular el IVA, simplemente se multiplica el monto neto por el
-            porcentaje correspondiente. Por ejemplo, si compras un artículo por
-            ₠10,000, el IVA sería ₠1,300 y el total a pagar ₠11,300.
+            Para calcular el IVA, simplemente se multiplica el monto neto por el porcentaje correspondiente. 
+            Esta herramienta te permite automatizar ese proceso y obtener resultados precisos al instante.
           </p>
           <p>
-            Esta calculadora te permite automatizar ese proceso y obtener
-            resultados precisos al instante, ya sea que seas un consumidor,
-            comerciante o profesional independiente.
+            Ya seas consumidor, comerciante o profesional independiente, esta calculadora está diseñada para simplificar tu gestión financiera.
           </p>
         </section>
 

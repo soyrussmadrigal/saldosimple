@@ -6,8 +6,9 @@ import "@css/plugins/bootstrap-grid.css";
 import "@css/plugins/swiper.min.css";
 import "@css/plugins/magnific-popup.css";
 import "@css/style.css";
+import { Toaster } from "sonner"; 
+import "./custom/toast-custom.css";
 
-// Fuente secundaria configurada
 const secondaryFont = Questrial({
   weight: ["400"],
   style: ["normal"],
@@ -17,7 +18,6 @@ const secondaryFont = Questrial({
   adjustFontFallback: false,
 });
 
-// Metadata base del sitio
 export const metadata = {
   title: "SaldoSimple - Controla tus Finanzas",
   description:
@@ -28,9 +28,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es-CR" className={secondaryFont.variable}>
       <body>
-        <main className="pt-24">
-          {/* 👆 Agregamos padding top para evitar que el navbar tape el contenido */}
+        <main className="pt-24 relative z-0">
+          {/* 👆 Padding para navbar */}
           {children}
+          <Toaster richColors position="top-right" expand /> {/* ✅ Toaster agregado correctamente */}
         </main>
       </body>
     </html>

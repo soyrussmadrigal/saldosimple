@@ -1,0 +1,26 @@
+/* Estilo general */
+[data-sonner-toast] {
+  border-radius: 12px !important;
+  font-family: "Switzer", sans-serif;
+  font-size: 0.95rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.25rem;
+}
+
+/* Toast de éxito (como el de copiar) */
+[data-sonner-toast][data-type="success"] {
+  background-color: #f0fdf4 !important; /* Verde oscuro SaldoSimple */
+  color: #ffffff;
+}
+
+/* Toast de error */
+[data-sonner-toast][data-type="error"] {
+  background-color: #e03131 !important;
+  color: #ffffff;
+}
+
+/* Toast informativo */
+[data-sonner-toast][data-type="info"] {
+  background-color: #1c64f2 !important;
+  color: #ffffff;
+}
