@@ -17,34 +17,45 @@ export default function FAQsSection({ faqs }) {
     <section className="mt-16">
       <h3 className="text-2xl font-bold mb-8">Preguntas Frecuentes</h3>
       <div className="space-y-4">
-        {faqs.map((faq, index) => (
-          <div
-            key={index}
-            className="border-b border-blue-500 px-4 py-4 cursor-pointer transition-all"
-            onClick={() => toggleFAQ(index)}
-          >
-            <div className="flex items-center justify-between">
-              <h4 className="text-lg font-semibold text-black">{faq.question}</h4>
-              <div className="ml-4">
-                {openIndex === index ? (
-                  <Minus size={18} strokeWidth={2.5} />
+        {faqs.map((faq, index) => {
+          const isOpen = openIndex === index;
+
+          return (
+            <div
+              key={index}
+              onClick={() => toggleFAQ(index)}
+              className={`
+                border-b border-r border-[#0a4f4a]
+                pr-6 pt-5 ${isOpen ? "pb-5" : "pb-4"}
+                rounded-br-[60px]
+                hover:shadow-sm transition-all duration-300 cursor-pointer
+              `}
+            >
+              <div className="flex items-center justify-between">
+                <h4 className="text-lg font-semibold text-black">{faq.question}</h4>
+                {isOpen ? (
+                  <Minus size={20} strokeWidth={2.5} className="text-[#0a4f4a]" />
                 ) : (
-                  <Plus size={18} strokeWidth={2.5} />
+                  <Plus size={20} strokeWidth={2.5} className="text-[#0a4f4a]" />
                 )}
+              </div>
+
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  isOpen ? "max-h-[500px] opacity-100 mt-4" : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="text-sm text-[#0a4f4a] leading-relaxed">
+                  {Array.isArray(faq.answer) ? (
+                    <PortableText value={faq.answer} />
+                  ) : (
+                    <p>{faq.answer}</p>
+                  )}
+                </div>
               </div>
             </div>
-
-            {openIndex === index && (
-              <div className="mt-2 px-4 text-gray-600 break-words overflow-hidden text-sm leading-relaxed">
-                {Array.isArray(faq.answer) ? (
-                  <PortableText value={faq.answer} />
-                ) : (
-                  <p>{faq.answer}</p>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
