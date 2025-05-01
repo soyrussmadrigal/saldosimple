@@ -12,7 +12,7 @@ export default function CalculadoraIVAPage() {
             className="text-4xl sm:text-5xl font-bold leading-tight mb-4"
             style={{ color: "rgb(13, 81, 82)" }}
           >
-            Calculadora de IVA en Costa Rica
+            Calculadora IVA Costa Rica
           </h1>
           <p className="text-lg sm:text-xl text-gray-600">
             Calcula rápidamente el IVA aplicable según el monto sin impuesto.
@@ -27,7 +27,7 @@ export default function CalculadoraIVAPage() {
             defaultIVA={13}
             currency="CRC"
             locale="es-CR"
-            title="Calculadora de IVA"
+            title="Calculadora IVA"
           />
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function CalculadoraIVAPage() {
       </section>
 
       {/* Otras herramientas */}
-      <div className="mt-0">
+      <div className="-mt-10">
         <ToolsList />
       </div>
     </PlaxLayout>
