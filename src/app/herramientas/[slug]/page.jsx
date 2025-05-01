@@ -7,6 +7,29 @@ import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 
+// ⬇️ Genera dinámicamente meta title, description y canonical
+export async function generateMetadata({ params }) {
+  const data = await getToolPageData(params.slug);
+
+  if (!data) {
+    return {
+      title: "Herramienta no encontrada | SaldoSimple",
+      description: "La herramienta solicitada no se encuentra disponible.",
+    };
+  }
+
+  return {
+    title: data.metaTitle || data.title,
+    description:
+      data.metaDescription || "Explora esta herramienta financiera gratuita.",
+    alternates: {
+      canonical:
+        data.canonicalUrl ||
+        `https://www.saldosimple.com/herramientas/${params.slug}`,
+    },
+  };
+}
+
 export default async function ToolPage({ params }) {
   const data = await getToolPageData(params.slug);
 
@@ -75,6 +98,7 @@ export default async function ToolPage({ params }) {
             : {}),
         }}
       />
+
       <PlaxLayout>
         <section className="text-center py-20 px-4 bg-white">
           <div className="max-w-3xl mx-auto">
@@ -92,9 +116,8 @@ export default async function ToolPage({ params }) {
         )}
 
         {/* Contenido dinámico desde Sanity */}
-
         {data.content && (
-          <section className="px-6 pb-0 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
+          <section className="px-6 pb-2 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
             <PortableText
               value={data.content}
               components={{
