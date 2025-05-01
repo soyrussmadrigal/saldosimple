@@ -202,5 +202,37 @@ export default {
         },
       ],
     },
+
+    // 📚 Fuentes del artículo
+    {
+      name: 'sources',
+      type: 'array',
+      title: 'Fuentes del artículo',
+      description: 'Lista de enlaces usados como referencia para redactar este contenido.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Título de la fuente',
+              validation: (Rule) => Rule.required(),
+            },
+            {
+              name: 'url',
+              type: 'url',
+              title: 'Enlace',
+              validation: (Rule) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+            },
+          },
+        },
+      ],
+    },
   ],
 };

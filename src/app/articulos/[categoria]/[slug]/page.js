@@ -12,6 +12,9 @@ import Image from "next/image";
 import Breadcrumb from "@/components/post/Breadcrumb";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 import FAQsSection from "@/components/post/FAQsSection";
+import SourcesBox from "@/components/post/SourcesBox";
+import FeedbackButton from "@/components/post/FeedbackButton";
+
 
 export const revalidate = 60;
 
@@ -22,38 +25,39 @@ async function getPost(slug) {
   }
 
   const query = `
-  *[_type == "post" && slug.current == "${slug}"][0] {
-    title,
-    slug,
-    categoria,
-    excerpt,
-    coverImage {
-      asset->{ url },
-      alt,
-      caption
-    },
-    publishedAt,
-    content,
-    metaTitle,
-    metaDescription,
-    
-    author -> {
-      name,
-      bio,
-      verified,
-      image { asset->{ url } },
-      socialLinks
-    },
-    
-    lastEditedBy -> {
-      name,
-       verified,
-      image { asset->{ url } }
-    },
-    
-    faqs
-  }
-`;
+    *[_type == "post" && slug.current == "${slug}"][0] {
+      title,
+      slug,
+      categoria,
+      excerpt,
+      coverImage {
+        asset->{ url },
+        alt,
+        caption
+      },
+      publishedAt,
+      content,
+      metaTitle,
+      metaDescription,
+      author -> {
+        name,
+        bio,
+        verified,
+        image { asset->{ url } },
+        socialLinks
+      },
+      lastEditedBy -> {
+        name,
+        verified,
+        image { asset->{ url } }
+      },
+      faqs,
+      sources[] {
+        title,
+        url
+      }
+    }
+  `;
 
   try {
     return await client.fetch(query);
@@ -127,6 +131,7 @@ export default async function PostPage({ params }) {
       "@type": "WebPage",
       "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
+    citation: post.sources?.map((source) => source.url), // 👈 añadido
   };
 
   // JSON-LD: BreadcrumbList
@@ -257,6 +262,14 @@ export default async function PostPage({ params }) {
 
               {/* FAQs Section */}
               {post.faqs?.length > 0 && <FAQsSection faqs={post.faqs} />}
+
+              {/* 📚 Sources Section */}
+              {post.sources?.length > 0 && (
+                <SourcesBox sources={post.sources} />
+              )}
+
+              {/* Feedback */}
+<FeedbackButton />
 
               {/* Author Box */}
               {post.author && (
