@@ -17,8 +17,11 @@ const Banner = ({
                 {title}
               </h1>
               <div className="mil-buttons-frame">
-                <Link href="register" className="mil-btn mil-md mil-add-arrow">
-                  Artículos
+                <Link
+                  href="herramientas"
+                  className="mil-btn mil-md mil-add-arrow"
+                >
+                  Heramientas
                 </Link>
                 <a
                   href="https://www.youtube.com/watch?v=VCEE58Oy7ig"

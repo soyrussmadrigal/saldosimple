@@ -5,6 +5,7 @@ import PlaxAccordion from "@/components/ui/PlaxAccordion";
 import Testimonials1 from "@/components/sections/Testimonials";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
+import Image from "next/image";
 
 const page = () => {
   return (
@@ -21,37 +22,45 @@ const page = () => {
           <div className="row flex-sm-row-reverse justify-content-between align-items-center">
             <div className="col-xl-6 mil-mb-80">
               <h2 className="mil-mb-30 mil-up">
-                Exclusive Benefits of <br />
-                Using Plax
+                Herramientas
+                <br />
+                Financieras
               </h2>
               <ul className="mil-list-1">
                 <li>
                   <div className="mil-up">
-                    <h5 className="mil-mb-15 mil-up">Instant Transactions</h5>
+                    <h5 className="mil-mb-15 mil-up">
+                      Calculadoras financieras
+                    </h5>
                     <p className="mil-text-m mil-soft mil-up">
-                      Make money transfers immediately, without <br />
-                      complications or delays.
-                    </p>
-                  </div>
-                </li>
-                <li>
-                  <div className="mil-up">
-                    <h5 className="mil-mb-15 mil-up">Guaranteed Security</h5>
-                    <p className="mil-text-m mil-soft mil-up">
-                      Protect your financial information with our advanced{" "}
-                      <br />
-                      security protocols.
+                      Todas las herramientas financieras en un solo lugar, el
+                      equipo de SaldoSimple constantemente está creando
+                      diferentes tipos de calculadoras financieras entre otros
+                      tipos de software financiero gratuito para nuestros
+                      lectores.
                     </p>
                   </div>
                 </li>
                 <li>
                   <div className="mil-up">
                     <h5 className="mil-mb-15 mil-up">
-                      Extensive Global Coverage
+                      Prospectivas de cara a futuro
                     </h5>
                     <p className="mil-text-m mil-soft mil-up">
-                      Access our global network that covers more than <br />
-                      169 countries for your international transactions.
+                      Nuestro equipo trabaja en herramientas financieras que
+                      permitan mejorar las perspectivas de inversión en finanzas
+                      personales, de manera que usted pueda gestionar mejor sus
+                      inversiones por mínimas que sean.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <div className="mil-up">
+                    <h5 className="mil-mb-15 mil-up">Artículos financieros</h5>
+                    <p className="mil-text-m mil-soft mil-up">
+                      Publicamos artículos financieros de alto valor de manera
+                      gratuita, nuestros contenidos se enfocan en finanzas
+                      personales (ahorro, inversión, jubilación).
                     </p>
                   </div>
                 </li>
@@ -59,13 +68,19 @@ const page = () => {
             </div>
             <div className="col-xl-5 mil-mb-80">
               <div className="mil-image-frame mil-visible-overflow">
-                <img src="img/home-1/2.png" alt="image" className="mil-up" />
+                <Image
+                  src="/img/home-1/2.webp"
+                  alt="Imagen decorativa"
+                  width={1040}
+                  height={1460}
+                  className="mil-up"
+                />
                 <div className="mil-img-box mil-accent-box mil-up">
                   <div>
                     <h2 className="mil-light mil-mb-15">100%</h2>
                     <p className="mil-text-s mil-light">
-                      Security in your <br />
-                      payments
+                      ¡Gratuitas <br />
+                      para siempre!
                     </p>
                   </div>
                 </div>
