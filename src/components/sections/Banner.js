@@ -1,7 +1,7 @@
 import Link from "next/link";
 const Banner = ({
   title = "Your Ally for Financial Control",
-  subTitle = "Send money globally with Plax",
+  subTitle = "SaldoSimple",
   img = "img/home-2/1.png",
   style = { maxWidth: "135%", transform: "translateX(5%)" },
   dark = false,
@@ -18,13 +18,13 @@ const Banner = ({
               </h1>
               <div className="mil-buttons-frame">
                 <Link href="register" className="mil-btn mil-md mil-add-arrow">
-                  Try demo
+                  Artículos
                 </Link>
                 <a
-                  href="https://www.youtube.com/watch?v=gRhoYxy9Oss"
+                  href="https://www.youtube.com/watch?v=VCEE58Oy7ig"
                   className="mil-btn mil-md mil-light mil-add-play has-popup-video"
                 >
-                  Watch tutorial
+                  Mejora tu Finanzas
                 </a>
               </div>
             </div>

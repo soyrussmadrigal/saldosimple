@@ -10,8 +10,8 @@ const page = () => {
   return (
     <PlaxLayout bg={false}>
       <Banner
-        title="Shop with Confidence, Protected"
-        img="img/home-1/1.png"
+        title="Finanzas inteligentes"
+        img="img/home-1/1.webp"
         style={{ maxWidth: "125%", transform: "translateX(10%)" }}
       />
       {/* banner end */}
