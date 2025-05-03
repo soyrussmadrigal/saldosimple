@@ -36,25 +36,31 @@ const ToolsShowcase = () => {
             </p>
           </div>
 
-          {/* Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 mb-10">
-            {toolsToShow.map((tool) => (
-              <Link
-                key={tool._id}
-                href={`/herramientas/${tool.slug}`}
-                className="bg-white hover:bg-green-100 text-green-800 font-semibold text-center rounded-xl py-5 px-4 shadow-sm border border-green-200 hover:shadow-md transition"
-              >
-                {tool.title}
-              </Link>
-            ))}
+          {/* Grid de herramientas */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4 mb-6">
+            {tools
+              .slice(0, 6) // siempre máximo 6
+              .map((tool, index) => (
+                <Link
+                  key={tool._id}
+                  href={`/herramientas/${tool.slug}`}
+                  className={`
+          ${index >= 3 ? "hidden sm:block" : ""}
+          bg-white hover:bg-green-100 text-green-800 font-semibold text-center 
+          rounded-xl py-4 px-6 shadow-sm border border-green-100 hover:shadow-md transition
+        `}
+                >
+                  {tool.title}
+                </Link>
+              ))}
           </div>
 
-          {/* Botón Ver todas */}
+          {/* Botón "Ver todas" */}
           {tools.length > 6 && (
-            <div className="text-center">
+            <div className="flex justify-center">
               <Link
                 href="/herramientas"
-                className="inline-block bg-green-700 hover:bg-green-800 text-white font-semibold px-6 py-3 rounded-lg transition"
+                className="bg-green-800 text-white px-6 py-3 rounded-xl font-semibold hover:bg-green-900 transition text-center w-full max-w-xs"
               >
                 Ver todas las herramientas
               </Link>
