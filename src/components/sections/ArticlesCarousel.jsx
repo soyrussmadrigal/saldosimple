@@ -53,13 +53,13 @@ const ArticlesCarousel = ({ articles = [] }) => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-3xl font-bold text-green-900">
-            Stay up to date with the latest financial news from the Nerds
+            Manténgase al día con nuestros análisis financieros
           </h2>
           <Link
             href="/articulos"
             className="text-green-800 hover:text-green-900 text-sm font-semibold"
           >
-            VIEW ALL NEWS →
+            VER TODOS →
           </Link>
         </div>
 
@@ -108,23 +108,26 @@ const ArticlesCarousel = ({ articles = [] }) => {
           </div>
         </div>
 
-        {/* Carrusel de secundarios */}
+        {/* Carrusel */}
         <Swiper
           modules={[Navigation, Pagination]}
+          navigation={{
+            nextEl: ".swiper-btn-next",
+            prevEl: ".swiper-btn-prev",
+          }}
+          pagination={{ clickable: true }}
           spaceBetween={20}
           slidesPerView={1.2}
-          pagination={{ clickable: true }}
-          navigation
           breakpoints={{
             640: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
         >
-          {otherArticles.map((article) => (
+          {otherArticles.map((article, index) => (
             <SwiperSlide key={article.slug}>
               <Link
                 href={`/articulos/${article.categoria}/${article.slug}`}
-                className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition"
+                className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition relative"
               >
                 <div>
                   <h4 className="text-lg font-semibold text-green-900 mb-2 line-clamp-2">
@@ -153,6 +156,17 @@ const ArticlesCarousel = ({ articles = [] }) => {
                     {article.author?.name || "SaldoSimple"}
                   </p>
                 </div>
+
+                {index === otherArticles.length - 1 && (
+                  <div className="absolute bottom-4 right-4 flex gap-2">
+                    <button className="swiper-btn-prev bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
+                      &larr;
+                    </button>
+                    <button className="swiper-btn-next bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
+                      &rarr;
+                    </button>
+                  </div>
+                )}
               </Link>
             </SwiperSlide>
           ))}

@@ -1,5 +1,3 @@
-// ./sanity/schemas/toolPage.js
-
 export default {
   name: "toolPage",
   title: "Herramientas",
@@ -39,6 +37,21 @@ export default {
       title: "Canonical URL",
       type: "url",
       description: "URL canónica para evitar contenido duplicado.",
+    },
+    {
+      name: "shortDescription",
+      title: "Descripción corta",
+      type: "text",
+      rows: 2,
+      description: "Descripción que se mostrará como resumen en la sección de herramientas.",
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: "ctaText",
+      title: "Texto del botón",
+      type: "string",
+      description: "Texto para el botón (ej. 'Usar calculadora')",
+      initialValue: "Usar herramienta",
     },
     {
       name: "content",
