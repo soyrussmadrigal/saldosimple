@@ -113,7 +113,9 @@ const Page = async () => {
       </div>
 
       {/* artículos recientes */}
-      <ArticlesCarousel articles={articles} />
+      <div className="mil-p-0-80">
+        <ArticlesCarousel articles={articles} />
+      </div>
 
       {/* secciones adicionales */}
       <div className="mil-features mil-p-160-80">

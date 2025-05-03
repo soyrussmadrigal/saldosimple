@@ -39,6 +39,7 @@ export default {
         },
       ],
     },
+
     {
       name: 'publishedAt',
       type: 'datetime',
@@ -50,7 +51,7 @@ export default {
       title: 'Categoría',
     },
 
-    // 👤 Autor y editor (referencias a documents author.js)
+    // 👤 Autor y editor
     {
       name: 'author',
       type: 'reference',
@@ -88,7 +89,6 @@ export default {
       of: [
         { type: 'block' },
 
-        // 🟨 Bloque CTA
         {
           type: 'object',
           name: 'ctaBox',

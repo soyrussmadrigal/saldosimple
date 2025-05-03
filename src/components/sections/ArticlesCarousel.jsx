@@ -26,6 +26,11 @@ const ArticlesCarousel = ({ articles = [] }) => {
     }
   };
 
+  const getExcerpt = (post) => {
+    const excerpt = post.excerptAI || post.excerpt || "";
+    return excerpt.split(" ").slice(0, 25).join(" ") + (excerpt.split(" ").length > 25 ? "..." : "");
+  };
+
   return (
     <section className="bg-[#e6f4ef] py-16">
       <div className="container mx-auto px-4">
@@ -66,15 +71,14 @@ const ArticlesCarousel = ({ articles = [] }) => {
                   alt={mainArticle.author?.name || "SaldoSimple"}
                   width={32}
                   height={32}
-                  className="rounded-full aspect-square object-cover"
+                  className="rounded-full object-cover w-8 h-8"
                 />
                 <span className="text-sm text-gray-600">
                   {mainArticle.author?.name || "SaldoSimple"}
                 </span>
               </div>
               <p className="text-gray-700 text-sm leading-relaxed mb-6">
-                {mainArticle.excerpt?.split(" ").slice(0, 25).join(" ") +
-                  (mainArticle.excerpt?.split(" ").length > 25 ? "..." : "")}
+                {getExcerpt(mainArticle)}
               </p>
             </div>
             <div className="text-sm text-gray-500 flex justify-end">
@@ -99,40 +103,37 @@ const ArticlesCarousel = ({ articles = [] }) => {
         >
           {otherArticles.map((article) => (
             <SwiperSlide key={article.slug}>
-            <Link
-              href={`/articulos/${article.categoria}/${article.slug}`}
-              className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition"
-            >
-              <div>
-                <h4 className="text-lg font-semibold text-green-900 mb-2 line-clamp-2">
-                  {article.title}
-                </h4>
-          
-                <div className="text-sm text-gray-500 flex items-center gap-2 mb-2">
-                  <span className="text-green-600">●</span>
-                  <span>{formatDate(article.publishedAt)}</span>
-                  <span>•</span>
-                  <span>{article.readingTime || "2 min"} lectura</span>
+              <Link
+                href={`/articulos/${article.categoria}/${article.slug}`}
+                className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition"
+              >
+                <div>
+                  <h4 className="text-lg font-semibold text-green-900 mb-2 line-clamp-2">
+                    {article.title}
+                  </h4>
+
+                  <div className="text-sm text-gray-500 flex items-center gap-2 mb-2">
+                    <span className="text-green-600">●</span>
+                    <span>{formatDate(article.publishedAt)}</span>
+                    <span>•</span>
+                    <span>{article.readingTime || "2 min"} lectura</span>
+                  </div>
                 </div>
-              </div>
-          
-              <div className="flex items-center gap-2 mt-2">
-                <Image
-                  src={article.author?.image?.asset?.url || "/img/default.webp"}
-                  alt={article.author?.name || "SaldoSimple"}
-                  width={24}
-                  height={24}
-                  className="rounded-full w-6 h-6 object-cover"
-                />
-                <p className="text-sm text-green-900 font-medium">
-                  {article.author?.name || "SaldoSimple"}
-                </p>
-              </div>
-            </Link>
-          </SwiperSlide>
-          
-          
-          
+
+                <div className="flex items-center gap-2 mt-2">
+                  <Image
+                    src={article.author?.image?.asset?.url || "/img/default.webp"}
+                    alt={article.author?.name || "SaldoSimple"}
+                    width={24}
+                    height={24}
+                    className="rounded-full object-cover w-6 h-6"
+                  />
+                  <p className="text-sm text-green-900 font-medium">
+                    {article.author?.name || "SaldoSimple"}
+                  </p>
+                </div>
+              </Link>
+            </SwiperSlide>
           ))}
         </Swiper>
       </div>
