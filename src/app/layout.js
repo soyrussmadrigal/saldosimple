@@ -27,7 +27,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="es-CR" className={secondaryFont.variable}>
+    <html lang="es" className={secondaryFont.variable}>
       <head>
         <TrackingScripts />
       </head>
