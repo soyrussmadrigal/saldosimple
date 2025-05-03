@@ -159,8 +159,9 @@ const Page = async () => {
           </div>
         </div>
       </div>
-
-      <CallToAction2 />
+      {/* 
+<CallToAction2 />
+*/}
     </PlaxLayout>
   );
 };
