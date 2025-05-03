@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
@@ -8,8 +9,21 @@ import "swiper/css/pagination";
 
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
 
 const ArticlesCarousel = ({ articles = [] }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      gsap.fromTo(
+        containerRef.current,
+        { autoAlpha: 0, y: 40 },
+        { autoAlpha: 1, y: 0, duration: 1, ease: "power2.out" }
+      );
+    }
+  }, []);
+
   if (!articles.length) return null;
 
   const [mainArticle, ...otherArticles] = articles;
@@ -28,11 +42,14 @@ const ArticlesCarousel = ({ articles = [] }) => {
 
   const getExcerpt = (post) => {
     const excerpt = post.excerptAI || post.excerpt || "";
-    return excerpt.split(" ").slice(0, 25).join(" ") + (excerpt.split(" ").length > 25 ? "..." : "");
+    return (
+      excerpt.split(" ").slice(0, 25).join(" ") +
+      (excerpt.split(" ").length > 25 ? "..." : "")
+    );
   };
 
   return (
-    <section className="bg-[#e6f4ef] py-16">
+    <section className="bg-[#e6f4ef] py-16" ref={containerRef}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-3xl font-bold text-green-900">
@@ -67,7 +84,9 @@ const ArticlesCarousel = ({ articles = [] }) => {
               </h3>
               <div className="flex items-center gap-3 mb-4">
                 <Image
-                  src={mainArticle.author?.image?.asset?.url || "/img/default.webp"}
+                  src={
+                    mainArticle.author?.image?.asset?.url || "/img/default.webp"
+                  }
                   alt={mainArticle.author?.name || "SaldoSimple"}
                   width={32}
                   height={32}
@@ -122,7 +141,9 @@ const ArticlesCarousel = ({ articles = [] }) => {
 
                 <div className="flex items-center gap-2 mt-2">
                   <Image
-                    src={article.author?.image?.asset?.url || "/img/default.webp"}
+                    src={
+                      article.author?.image?.asset?.url || "/img/default.webp"
+                    }
                     alt={article.author?.name || "SaldoSimple"}
                     width={24}
                     height={24}
