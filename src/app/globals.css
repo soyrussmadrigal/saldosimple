@@ -222,12 +222,5 @@ html {
   animation: fade-in 0.3s ease-out;
 }
 
-.fix-padding-tools {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
-}
-
 
 

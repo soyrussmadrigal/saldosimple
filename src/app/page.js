@@ -132,20 +132,14 @@ const Page = async () => {
           </div>
         </div>
       </div>
-
       {/* artículos recientes */}
       <div className="mil-p-0-0">
         <ArticlesCarousel articles={articles} />
       </div>
       {/* Tools Tabs */}
-      <div className="mil-p-0-80 fix-padding-tools">
+      <div className="mil-p-0-0 fix-padding-tools">
         <ToolsShowcase />
       </div>
-
-      <div className="mil-brands mil-p-0-160">{/* ... marcas ... */}</div>
-
-      <div className="mil-cta mil-up">{/* ... llamada a la acción ... */}</div>
-
       <div className="mil-faq mil-p-160-130">
         <div className="container">
           <div className="row justify-content-center">

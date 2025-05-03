@@ -1285,7 +1285,7 @@ banner
 .mil-banner {
   position: relative;
   overflow: hidden;
-  background-color: rgb(242, 250, 250);
+  background-color: rgb(230 244 239);
   height: 100vh;
   min-height: 900px;
   display: flex;
