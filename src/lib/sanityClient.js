@@ -15,12 +15,17 @@ export async function getLatestArticles() {
     title,
     "slug": slug.current,
     categoria,
+    excerpt,
     coverImage {
       asset->{ url },
     },
-    publishedAt
+    publishedAt,
+    author -> {
+      name,
+      image {
+        asset->{ url }
+      }
+    }
   }`;
   return await client.fetch(query);
 }
-
-
