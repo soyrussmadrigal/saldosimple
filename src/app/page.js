@@ -138,6 +138,7 @@ const Page = async () => {
       </div>
       {/* Tools Tabs */}
       <div className="mil-p-0-0 fix-padding-tools">
+        <div className="mil-faq mil-p-160-130" />
         <ToolsShowcase />
       </div>
       <div className="mil-faq mil-p-160-130">

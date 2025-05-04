@@ -19,9 +19,9 @@ const ToolsShowcase = () => {
   const toolsToShow = tools.slice(0, 6);
 
   return (
-    <section className="bg-green-900 py-20">
+    <section className="bg-[#e6f4ef] py-16">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="relative bg-[#e6f4ef] rounded-3xl shadow-2xl p-12">
+        <div className="relative bg-[#ffffff] rounded-3xl shadow-2xl p-12">
           {/* Título superior */}
           <h2 className="text-4xl font-extrabold text-green-900 text-center mb-4">
             Dejá que SaldoSimple haga el trabajo por vos
