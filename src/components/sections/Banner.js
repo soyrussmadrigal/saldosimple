@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 const Banner = ({
   title = "Your Ally for Financial Control",
   subTitle = "SaldoSimple",
@@ -23,18 +25,17 @@ const Banner = ({
                 >
                   Heramientas
                 </Link>
-                <a
-                  href="https://www.youtube.com/watch?v=VCEE58Oy7ig"
-                  className="mil-btn mil-md mil-light mil-add-play has-popup-video"
-                >
-                  Mejora tu Finanzas
-                </a>
               </div>
             </div>
           </div>
           <div className="col-xl-6">
             <div className="mil-banner-img">
-              <img src={img} alt="banner" style={style} />
+              <Image
+                src="/img/home-1/1.webp"
+                alt="Banner"
+                width={1200}
+                height={600}
+              />
             </div>
           </div>
         </div>
