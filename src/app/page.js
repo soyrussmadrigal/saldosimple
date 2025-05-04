@@ -8,6 +8,8 @@ import Image from "next/image";
 import { getLatestArticles } from "@/lib/sanityClient";
 import ArticlesCarousel from "@/components/sections/ArticlesCarousel";
 import ToolsShowcase from "@/components/sections/ToolsShowcase";
+import CurrencyConverter from "@/components/client/CurrencyConverter";
+
 
 const Page = async () => {
   const articles = await getLatestArticles();
@@ -136,9 +138,11 @@ const Page = async () => {
       <div className="mil-p-0-0">
         <ArticlesCarousel articles={articles} />
       </div>
+      {/* Tipo de cambio */}
+      <CurrencyConverter />
+
       {/* Tools Tabs */}
       <div className="mil-p-0-0 fix-padding-tools">
-        <div className="mil-faq mil-p-160-130" />
         <ToolsShowcase />
       </div>
       <div className="mil-faq mil-p-160-130">
