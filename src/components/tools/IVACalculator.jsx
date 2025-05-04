@@ -42,7 +42,7 @@ export default function IVACalculator() {
   useEffect(() => {
     const detectCountry = async () => {
       try {
-        const res = await fetch("https://ipapi.co/json/");
+        const res = await fetch("https://ipinfo.io/json?token=ccb7b44cb83fb2");
         const data = await res.json();
         const countryCode = data?.country?.toUpperCase();
         const match = currencyOptions.find(opt => opt.flag === countryCode.toLowerCase());
