@@ -14,7 +14,7 @@ import SEOJsonLd from "@/components/seo/SEOJsonLd";
 import FAQsSection from "@/components/post/FAQsSection";
 import SourcesBox from "@/components/post/SourcesBox";
 import FeedbackButton from "@/components/post/FeedbackButton";
-
+import SummaryButton from "@/components/post/SummaryButton"; // 👈 Botón de resumen con IA
 
 export const revalidate = 60;
 
@@ -107,7 +107,7 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  // JSON-LD: BlogPosting
+  // SEO JSON-LD schemas
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -131,10 +131,9 @@ export default async function PostPage({ params }) {
       "@type": "WebPage",
       "@id": `https://www.saldosimple.com/articulos/${post.categoria}/${post.slug.current}`,
     },
-    citation: post.sources?.map((source) => source.url), // 👈 añadido
+    citation: post.sources?.map((source) => source.url),
   };
 
-  // JSON-LD: BreadcrumbList
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -166,7 +165,6 @@ export default async function PostPage({ params }) {
     ],
   };
 
-  // JSON-LD: FAQPage (si hay FAQs)
   const faqSchema =
     post.faqs?.length > 0
       ? {
@@ -185,7 +183,6 @@ export default async function PostPage({ params }) {
 
   return (
     <>
-      {/* SEO JSON-LD */}
       <SEOJsonLd
         schemas={{
           blogPosting: blogPostingSchema,
@@ -247,31 +244,46 @@ export default async function PostPage({ params }) {
 
               <div className="mt-6">
                 <DisclaimerBox />
+                <div className="mt-4 flex justify-end">
+                  <SummaryButton
+                    content={
+                      post.content
+                        ?.map((block) =>
+                          block.children?.map((child) => child.text).join(" ")
+                        )
+                        .join(" ") || ""
+                    }
+                  />
+                </div>
               </div>
-
-              {/* Trigger para TOC */}
               <div id="toc-trigger" className="h-0"></div>
 
-              {/* Post Body */}
               <div className="mil-up mt-10" style={{ wordBreak: "break-word" }}>
                 <PortableText
                   value={post.content}
                   components={portableTextComponents}
                 />
+
+                {/* ✅ Botón que resume el contenido usando AI */}
+                <SummaryButton
+                  content={
+                    post.content
+                      ?.map((block) =>
+                        block.children?.map((child) => child.text).join(" ")
+                      )
+                      .join(" ") || ""
+                  }
+                />
               </div>
 
-              {/* FAQs Section */}
               {post.faqs?.length > 0 && <FAQsSection faqs={post.faqs} />}
 
-              {/* 📚 Sources Section */}
               {post.sources?.length > 0 && (
                 <SourcesBox sources={post.sources} />
               )}
 
-              {/* Feedback */}
-<FeedbackButton />
+              <FeedbackButton />
 
-              {/* Author Box */}
               {post.author && (
                 <div className="mt-10">
                   <AuthorBox
