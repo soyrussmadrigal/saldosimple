@@ -24,12 +24,12 @@ const ToolsShowcase = () => {
         <div className="relative bg-[#ffffff] rounded-3xl shadow-2xl p-12">
           {/* Título superior */}
           <h2 className="text-4xl font-extrabold text-green-900 text-center mb-4">
-            Dejá que SaldoSimple haga el trabajo por vos
+            Dejá que SaldoSimple haga el trabajo por usted
           </h2>
 
           <div className="text-center mb-10">
             <p className="text-lg text-green-900 font-semibold">
-              Responde un par de preguntas, obtené resultados personalizados
+              Agregamos herramientas financieras gratuitas basas en AI
             </p>
             <p className="text-green-700 mt-2">
               ¿Qué tipo de herramienta estás buscando?

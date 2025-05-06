@@ -40,7 +40,7 @@ const Page = async () => {
               <h2 className="mil-mb-30 mil-up">
                 Herramientas
                 <br />
-                Financieras
+                Financieras con AI
               </h2>
               <ul className="mil-list-1">
                 <li>
