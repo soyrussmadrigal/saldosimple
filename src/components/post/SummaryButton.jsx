@@ -1,26 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Bot, Loader2 } from "lucide-react";
 
-export default function SummaryButton({ content }) {
+// Recibe también el slug del artículo
+export default function SummaryButton({ content, slug }) {
+  const localStorageKey = `summary-${slug}`;
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [summaryGenerated, setSummaryGenerated] = useState(false); // 👈 Nuevo estado
+
+  // Al montar el componente, revisa si ya hay resumen guardado
+  useEffect(() => {
+    const saved = localStorage.getItem(localStorageKey);
+    if (saved) setSummary(saved);
+  }, [localStorageKey]);
 
   const handleSummarize = async () => {
     setLoading(true);
     setError(null);
-    setSummary(null);
 
     try {
       const res = await fetch("/api/summarize", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
       });
 
@@ -28,7 +32,7 @@ export default function SummaryButton({ content }) {
 
       const data = await res.json();
       setSummary(data.summary);
-      setSummaryGenerated(true); // 👈 Oculta el botón y muestra el aviso
+      localStorage.setItem(localStorageKey, data.summary); // Guarda en localStorage
     } catch (err) {
       setError(err.message);
     } finally {
@@ -38,8 +42,8 @@ export default function SummaryButton({ content }) {
 
   return (
     <div className="mt-8">
-      {/* Botón oculto si ya hay resumen */}
-      {!summaryGenerated && (
+      {/* Si NO hay resumen guardado, muestra el botón */}
+      {!summary && (
         <Button
           onClick={handleSummarize}
           disabled={loading}
@@ -59,21 +63,14 @@ export default function SummaryButton({ content }) {
         </Button>
       )}
 
-      {/* Mensaje si ya se generó */}
-      {summaryGenerated && (
-        <p className="text-xs text-gray-500 italic mb-2">
-          Resumen generado con AI
-        </p>
-      )}
-
-      {/* Contenido del resumen */}
+      {/* Si ya existe el resumen, muéstralo con leyenda */}
       {summary && (
-        <div className="mt-2 p-4 border border-gray-200 rounded-lg bg-gray-50 text-gray-800 text-sm leading-relaxed shadow-sm">
+        <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 text-gray-800 text-sm leading-relaxed shadow-sm">
+          <p className="text-xs text-gray-500 mb-2 font-medium">Resumen generado con AI:</p>
           {summary}
         </div>
       )}
 
-      {/* Error */}
       {error && <p className="text-sm text-red-500 mt-2">{error}</p>}
     </div>
   );

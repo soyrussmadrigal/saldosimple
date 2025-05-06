@@ -246,12 +246,25 @@ export default async function PostPage({ params }) {
                 <DisclaimerBox />
                 <div className="mt-4 flex justify-end">
                   <SummaryButton
+                    slug={post.slug.current}
                     content={
                       post.content
-                        ?.map((block) =>
-                          block.children?.map((child) => child.text).join(" ")
+                        ?.filter(
+                          (block) => block._type === "block" && block.children
                         )
-                        .join(" ") || ""
+                        .map((block) => {
+                          const text = block.children
+                            .map((child) => child.text)
+                            .join(" ");
+                          if (block.style === "h1") return `# ${text}`;
+                          if (block.style === "h2") return `## ${text}`;
+                          if (block.style === "h3") return `### ${text}`;
+                          if (block.listItem === "bullet") return `- ${text}`;
+                          if (block.listItem === "number") return `1. ${text}`;
+                          return text;
+                        })
+                        .join("\n")
+                        .trim() || ""
                     }
                   />
                 </div>
