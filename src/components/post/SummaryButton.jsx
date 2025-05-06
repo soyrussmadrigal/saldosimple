@@ -54,7 +54,7 @@ export default function SummaryButton({ content, slug }) {
             </>
           ) : (
             <>
-              <HiSparkles className="w-5 h-5 mr-2 text-yellow-400" />
+              <HiSparkles className="w-5 h-5 mr-2" style={{ fill: "white" }} />
               Resumen con AI
             </>
           )}
@@ -63,7 +63,9 @@ export default function SummaryButton({ content, slug }) {
 
       {summary && (
         <div className="mt-4 p-4 border border-gray-200 rounded-lg bg-gray-50 text-gray-800 text-sm leading-relaxed shadow-sm">
-          <p className="text-xs text-gray-500 mb-2 font-medium">Resumen generado con AI:</p>
+          <p className="text-xs text-gray-500 mb-2 font-medium">
+            Resumen generado con AI:
+          </p>
           {summary}
         </div>
       )}
