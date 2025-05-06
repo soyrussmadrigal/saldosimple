@@ -14,7 +14,7 @@ import SEOJsonLd from "@/components/seo/SEOJsonLd";
 import FAQsSection from "@/components/post/FAQsSection";
 import SourcesBox from "@/components/post/SourcesBox";
 import FeedbackButton from "@/components/post/FeedbackButton";
-import SummaryButton from "@/components/post/SummaryButton"; // 👈 Botón de resumen con IA
+import SummaryButton from "@/components/post/SummaryButton";
 
 export const revalidate = 60;
 
@@ -262,17 +262,6 @@ export default async function PostPage({ params }) {
                 <PortableText
                   value={post.content}
                   components={portableTextComponents}
-                />
-
-                {/* ✅ Botón que resume el contenido usando AI */}
-                <SummaryButton
-                  content={
-                    post.content
-                      ?.map((block) =>
-                        block.children?.map((child) => child.text).join(" ")
-                      )
-                      .join(" ") || ""
-                  }
                 />
               </div>
 

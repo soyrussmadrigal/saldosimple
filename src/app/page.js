@@ -1,3 +1,14 @@
+// app/page.js
+
+export const metadata = {
+  title: "Finanzas Personales y Herramientas con IA | SaldoSimple",
+  description:
+    "Mejora tus finanzas con artículos y herramientas inteligentes. Calculadoras, análisis y contenido optimizado con IA para tomar mejores decisiones.",
+  alternates: {
+    canonical: "https://www.saldosimple.com/",
+  },
+};
+
 import Banner from "@/components/sections/Banner";
 import { CallToAction2 } from "@/components/sections/CallToAction";
 import PlaxAccordion from "@/components/ui/PlaxAccordion";
@@ -9,7 +20,6 @@ import { getLatestArticles } from "@/lib/sanityClient";
 import ArticlesCarousel from "@/components/sections/ArticlesCarousel";
 import ToolsShowcase from "@/components/sections/ToolsShowcase";
 import CurrencyConverter from "@/components/client/CurrencyConverter";
-
 
 const Page = async () => {
   const articles = await getLatestArticles();
@@ -134,10 +144,12 @@ const Page = async () => {
           </div>
         </div>
       </div>
+
       {/* artículos recientes */}
       <div className="mil-p-0-0">
         <ArticlesCarousel articles={articles} />
       </div>
+
       {/* Tipo de cambio */}
       <CurrencyConverter />
 
@@ -145,6 +157,8 @@ const Page = async () => {
       <div className="mil-p-0-0 fix-padding-tools">
         <ToolsShowcase />
       </div>
+
+      {/* FAQs */}
       <div className="mil-faq mil-p-160-130">
         <div className="container">
           <div className="row justify-content-center">
@@ -164,9 +178,9 @@ const Page = async () => {
           </div>
         </div>
       </div>
-      {/* 
-<CallToAction2 />
-*/}
+
+      {/* CTA (desactivado por ahora) */}
+      {/* <CallToAction2 /> */}
     </PlaxLayout>
   );
 };

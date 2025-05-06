@@ -20,9 +20,10 @@ const secondaryFont = Questrial({
 });
 
 export const metadata = {
-  title: "SaldoSimple - Controla tus Finanzas",
-  description:
-    "La plataforma para calcular, comparar y entender tus finanzas en Costa Rica.",
+  title: {
+    default: "SaldoSimple",
+    template: "%s | SaldoSimple",
+  },
 };
 
 export default function RootLayout({ children }) {
