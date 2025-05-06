@@ -165,12 +165,11 @@ const Page = async () => {
             <div className="col-xl-8">
               <div className="mil-text-center">
                 <h2 className="mil-mb-30 mil-up">
-                  Explore Our Frequently <br />
-                  Asked Questions
+                  Preguntas <br />
+                  Frecuentes (FAQs)
                 </h2>
                 <p className="mil-text-m mil-soft mil-mb-60 mil-up">
-                  Find quick and clear answers to the most common <br />
-                  questions about Plax
+                Conoce más sobre SaldoSimple.com una web con herramientas basadas en AI para ayudarte a mejorar tus finanzas personales.
                 </p>
               </div>
               <PlaxAccordion />
