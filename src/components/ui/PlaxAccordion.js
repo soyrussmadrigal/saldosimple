@@ -5,24 +5,23 @@ const PlaxAccordion = ({ dark }) => {
   const accordionData = [
     {
       id: 1,
-      title: "How can I send money with Plax?",
-      desc: "Discover the step-by-step process to make money transfers easily and securely with Plax. <br /> <br /> When I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath",
+      title: "¿Qué tipos de herramientas financieras encontraré aquí?",
+      desc: "En SaldoSimple.com usted encontrará muchos tipos de herramientas financieras, desde calculadoras simples hasta sistemas de protección de inversión, tales como calculadoras de hipotecas, interés compuesto, cálculo de certificado de depósitos a plazo muchos otros tipos de herramientas del sector financiero.",
     },
     {
       id: 2,
-      title:
-        "What security measures does Plax have to protect my transactions?",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore assumenda mollitia magni quisquam incidunt necessitatibus error delectus commodi ad exercitationem, dolorem iusto placeat pariatur et aspernatur totam sapiente similique voluptatem quae sunt iste officia sint laborum eum, eos. Molestias modi aliquam accusamus dolore. Mollitia quod omnis ea fugit rem nesciunt ad provident ratione, culpa ex laudantium, enim sit ut eius.",
+      title: "¿En qué países funciona SaldoSimple?",
+      desc: "Si bien nuestros contenidos están enfocados en México, la gran mayoría de herramientas financieras pueden ser utilizadas desde otros países en LATAM, estamos en crecimiento por lo que, en 2026 estaremos creando una versión del sitio para otros países, con contenidos enfocados en cada región.",
     },
     {
       id: 3,
-      title: "What is the coverage of the Plax network?",
-      desc: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.",
+      title: "¿Son las herramientas 100% gratuitas?",
+      desc: "Sí, todas las herramientas que proveemos a nuestros lectores son gratuitas. Quizás a futuro lancemos una plataforma para el control de las finanzas personales, esta tendría un precio muy accesible. Les estaremos haciendo saber a nuestros lectores, cuando lleguen herramientas premium al sitio web.",
     },
     {
       id: 4,
-      title: "How can I contact Plax customer service?",
-      desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quo ullam maiores reiciendis, voluptatibus quae odio, accusamus facere vero consectetur! Omnis nobis voluptatum deserunt maxime, error dolor nulla, perspiciatis assumenda quisquam, fugiat magnam placeat culpa sit reprehenderit nesciunt quis praesentium! Quam ullam tempora quidem, totam autem explicabo alias, obcaecati quaerat earum nisi, asperiores ea perspiciatis iusto neque. Odit molestias voluptatem laboriosam distinctio delectus consequatur, quo nemo nihil, deleniti perspiciatis nisi itaque similique accusantium facilis asperiores dicta veniam voluptatum numquam aliquam!",
+      title: "¿Cómo puedo contactar al equipo de SaldoSimple?",
+      desc: "Para entrar en contacto puede enviarnos un email al correo: contacto@saldosimple.com ",
     },
   ];
   const [active, setActive] = useState(0);
