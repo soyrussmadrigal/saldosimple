@@ -5,6 +5,8 @@ import Link from "next/link";
 import client from "@/lib/sanityClient";
 import Pagination from "@/components/ui/Pagination";
 import Image from "next/image";
+import AnimatedPostGrid from "@/components/post/AnimatedPostGrid";
+import AnimatedSecondaryList from "@/components/post/AnimatedSecondaryList";
 
 const POSTS_PER_PAGE = 10;
 
@@ -87,9 +89,10 @@ export default async function Page({ params, searchParams }) {
             href={`/articulos/pagina/1`}
             className={`px-4 py-2 rounded-full text-sm border ${
               !categoria
-                ? "bg-blue-600 text-white"
+                ? "text-white"
                 : "bg-white text-gray-800 hover:bg-blue-50"
             }`}
+            style={!categoria ? { backgroundColor: "#0d5152" } : {}}
           >
             Todas
           </Link>
@@ -99,9 +102,10 @@ export default async function Page({ params, searchParams }) {
               href={`/articulos/pagina/1?categoria=${encodeURIComponent(cat)}`}
               className={`px-4 py-2 rounded-full text-sm border ${
                 categoria === cat
-                  ? "bg-blue-600 text-white"
+                  ? "text-white"
                   : "bg-white text-gray-800 hover:bg-blue-50"
               }`}
+              style={categoria === cat ? { backgroundColor: "#f27457" } : {}}
             >
               {cat}
             </Link>
@@ -126,7 +130,7 @@ export default async function Page({ params, searchParams }) {
                     className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-                    <span className="text-sm uppercase text-blue-400 font-semibold">
+                    <span className="text-sm uppercase font-semibold px-2 py-1 rounded-md" style={{ backgroundColor: "#0d5152" }}>
                       {featured.categoria}
                     </span>
                     <h2 className="text-2xl font-bold leading-snug mt-1">
@@ -141,41 +145,11 @@ export default async function Page({ params, searchParams }) {
             </div>
           )}
 
-          <div className="space-y-6">
-            {others.slice(0, 3).map((post) => (
-              <Link
-                key={post.slug.current}
-                href={`/articulos/${post.categoria}/${post.slug.current}`}
-                className="block p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all"
-              >
-                <span className="text-xs uppercase text-blue-600 font-medium">
-                  {post.categoria}
-                </span>
-                <h3 className="text-lg font-semibold mt-1">{post.title}</h3>
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                  {post.excerpt}
-                </p>
-              </Link>
-            ))}
-          </div>
+          <AnimatedSecondaryList posts={others.slice(0, 3)} />
         </div>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-          {others.slice(3).map((post) => (
-            <Link
-              key={post.slug.current}
-              href={`/articulos/${post.categoria}/${post.slug.current}`}
-              className="block p-5 border rounded-xl shadow-sm hover:shadow-md transition-all"
-            >
-              <span className="text-xs text-blue-500 uppercase font-medium">
-                {post.categoria}
-              </span>
-              <h4 className="text-xl font-bold mt-1">{post.title}</h4>
-              <p className="text-sm text-gray-600 mt-1 line-clamp-2">
-                {post.excerpt}
-              </p>
-            </Link>
-          ))}
+        <div className="mt-12">
+          <AnimatedPostGrid posts={others.slice(3)} />
         </div>
 
         <div className="mt-12">
