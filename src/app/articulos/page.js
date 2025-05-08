@@ -6,14 +6,16 @@ import client from "@/lib/sanityClient";
 import Pagination from "@/components/ui/Pagination";
 import Image from "next/image";
 
+
 const POSTS_PER_PAGE = 10;
 
-async function getPosts(page) {
+async function getPosts(page, categoria) {
   const start = (page - 1) * POSTS_PER_PAGE;
   const end = start + POSTS_PER_PAGE;
 
+  const filter = categoria ? `&& categoria == "${categoria}"` : "";
   const query = `
-    *[_type == "post"] | order(publishedAt desc)[${start}...${end}] {
+    *[_type == "post" ${filter}] | order(publishedAt desc)[${start}...${end}] {
       title,
       slug,
       categoria,
@@ -25,33 +27,44 @@ async function getPosts(page) {
       publishedAt
     }
   `;
-  const posts = await client.fetch(query);
-  return posts;
+  return await client.fetch(query);
 }
 
-async function getTotalPosts() {
-  const countQuery = `count(*[_type == "post"])`;
-  const total = await client.fetch(countQuery);
-  return total;
+async function getTotalPosts(categoria) {
+  const filter = categoria ? `&& categoria == "${categoria}"` : "";
+  const countQuery = `count(*[_type == "post" ${filter}])`;
+  return await client.fetch(countQuery);
 }
 
-export async function generateMetadata({ params }) {
+async function getAllCategories() {
+  const query = `array::unique(*[_type == "post"].categoria)`;
+  return await client.fetch(query);
+}
+
+export async function generateMetadata({ params, searchParams }) {
   const page = params.page || 1;
+  const categoria = searchParams?.categoria || null;
+
   return {
-    title: `Artículos de Finanzas - Página ${page} | SaldoSimple`,
-    description: `Página ${page} de artículos de finanzas, ahorro y tarjetas en Costa Rica.`,
+    title: `Artículos de Finanzas${categoria ? ` sobre ${categoria}` : ""} - Página ${page} | SaldoSimple`,
+    description: `Página ${page} de artículos de finanzas${categoria ? ` en la categoría ${categoria}` : ""}.`,
     alternates: {
-      canonical: `https://www.saldosimple.com/articulos/pagina/${page}`,
+      canonical: `https://www.saldosimple.com/articulos/pagina/${page}${categoria ? `?categoria=${categoria}` : ""}`,
     },
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   const pageNumber = parseInt(params.page) || 1;
-  const posts = await getPosts(pageNumber);
-  const totalPosts = await getTotalPosts();
-  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+  const categoria = searchParams?.categoria || null;
 
+  const [posts, totalPosts, categories] = await Promise.all([
+    getPosts(pageNumber, categoria),
+    getTotalPosts(categoria),
+    getAllCategories(),
+  ]);
+
+  const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
   const featured = posts[0];
   const others = posts.slice(1);
 
@@ -62,9 +75,30 @@ export default async function Page({ params }) {
         title="Tus fuentes de información financiera" 
       />
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* Filtros por categoría */}
+      <div className="max-w-7xl mx-auto px-6 mt-4 mb-12">
+        <div className="flex flex-wrap gap-3 items-center">
+          <Link
+            href={`/articulos/pagina/1`}
+            className={`px-4 py-2 rounded-full text-sm border ${!categoria ? "bg-blue-600 text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+          >
+            Todas
+          </Link>
+          {categories.map((cat) => (
+            <Link
+              key={cat}
+              href={`/articulos/pagina/1?categoria=${encodeURIComponent(cat)}`}
+              className={`px-4 py-2 rounded-full text-sm border ${categoria === cat ? "bg-blue-600 text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+            >
+              {cat}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid editorial */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
         <div className="grid gap-10 lg:grid-cols-3">
-          {/* Artículo destacado */}
           {featured && (
             <div className="lg:col-span-2">
               <Link href={`/articulos/${featured.categoria}/${featured.slug.current}`}>
@@ -90,7 +124,6 @@ export default async function Page({ params }) {
             </div>
           )}
 
-          {/* Artículos secundarios */}
           <div className="space-y-6">
             {others.slice(0, 3).map((post) => (
               <Link
@@ -108,7 +141,6 @@ export default async function Page({ params }) {
           </div>
         </div>
 
-        {/* Artículos adicionales */}
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {others.slice(3).map((post) => (
             <Link
@@ -125,7 +157,6 @@ export default async function Page({ params }) {
           ))}
         </div>
 
-        {/* Paginación */}
         <div className="mt-12">
           <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
