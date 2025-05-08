@@ -1,8 +1,10 @@
+// src/app/articulos/pagina/[page]/page.jsx
 import { PageBanner } from "@/components/sections/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
 import client from "@/lib/sanityClient";
 import Pagination from "@/components/ui/Pagination";
+import Image from "next/image";
 
 const POSTS_PER_PAGE = 10;
 
@@ -17,7 +19,8 @@ async function getPosts(page) {
       categoria,
       excerpt,
       coverImage {
-        asset->{ url }
+        asset->{ url },
+        alt
       },
       publishedAt
     }
@@ -49,6 +52,9 @@ export default async function Page({ params }) {
   const totalPosts = await getTotalPosts();
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
+  const featured = posts[0];
+  const others = posts.slice(1);
+
   return (
     <PlaxLayout>
       <PageBanner 
@@ -56,44 +62,71 @@ export default async function Page({ params }) {
         title="Tus fuentes de información financiera" 
       />
 
-      <div className="mil-blog-list mil-p-0-160">
-        <div className="container">
-          <div className="row">
-            {posts.length > 0 ? (
-              posts.map((post) => (
-                <div key={post.slug.current} className="col-xl-4 col-md-6">
-                  <Link
-                    href={`/articulos/${post.categoria}/${post.slug.current}`}
-                    className="mil-blog-card mil-mb-30 mil-up"
-                  >
-                    <div className="mil-card-cover">
-                      {post.coverImage?.asset?.url ? (
-                        <img
-                          src={post.coverImage.asset.url}
-                          alt={post.title}
-                          className="mil-scale-img"
-                          data-value-1={1}
-                          data-value-2="1.2"
-                        />
-                      ) : (
-                        <div style={{ height: "300px", backgroundColor: "#f0f0f0" }} />
-                      )}
-                    </div>
-                    <div className="mil-descr">
-                      <p className="mil-text-xs mil-accent mil-mb-15">{post.categoria}</p>
-                      <h4>{post.title}</h4>
-                    </div>
-                  </Link>
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid gap-10 lg:grid-cols-3">
+          {/* Artículo destacado */}
+          {featured && (
+            <div className="lg:col-span-2">
+              <Link href={`/articulos/${featured.categoria}/${featured.slug.current}`}>
+                <div className="relative rounded-3xl overflow-hidden shadow-lg group">
+                  <Image
+                    src={featured.coverImage?.asset?.url || "/placeholder.jpg"}
+                    alt={featured.coverImage?.alt || featured.title}
+                    width={800}
+                    height={450}
+                    className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                  <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                    <span className="text-sm uppercase text-blue-400 font-semibold">
+                      {featured.categoria}
+                    </span>
+                    <h2 className="text-2xl font-bold leading-snug mt-1">
+                      {featured.title}
+                    </h2>
+                    <p className="text-sm mt-2 line-clamp-2 max-w-xl">{featured.excerpt}</p>
+                  </div>
                 </div>
-              ))
-            ) : (
-              <div className="col-12 text-center">
-                <p>No hay artículos disponibles.</p>
-              </div>
-            )}
-          </div>
+              </Link>
+            </div>
+          )}
 
-          {/* Paginación */}
+          {/* Artículos secundarios */}
+          <div className="space-y-6">
+            {others.slice(0, 3).map((post) => (
+              <Link
+                key={post.slug.current}
+                href={`/articulos/${post.categoria}/${post.slug.current}`}
+                className="block p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all"
+              >
+                <span className="text-xs uppercase text-blue-600 font-medium">
+                  {post.categoria}
+                </span>
+                <h3 className="text-lg font-semibold mt-1">{post.title}</h3>
+                <p className="text-sm text-gray-600 mt-1 line-clamp-2">{post.excerpt}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Artículos adicionales */}
+        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          {others.slice(3).map((post) => (
+            <Link
+              key={post.slug.current}
+              href={`/articulos/${post.categoria}/${post.slug.current}`}
+              className="block p-5 border rounded-xl shadow-sm hover:shadow-md transition-all"
+            >
+              <span className="text-xs text-blue-500 uppercase font-medium">
+                {post.categoria}
+              </span>
+              <h4 className="text-xl font-bold mt-1">{post.title}</h4>
+              <p className="text-sm text-gray-600 mt-1 line-clamp-2">{post.excerpt}</p>
+            </Link>
+          ))}
+        </div>
+
+        {/* Paginación */}
+        <div className="mt-12">
           <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
       </div>
