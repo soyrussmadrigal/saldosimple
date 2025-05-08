@@ -6,7 +6,6 @@ import client from "@/lib/sanityClient";
 import Pagination from "@/components/ui/Pagination";
 import Image from "next/image";
 
-
 const POSTS_PER_PAGE = 10;
 
 async function getPosts(page, categoria) {
@@ -46,10 +45,16 @@ export async function generateMetadata({ params, searchParams }) {
   const categoria = searchParams?.categoria || null;
 
   return {
-    title: `Artículos de Finanzas${categoria ? ` sobre ${categoria}` : ""} - Página ${page} | SaldoSimple`,
-    description: `Página ${page} de artículos de finanzas${categoria ? ` en la categoría ${categoria}` : ""}.`,
+    title: `Artículos de Finanzas${
+      categoria ? ` sobre ${categoria}` : ""
+    } - Página ${page} | SaldoSimple`,
+    description: `Página ${page} de artículos de finanzas${
+      categoria ? ` en la categoría ${categoria}` : ""
+    }.`,
     alternates: {
-      canonical: `https://www.saldosimple.com/articulos/pagina/${page}${categoria ? `?categoria=${categoria}` : ""}`,
+      canonical: `https://www.saldosimple.com/articulos/pagina/${page}${
+        categoria ? `?categoria=${categoria}` : ""
+      }`,
     },
   };
 }
@@ -70,9 +75,9 @@ export default async function Page({ params, searchParams }) {
 
   return (
     <PlaxLayout>
-      <PageBanner 
-        pageName={`Artículos - Página ${pageNumber}`} 
-        title="Tus fuentes de información financiera" 
+      <PageBanner
+        pageName={`Artículos - Página ${pageNumber}`}
+        title="Tus fuentes de información financiera"
       />
 
       {/* Filtros por categoría */}
@@ -80,7 +85,11 @@ export default async function Page({ params, searchParams }) {
         <div className="flex flex-wrap gap-3 items-center">
           <Link
             href={`/articulos/pagina/1`}
-            className={`px-4 py-2 rounded-full text-sm border ${!categoria ? "bg-blue-600 text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+            className={`px-4 py-2 rounded-full text-sm border ${
+              !categoria
+                ? "bg-blue-600 text-white"
+                : "bg-white text-gray-800 hover:bg-blue-50"
+            }`}
           >
             Todas
           </Link>
@@ -88,7 +97,11 @@ export default async function Page({ params, searchParams }) {
             <Link
               key={cat}
               href={`/articulos/pagina/1?categoria=${encodeURIComponent(cat)}`}
-              className={`px-4 py-2 rounded-full text-sm border ${categoria === cat ? "bg-blue-600 text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+              className={`px-4 py-2 rounded-full text-sm border ${
+                categoria === cat
+                  ? "bg-blue-600 text-white"
+                  : "bg-white text-gray-800 hover:bg-blue-50"
+              }`}
             >
               {cat}
             </Link>
@@ -101,7 +114,9 @@ export default async function Page({ params, searchParams }) {
         <div className="grid gap-10 lg:grid-cols-3">
           {featured && (
             <div className="lg:col-span-2">
-              <Link href={`/articulos/${featured.categoria}/${featured.slug.current}`}>
+              <Link
+                href={`/articulos/${featured.categoria}/${featured.slug.current}`}
+              >
                 <div className="relative rounded-3xl overflow-hidden shadow-lg group">
                   <Image
                     src={featured.coverImage?.asset?.url || "/placeholder.jpg"}
@@ -117,7 +132,9 @@ export default async function Page({ params, searchParams }) {
                     <h2 className="text-2xl font-bold leading-snug mt-1">
                       {featured.title}
                     </h2>
-                    <p className="text-sm mt-2 line-clamp-2 max-w-xl">{featured.excerpt}</p>
+                    <p className="text-sm mt-2 line-clamp-2 max-w-xl">
+                      {featured.excerpt}
+                    </p>
                   </div>
                 </div>
               </Link>
@@ -135,7 +152,9 @@ export default async function Page({ params, searchParams }) {
                   {post.categoria}
                 </span>
                 <h3 className="text-lg font-semibold mt-1">{post.title}</h3>
-                <p className="text-sm text-gray-600 mt-1 line-clamp-2">{post.excerpt}</p>
+                <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                  {post.excerpt}
+                </p>
               </Link>
             ))}
           </div>
@@ -152,7 +171,9 @@ export default async function Page({ params, searchParams }) {
                 {post.categoria}
               </span>
               <h4 className="text-xl font-bold mt-1">{post.title}</h4>
-              <p className="text-sm text-gray-600 mt-1 line-clamp-2">{post.excerpt}</p>
+              <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                {post.excerpt}
+              </p>
             </Link>
           ))}
         </div>
