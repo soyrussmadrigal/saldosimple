@@ -1,17 +1,18 @@
 import Link from "next/link";
 import Image from "next/image";
 
+// 🔵 Banner principal para el home
 const Banner = ({
   title = "Your Ally for Financial Control",
   subTitle = "SaldoSimple",
-  img = "img/home-2/1.png",
-  style = { maxWidth: "135%", transform: "translateX(5%)" },
+  img = "/img/home-1/1.webp", // Imagen principal
   dark = false,
 }) => {
   return (
     <div className={`mil-banner mil-dissolve ${dark ? "mil-dark-2" : ""}`}>
       <div className="container">
         <div className="row align-items-center">
+          {/* Texto */}
           <div className="col-xl-6">
             <div className="mil-banner-text">
               <h6 className="mil-text-gradient-2 mil-mb-20">{subTitle}</h6>
@@ -28,13 +29,17 @@ const Banner = ({
               </div>
             </div>
           </div>
+
+          {/* Imagen sin flash */}
           <div className="col-xl-6">
-            <div className="mil-banner-img">
+            <div className="mil-banner-img relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
               <Image
-                src="/img/home-1/1.webp"
+                src={img}
                 alt="Banner"
-                width={1200}
-                height={600}
+                fill
+                className="object-cover rounded-xl"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                priority
               />
             </div>
           </div>
@@ -46,6 +51,7 @@ const Banner = ({
 
 export default Banner;
 
+// 🔶 Banner reutilizable con breadcrumb dinámico
 export const PageBanner = ({ title, categoria = null }) => {
   return (
     <div className="mil-banner mil-banner-inner mil-dissolve">
@@ -57,7 +63,11 @@ export const PageBanner = ({ title, categoria = null }) => {
               <ul className="mil-breadcrumbs mil-center">
                 <li><Link href="/">Inicio</Link></li>
                 <li><Link href="/articulos/pagina/1">Artículos</Link></li>
-                {categoria && <li className="capitalize">{decodeURIComponent(categoria)}</li>}
+                {categoria && (
+                  <li className="capitalize">
+                    {decodeURIComponent(categoria)}
+                  </li>
+                )}
               </ul>
             </div>
           </div>

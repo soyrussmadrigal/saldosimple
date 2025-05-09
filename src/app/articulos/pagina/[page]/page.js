@@ -34,6 +34,11 @@ async function getTotalPosts(categoria) {
   return await client.fetch(countQuery);
 }
 
+async function getAllCategories() {
+  const query = `array::unique(*[_type == "post"].categoria)`;
+  return await client.fetch(query);
+}
+
 export async function generateMetadata({ params, searchParams }) {
   const page = params.page || 1;
   const categoria = searchParams?.categoria || null;
@@ -51,62 +56,78 @@ export default async function Page({ params, searchParams }) {
   const pageNumber = parseInt(params.page) || 1;
   const categoria = searchParams?.categoria || null;
 
-  const [posts, totalPosts] = await Promise.all([
+  const [posts, totalPosts, categories] = await Promise.all([
     getPosts(pageNumber, categoria),
     getTotalPosts(categoria),
+    getAllCategories(),
   ]);
 
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   return (
     <PlaxLayout>
-      <PageBanner
-        title="Tus fuentes de información financiera"
-        categoria={categoria}
-      />
+      <PageBanner title="Tus fuentes de información financiera" categoria={categoria} />
 
-      <div className="mil-blog-list mil-p-0-160">
-        <div className="container">
-          <div className="row">
-            {posts.length > 0 ? (
-              posts.map((post) => (
-                <div key={post.slug.current} className="col-xl-4 col-md-6">
-                  <Link
-                    href={`/articulos/${post.categoria}/${post.slug.current}`}
-                    className="mil-blog-card mil-mb-30 mil-up"
-                  >
-                    <div className="mil-card-cover relative w-full h-[250px] overflow-hidden rounded-xl">
-                      {post.coverImage?.asset?.url ? (
-                        <Image
-                          src={post.coverImage.asset.url}
-                          alt={post.title}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                          priority={false}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                          Sin imagen
-                        </div>
-                      )}
-                    </div>
-                    <div className="mil-descr">
-                      <p className="mil-text-xs mil-accent mil-mb-15">
-                        {post.categoria}
-                      </p>
-                      <h4>{post.title}</h4>
-                    </div>
-                  </Link>
-                </div>
-              ))
-            ) : (
-              <div className="col-12 text-center">
-                <p>No hay artículos disponibles para esta categoría.</p>
+      {/* Filtros por categoría */}
+      <div className="max-w-7xl mx-auto px-6 mt-4 mb-12">
+        <div className="flex flex-wrap gap-3 items-center">
+          <Link
+            href={`/articulos/pagina/1`}
+            className={`px-4 py-2 rounded-full text-sm border ${!categoria ? "text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+            style={!categoria ? { backgroundColor: "#0d5152" } : {}}
+          >
+            Todas
+          </Link>
+          {categories.map((cat) => (
+            <Link
+              key={cat}
+              href={`/articulos/pagina/1?categoria=${encodeURIComponent(cat)}`}
+              className={`px-4 py-2 rounded-full text-sm border ${categoria === cat ? "text-white" : "bg-white text-gray-800 hover:bg-blue-50"}`}
+              style={categoria === cat ? { backgroundColor: "#f27457" } : {}}
+            >
+              {cat}
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid de artículos */}
+      <div className="max-w-7xl mx-auto px-6 py-6">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <div key={post.slug.current} className="mil-blog-card mil-up rounded-xl overflow-hidden shadow-md bg-white">
+                <Link href={`/articulos/${post.categoria}/${post.slug.current}`}>
+                  <div className="relative w-full h-[200px]">
+                    {post.coverImage?.asset?.url ? (
+                      <Image
+                        src={post.coverImage.asset.url}
+                        alt={post.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                        Sin imagen
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-5">
+                    <span className="text-sm font-medium text-gray-500">{post.categoria}</span>
+                    <h3 className="text-lg font-semibold text-gray-900 mt-2 line-clamp-2">{post.title}</h3>
+                    <p className="text-sm text-gray-700 mt-2 line-clamp-3">{post.excerpt}</p>
+                  </div>
+                </Link>
               </div>
-            )}
-          </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center text-gray-500">No hay artículos disponibles.</div>
+          )}
+        </div>
 
+        {/* Paginación */}
+        <div className="mt-16">
           <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
       </div>

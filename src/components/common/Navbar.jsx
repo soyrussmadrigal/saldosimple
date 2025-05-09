@@ -8,9 +8,6 @@ const Navbar = ({ dark }) => {
   const currentPath = usePathname();
   const [toggle, setToggle] = useState(false);
 
-  const isActive = (routes) =>
-    routes.some((route) => currentPath.includes(route)) ? "mil-active" : "";
-
   const handleLinkClick = () => {
     setToggle(false);
   };
@@ -40,19 +37,19 @@ const Navbar = ({ dark }) => {
               </Link>
             </li>
 
-            <li className={isActive(["articulos", "publication"])}>
+            <li className={currentPath.startsWith("/articulos") ? "mil-active" : ""}>
               <Link href="/articulos" onClick={handleLinkClick}>
                 Artículos
               </Link>
             </li>
 
-            <li className={isActive(["articulos", "publication"])}>
+            <li className={currentPath.startsWith("/herramientas") ? "mil-active" : ""}>
               <Link href="/herramientas" onClick={handleLinkClick}>
                 Herramientas
               </Link>
             </li>
 
-            <li className={isActive(["contact"])}>
+            <li className={currentPath.startsWith("/contact") ? "mil-active" : ""}>
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto
               </Link>
