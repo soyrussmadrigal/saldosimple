@@ -169,7 +169,8 @@ const Page = async () => {
                   Frecuentes (FAQs)
                 </h2>
                 <p className="mil-text-m mil-soft mil-mb-60 mil-up">
-                Conoce más sobre SaldoSimple.com una web con herramientas basadas en AI para ayudarte a mejorar tus finanzas personales.
+                  Conoce más sobre SaldoSimple.com una web con herramientas
+                  basadas en AI para ayudarte a mejorar tus finanzas personales.
                 </p>
               </div>
               <PlaxAccordion />
