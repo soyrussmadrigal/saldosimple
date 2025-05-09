@@ -28,7 +28,7 @@ const Page = async () => {
     <PlaxLayout bg={false}>
       <Banner
         title="Finanzas inteligentes"
-        img="img/home-1/1.webp"
+        img="/img/home-1/1.webp"
         style={{ maxWidth: "125%", transform: "translateX(10%)" }}
       />
 
