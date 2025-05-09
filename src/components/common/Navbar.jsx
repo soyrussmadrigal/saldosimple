@@ -14,7 +14,9 @@ const Navbar = ({ dark }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 ${dark ? "mil-dark-2" : "bg-white shadow"}`}
+      className={`fixed top-0 left-0 w-full z-50 ${
+        dark ? "mil-dark-2" : "bg-white shadow"
+      }`}
       style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50 }}
     >
       <div className="container flex items-center justify-between py-4">
@@ -37,19 +39,29 @@ const Navbar = ({ dark }) => {
               </Link>
             </li>
 
-            <li className={currentPath.startsWith("/articulos") ? "mil-active" : ""}>
+            <li
+              className={
+                currentPath.startsWith("/articulos") ? "mil-active" : ""
+              }
+            >
               <Link href="/articulos" onClick={handleLinkClick}>
                 Artículos
               </Link>
             </li>
 
-            <li className={currentPath.startsWith("/herramientas") ? "mil-active" : ""}>
+            <li
+              className={
+                currentPath.startsWith("/herramientas") ? "mil-active" : ""
+              }
+            >
               <Link href="/herramientas" onClick={handleLinkClick}>
                 Herramientas
               </Link>
             </li>
 
-            <li className={currentPath.startsWith("/contact") ? "mil-active" : ""}>
+            <li
+              className={currentPath.startsWith("/contact") ? "mil-active" : ""}
+            >
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto
               </Link>
