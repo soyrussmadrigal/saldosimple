@@ -62,7 +62,7 @@ export const PageBanner = ({ title, categoria = null }) => {
               <h1 className="mil-mb-20">{title}</h1>
               <ul className="mil-breadcrumbs mil-center">
                 <li><Link href="/">Inicio</Link></li>
-                <li><Link href="/articulos/pagina/1">Artículos</Link></li>
+                <li><Link href="/articulos">Artículos</Link></li>
                 {categoria && (
                   <li className="capitalize">
                     {decodeURIComponent(categoria)}
