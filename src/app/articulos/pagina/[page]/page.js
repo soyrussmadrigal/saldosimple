@@ -1,17 +1,19 @@
 import { PageBanner } from "@/components/sections/Banner";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import Link from "next/link";
+import Image from "next/image";
 import client from "@/lib/sanityClient";
-import Pagination from "@/components/ui/Pagination"; // Nuevo import
+import Pagination from "@/components/ui/Pagination";
 
 const POSTS_PER_PAGE = 10;
 
-async function getPosts(page) {
+async function getPosts(page, categoria) {
   const start = (page - 1) * POSTS_PER_PAGE;
   const end = start + POSTS_PER_PAGE;
 
+  const filter = categoria ? `&& categoria == "${categoria}"` : "";
   const query = `
-    *[_type == "post"] | order(publishedAt desc)[${start}...${end}] {
+    *[_type == "post" ${filter}] | order(publishedAt desc)[${start}...${end}] {
       title,
       slug,
       categoria,
@@ -23,41 +25,46 @@ async function getPosts(page) {
     }
   `;
 
-  const posts = await client.fetch(query);
-  return posts;
+  return await client.fetch(query);
 }
 
-async function getTotalPosts() {
-  const countQuery = `count(*[_type == "post"])`;
-  const total = await client.fetch(countQuery);
-  return total;
+async function getTotalPosts(categoria) {
+  const filter = categoria ? `&& categoria == "${categoria}"` : "";
+  const countQuery = `count(*[_type == "post" ${filter}])`;
+  return await client.fetch(countQuery);
 }
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata({ params, searchParams }) {
   const page = params.page || 1;
+  const categoria = searchParams?.categoria || null;
+
   return {
-    title: `Artículos de Finanzas - Página ${page} | SaldoSimple`,
-    description: `Página ${page} de artículos de finanzas, ahorro y tarjetas en Costa Rica.`,
+    title: `Artículos de Finanzas${categoria ? ` sobre ${categoria}` : ""} - Página ${page} | SaldoSimple`,
+    description: `Página ${page} de artículos de finanzas${categoria ? ` en la categoría ${categoria}` : ""}.`,
     alternates: {
-      canonical: `https://www.saldosimple.com/articulos/pagina/${page}`,
+      canonical: `https://www.saldosimple.com/articulos/pagina/${page}${categoria ? `?categoria=${categoria}` : ""}`,
     },
   };
 }
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   const pageNumber = parseInt(params.page) || 1;
-  const posts = await getPosts(pageNumber);
-  const totalPosts = await getTotalPosts();
+  const categoria = searchParams?.categoria || null;
+
+  const [posts, totalPosts] = await Promise.all([
+    getPosts(pageNumber, categoria),
+    getTotalPosts(categoria),
+  ]);
+
   const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
 
   return (
     <PlaxLayout>
       <PageBanner
-        pageName={`Artículos - Página ${pageNumber}`}
         title="Tus fuentes de información financiera"
+        categoria={categoria}
       />
 
-      {/* blog list */}
       <div className="mil-blog-list mil-p-0-160">
         <div className="container">
           <div className="row">
@@ -68,22 +75,20 @@ export default async function Page({ params }) {
                     href={`/articulos/${post.categoria}/${post.slug.current}`}
                     className="mil-blog-card mil-mb-30 mil-up"
                   >
-                    <div className="mil-card-cover">
+                    <div className="mil-card-cover relative w-full h-[250px] overflow-hidden rounded-xl">
                       {post.coverImage?.asset?.url ? (
-                        <img
+                        <Image
                           src={post.coverImage.asset.url}
                           alt={post.title}
-                          className="mil-scale-img"
-                          data-value-1={1}
-                          data-value-2="1.2"
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          priority={false}
                         />
                       ) : (
-                        <div
-                          style={{
-                            height: "300px",
-                            backgroundColor: "#f0f0f0",
-                          }}
-                        />
+                        <div className="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                          Sin imagen
+                        </div>
                       )}
                     </div>
                     <div className="mil-descr">
@@ -97,12 +102,11 @@ export default async function Page({ params }) {
               ))
             ) : (
               <div className="col-12 text-center">
-                <p>No hay artículos disponibles.</p>
+                <p>No hay artículos disponibles para esta categoría.</p>
               </div>
             )}
           </div>
 
-          {/* Paginación */}
           <Pagination currentPage={pageNumber} totalPages={totalPages} />
         </div>
       </div>

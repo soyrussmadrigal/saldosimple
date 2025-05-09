@@ -20,10 +20,10 @@ const Banner = ({
               </h1>
               <div className="mil-buttons-frame">
                 <Link
-                  href="herramientas"
+                  href="/herramientas"
                   className="mil-btn mil-md mil-add-arrow"
                 >
-                  Heramientas
+                  Herramientas
                 </Link>
               </div>
             </div>
@@ -43,27 +43,21 @@ const Banner = ({
     </div>
   );
 };
+
 export default Banner;
 
-export const PageBanner = ({
-  title = "More than a Platform, a Financial Revolution",
-  pageName = "About us",
-}) => {
+export const PageBanner = ({ title, categoria = null }) => {
   return (
     <div className="mil-banner mil-banner-inner mil-dissolve">
       <div className="container">
         <div className="row align-items-center justify-content-center">
           <div className="col-xl-8">
             <div className="mil-banner-text mil-text-center">
-              <div className="mil-text-m mil-mb-20">{pageName}</div>
-              <h1 className="mil-mb-60">{title}</h1>
+              <h1 className="mil-mb-20">{title}</h1>
               <ul className="mil-breadcrumbs mil-center">
-                <li>
-                  <Link href="/">Home</Link>
-                </li>
-                <li>
-                  <a href="#">{pageName}</a>
-                </li>
+                <li><Link href="/">Inicio</Link></li>
+                <li><Link href="/articulos/pagina/1">Artículos</Link></li>
+                {categoria && <li className="capitalize">{decodeURIComponent(categoria)}</li>}
               </ul>
             </div>
           </div>

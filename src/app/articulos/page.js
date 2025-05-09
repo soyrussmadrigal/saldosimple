@@ -78,9 +78,9 @@ export default async function Page({ params, searchParams }) {
   return (
     <PlaxLayout>
       <PageBanner
-        pageName={`Artículos - Página ${pageNumber}`}
-        title="Tus fuentes de información financiera"
-      />
+  title="Tus fuentes de información financiera"
+  categoria={categoria || null}
+/>
 
       {/* Filtros por categoría */}
       <div className="max-w-7xl mx-auto px-6 mt-4 mb-12">
@@ -130,7 +130,10 @@ export default async function Page({ params, searchParams }) {
                     className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
-                    <span className="text-sm uppercase font-semibold px-2 py-1 rounded-md" style={{ backgroundColor: "#0d5152" }}>
+                    <span
+                      className="text-sm uppercase font-semibold px-2 py-1 rounded-md"
+                      style={{ backgroundColor: "#0d5152" }}
+                    >
                       {featured.categoria}
                     </span>
                     <h2 className="text-2xl font-bold leading-snug mt-1">
