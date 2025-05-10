@@ -6,19 +6,22 @@ import Link from "next/link";
 const tools = [
   {
     title: "Calculadora de IVA",
-    description: "Calculá el impuesto sobre el valor agregado de forma rápida y precisa.",
+    description:
+      "Calculá el impuesto sobre el valor agregado de forma rápida y precisa.",
     href: "/herramientas/calculadora-iva",
     icon: Calculator,
   },
   {
     title: "Calculadora de Ahorro",
-    description: "Proyectá tus ahorros a lo largo del tiempo y alcanzá tus metas financieras.",
+    description:
+      "Proyectá tus ahorros a lo largo del tiempo y alcanzá tus metas financieras.",
     href: "/herramientas/calculadora-ahorro",
     icon: PiggyBank,
   },
   {
     title: "Simulador de Interés",
-    description: "Calculá intereses simples o compuestos para tus inversiones o préstamos.",
+    description:
+      "Calculá intereses simples o compuestos para tus inversiones o préstamos.",
     href: "/herramientas/simulador-interes",
     icon: PercentCircle,
   },
@@ -27,6 +30,9 @@ const tools = [
 export const metadata = {
   title: "Herramientas Financieras | SaldoSimple",
   description: "Explorá nuestras herramientas para calcular IVA, ahorrar y tomar mejores decisiones financieras.",
+  alternates: {
+    canonical: "https://www.saldosimple.com/herramientas",
+  },
 };
 
 export default function HerramientasPage() {

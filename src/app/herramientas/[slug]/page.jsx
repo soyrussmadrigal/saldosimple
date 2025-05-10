@@ -7,7 +7,13 @@ import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 
-// ⬇️ Genera dinámicamente meta title, description y canonical
+// 🧠 Mapa de componentes por slug
+const toolMap = {
+  "calculadora-iva": IVACalculator,
+  // Ejemplo de futuros:
+  // "interes-compuesto": InterestCalculator,
+};
+
 export async function generateMetadata({ params }) {
   const data = await getToolPageData(params.slug);
 
@@ -20,12 +26,9 @@ export async function generateMetadata({ params }) {
 
   return {
     title: data.metaTitle || data.title,
-    description:
-      data.metaDescription || "Explora esta herramienta financiera gratuita.",
+    description: data.metaDescription || "Explora esta herramienta financiera gratuita.",
     alternates: {
-      canonical:
-        data.canonicalUrl ||
-        `https://www.saldosimple.com/herramientas/${params.slug}`,
+      canonical: data.canonicalUrl || `https://www.saldosimple.com/herramientas/${params.slug}`,
     },
   };
 }
@@ -35,6 +38,9 @@ export default async function ToolPage({ params }) {
 
   if (!data)
     return <div className="text-center py-20">Contenido no encontrado</div>;
+
+  // 🔁 Buscar componente correspondiente en el mapa
+  const ToolComponent = toolMap[params.slug];
 
   return (
     <>
@@ -47,8 +53,7 @@ export default async function ToolPage({ params }) {
             applicationCategory: "Finanzas",
             operatingSystem: "All",
             url: `https://www.saldosimple.com/herramientas/${params.slug}`,
-            description:
-              "Herramienta financiera gratuita para cálculos rápidos. Contenido y preguntas frecuentes dinámicas desde Sanity.",
+            description: "Herramienta financiera gratuita para cálculos rápidos. Contenido y preguntas frecuentes dinámicas desde Sanity.",
             inLanguage: "es",
             dateModified: new Date().toISOString().split("T")[0],
             offers: {
@@ -108,14 +113,14 @@ export default async function ToolPage({ params }) {
           </div>
         </section>
 
-        {/* Renderiza herramientas específicas */}
-        {params.slug === "calculadora-iva" && (
+        {/* Renderiza herramienta funcional si existe */}
+        {ToolComponent && (
           <div className="container max-w-xl mx-auto mb-16">
-            <IVACalculator />
+            <ToolComponent />
           </div>
         )}
 
-        {/* Contenido dinámico desde Sanity */}
+        {/* Contenido desde Sanity */}
         {data.content && (
           <section className="px-6 pb-2 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
             <PortableText
@@ -123,14 +128,8 @@ export default async function ToolPage({ params }) {
               components={{
                 block: {
                   normal: ({ children }) => <p className="mb-4">{children}</p>,
-                  h2: ({ children }) => (
-                    <h2 className="text-xl font-bold mt-6 mb-2">{children}</h2>
-                  ),
-                  h3: ({ children }) => (
-                    <h3 className="text-lg font-semibold mt-5 mb-2">
-                      {children}
-                    </h3>
-                  ),
+                  h2: ({ children }) => <h2 className="text-xl font-bold mt-6 mb-2">{children}</h2>,
+                  h3: ({ children }) => <h3 className="text-lg font-semibold mt-5 mb-2">{children}</h3>,
                 },
               }}
             />
