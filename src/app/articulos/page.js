@@ -78,7 +78,7 @@ export default async function Page({ params, searchParams }) {
   return (
     <PlaxLayout>
       <PageBanner
-        title="Tus fuentes de información financiera"
+        title="Artículos"
         categoria={categoria || null}
       />
 
