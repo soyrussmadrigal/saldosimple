@@ -1,40 +1,31 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Dialog,
-  Flex,
-  Stack,
-  Text,
-  TextInput,
-} from "@sanity/ui";
-import { set, unset } from "sanity";
-import { iconOptions } from "../lib/iconOptions"; // Asegurate que esta ruta sea correcta
+import React, {useState} from 'react'
+import {Box, Button, Card, Dialog, Flex, Stack, Text, TextInput} from '@sanity/ui'
+import {set, unset} from 'sanity'
+import {iconOptions} from '../lib/iconOptions' // Asegurate que esta ruta sea correcta
 
-export default function IconDropdown({ value, onChange }) {
-  const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
+export default function IconDropdown({value, onChange}) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
 
-  const selected = iconOptions.find((opt) => opt.value === value);
+  const selected = iconOptions.find((opt) => opt.value === value)
   const filteredOptions = iconOptions.filter((opt) =>
-    opt.label.toLowerCase().includes(query.toLowerCase())
-  );
+    opt.label.toLowerCase().includes(query.toLowerCase()),
+  )
 
   const handleSelect = (val) => {
-    setOpen(false);
-    if (val === "__clear__") {
-      onChange(unset());
+    setOpen(false)
+    if (val === '__clear__') {
+      onChange(unset())
     } else {
-      onChange(set(val));
+      onChange(set(val))
     }
-  };
+  }
 
   return (
     <Box>
       <Button
-        text={selected ? selected.label : "Seleccioná un ícono"}
-        icon={selected?.icon ? () => <selected.icon className="h-5 w-5" /> : undefined}
+        text={selected ? selected.label : 'Seleccioná un ícono'}
+        icon={selected?.icon ? () => <selected.icon style={{width: 24, height: 24}} /> : undefined}
         tone="primary"
         onClick={() => setOpen(true)}
       />
@@ -53,23 +44,20 @@ export default function IconDropdown({ value, onChange }) {
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
               />
-              <Box style={{ maxHeight: "60vh", overflowY: "auto" }}>
+              <Box style={{maxHeight: '60vh', overflowY: 'auto'}}>
                 <Flex wrap="wrap" gap={4}>
-                  {filteredOptions.map(({ label, value: val, icon: Icon }) => (
+                  {filteredOptions.map(({label, value: val, icon: Icon}) => (
                     <Card
                       key={val}
                       padding={3}
                       radius={2}
                       shadow={1}
-                      tone={value === val ? "primary" : "default"}
+                      tone={value === val ? 'primary' : 'default'}
                       style={{
-                        cursor: "pointer",
+                        cursor: 'pointer',
                         width: 100,
-                        textAlign: "center",
-                        border:
-                          value === val
-                            ? "2px solid #0EA5E9"
-                            : "1px solid #e5e7eb",
+                        textAlign: 'center',
+                        border: value === val ? '2px solid #0EA5E9' : '1px solid #e5e7eb',
                       }}
                       onClick={() => handleSelect(val)}
                     >
@@ -86,12 +74,12 @@ export default function IconDropdown({ value, onChange }) {
                     shadow={1}
                     tone="critical"
                     style={{
-                      cursor: "pointer",
+                      cursor: 'pointer',
                       width: 100,
-                      textAlign: "center",
-                      border: "1px dashed #f87171",
+                      textAlign: 'center',
+                      border: '1px dashed #f87171',
                     }}
-                    onClick={() => handleSelect("__clear__")}
+                    onClick={() => handleSelect('__clear__')}
                   >
                     <Flex direction="column" align="center" gap={2}>
                       <Text size={2}>✖</Text>
@@ -105,5 +93,5 @@ export default function IconDropdown({ value, onChange }) {
         </Dialog>
       )}
     </Box>
-  );
+  )
 }
