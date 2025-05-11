@@ -1,16 +1,8 @@
 import { getAllTools } from "@/lib/queries/toolPage";
-import { Calculator, PiggyBank, PercentCircle } from "lucide-react";
+import * as HeroIcons from "@heroicons/react/24/outline"; // Importa todos los íconos de Heroicons
 import PlaxLayout from "@/layouts/PlaxLayout";
 import { PageBanner } from "@/components/sections/Banner";
 import Link from "next/link";
-
-// Mapeo de nombre → componente real
-const iconMap = {
-  Calculator,
-  PiggyBank,
-  PercentCircle,
-  // podés agregar más aquí conforme vayas usando nuevos íconos en Sanity
-};
 
 export const metadata = {
   title: "Herramientas Financieras | SaldoSimple",
@@ -33,32 +25,32 @@ export default async function HerramientasPage() {
 
       <section className="bg-white py-16 px-4 sm:px-8 lg:px-24">
         <div className="max-w-6xl mx-auto grid gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-        {tools.map((tool) => {
-  if (!tool.href) return null; // evita error si href está mal
+          {tools.map((tool) => {
+            const iconKey = `${tool.icon
+              ?.charAt(0)
+              .toUpperCase()}${tool.icon?.slice(1)}Icon`;
+            const Icon = HeroIcons[iconKey] || HeroIcons.CalculatorIcon;
 
-  const Icon = iconMap[tool.icon] || Calculator;
-
-  return (
-    <Link
-      key={tool.href}
-      href={tool.href}
-      className="group block p-6 bg-gray-50 hover:bg-white border border-gray-200 hover:border-blue-400 rounded-2xl shadow transition"
-    >
-      <div className="flex items-center gap-4 mb-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 group-hover:bg-blue-200 transition">
-          <Icon className="w-6 h-6 text-blue-700" />
-        </div>
-        <h3 className="text-xl font-semibold text-gray-900">
-          {tool.title}
-        </h3>
-      </div>
-      <p className="text-sm text-gray-600 leading-relaxed">
-        {tool.description}
-      </p>
-    </Link>
-  );
-})}
-
+            return (
+              <Link
+                key={tool.slug}
+                href={`/herramientas/${tool.slug}`}
+                className="group block p-6 bg-gray-50 hover:bg-white border border-gray-200 hover:border-blue-400 rounded-2xl shadow transition"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 group-hover:bg-blue-200 transition">
+                    <Icon className="w-6 h-6 text-blue-700" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900">
+                    {tool.title}
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  {tool.shortDescription}
+                </p>
+              </Link>
+            );
+          })}
         </div>
       </section>
     </PlaxLayout>
