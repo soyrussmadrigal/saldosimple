@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export const CallToAction1 = () => {
   return (
@@ -25,9 +26,18 @@ export const CallToAction1 = () => {
               </div>
             </div>
           </div>
-          <div className="mil-illustration-absolute mil-type-2 mil-up">
-            <img src="img/home-2/6.png" alt="illustration" />
-          </div>
+          <Image
+            src="/img/home-2/6.png"
+            alt="illustration"
+            width={500}
+            height={500}
+          />
+          <Image
+            src="/img/home-2/6.png"
+            alt="illustration"
+            width={500}
+            height={500}
+          />
         </div>
       </div>
     </div>
@@ -53,10 +63,18 @@ export const CallToAction2 = () => {
                 and hassle-free financial life.
               </p>
               <div className="mil-buttons-frame mil-up">
-                <a href="https://apps.apple.com/" target="_blank" className="mil-btn mil-md">
+                <a
+                  href="https://apps.apple.com/"
+                  target="_blank"
+                  className="mil-btn mil-md"
+                >
                   App Store
                 </a>
-                <a href="https://play.google.com/" target="_blank" className="mil-btn mil-border mil-md">
+                <a
+                  href="https://play.google.com/"
+                  target="_blank"
+                  className="mil-btn mil-border mil-md"
+                >
                   Google Play
                 </a>
               </div>

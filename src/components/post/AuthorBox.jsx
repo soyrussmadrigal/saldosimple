@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   FaLinkedin,
   FaTwitter,
@@ -15,17 +16,19 @@ const platformIcons = {
   website: <FaGlobe />,
 };
 
-export default function AuthorBox({ name, bio, image, socialLinks = [], verified = false }){
-
-
+export default function AuthorBox({ name, bio, image, socialLinks = [], verified = false }) {
   return (
     <div className="w-full max-w-2xl mx-auto bg-gray-50 rounded-md p-6 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-sm">
       {image && (
-        <img
-          src={image}
-          alt={`Foto de ${name}`}
-          className="w-20 h-20 rounded-full object-cover"
-        />
+        <div className="w-20 h-20 relative rounded-full overflow-hidden flex-shrink-0">
+          <Image
+            src={image}
+            alt={`Foto de ${name}`}
+            fill
+            sizes="80px"
+            className="object-cover"
+          />
+        </div>
       )}
       <div className="text-center sm:text-left w-full">
         <h4 className="text-lg font-semibold text-gray-800 flex items-center justify-center sm:justify-start gap-2">

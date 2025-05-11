@@ -1,6 +1,7 @@
 import { PortableText } from "@portabletext/react";
+import Image from "next/image";
 
-// Función para generar ID's de encabezado amigables (slug)
+// Slugify para encabezados
 const slugify = (text) =>
   text
     .toString()
@@ -11,7 +12,6 @@ const slugify = (text) =>
     .replace(/\-\-+/g, "-");
 
 export const portableTextComponents = {
-  // Encabezados, párrafos, citas, etc.
   block: {
     h1: ({ children }) => (
       <h1 className="text-3xl font-bold text-black mb-6">{children}</h1>
@@ -54,7 +54,6 @@ export const portableTextComponents = {
     ),
   },
 
-  // Listas (bullets y numeradas)
   list: {
     bullet: ({ children }) => (
       <ul className="list-disc ml-6 text-[rgb(90,91,96)] leading-relaxed mb-6">
@@ -68,7 +67,6 @@ export const portableTextComponents = {
     ),
   },
 
-  // Enlaces
   marks: {
     link: ({ children, value }) => (
       <a
@@ -82,27 +80,19 @@ export const portableTextComponents = {
     ),
   },
 
-  // Bloques personalizados (como el CTA)
   types: {
     ctaBox: ({ value }) => (
       <div
-        // Estilo principal de la caja CTA (tipo NerdWallet)
         className="border-t-4 rounded-md px-6 py-4 my-6 text-sm"
         style={{
           backgroundColor: value.backgroundColor || "#FFF8E1",
-          borderColor: "rgb(13, 81, 82)", // borde verde oscuro estilo NerdWallet
+          borderColor: "rgb(13, 81, 82)",
         }}
       >
         <div className="flex items-start gap-3">
-          {/* Emoji opcional al lado izquierdo */}
           <span className="text-2xl leading-none">{value.emoji || "💡"}</span>
-
-          {/* Contenido de la caja */}
           <div>
-            {/* Título del CTA */}
             <p className="font-semibold text-black mb-2">{value.title}</p>
-
-            {/* Texto enriquecido, imágenes y botones */}
             <PortableText
               value={value.body}
               components={{
@@ -126,15 +116,17 @@ export const portableTextComponents = {
                   ),
                 },
                 types: {
-                  // Imágenes dentro del CTA
                   image: ({ value }) => (
-                    <img
-                      src={value.asset?.url}
-                      alt={value.alt || ""}
-                      className="my-4 rounded-md max-w-full"
-                    />
+                    <div className="my-4">
+                      <Image
+                        src={value.asset?.url}
+                        alt={value.alt || "Imagen"}
+                        width={800}
+                        height={500}
+                        className="rounded-md w-full h-auto"
+                      />
+                    </div>
                   ),
-                  // Botón CTA dentro del bloque
                   ctaButton: ({ value }) => (
                     <a
                       href={value.url}

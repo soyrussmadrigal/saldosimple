@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -21,14 +22,14 @@ const Navbar = ({ dark }) => {
     >
       <div className="container flex items-center justify-between py-4">
         {/* Logo */}
-        <Link href="/" className="mil-logo" onClick={handleLinkClick}>
-          <img
+          <Image
             src={dark ? "/img/logo-light.png" : "/img/logo.png"}
             alt="SaldoSimple"
             width={83}
             height={32}
+            priority
           />
-        </Link>
+         
 
         {/* Menu */}
         <nav className={`mil-top-menu ${toggle ? "mil-active" : ""}`}>

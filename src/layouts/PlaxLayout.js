@@ -8,12 +8,13 @@ import ScrollProgress from "./ScrollProgress";
 
 const PlaxLayout = ({ children, bg, margin, noFooter, dark, footer }) => {
   useEffect(() => {
-    plaxUtility.scrollAnimations();
-    plaxUtility.smoothScroll();
-    plaxUtility.counters();
-    plaxUtility.stickMenu();
-    plaxUtility.backToTop();
+    plaxUtility.scrollAnimations?.();
+    plaxUtility.smoothScroll?.();
+    plaxUtility.counters?.();
+    plaxUtility.stickMenu?.();
+    // ❌ Eliminado: plaxUtility.backToTop();
   }, []);
+  
 
   return (
     <Fragment>

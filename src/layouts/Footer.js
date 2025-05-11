@@ -1,4 +1,8 @@
 // src/components/layout/Footer.jsx
+"use client";
+
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="mt-20 border-t border-gray-200 bg-white py-10 text-sm text-gray-600">
@@ -9,18 +13,18 @@ export default function Footer() {
         </div>
 
         <div className="flex gap-6 flex-wrap">
-          <a href="/articulos" className="hover:underline">
+          <Link href="/articulos" className="hover:underline">
             Artículos
-          </a>
-          <a href="/herramientas" className="hover:underline">
+          </Link>
+          <Link href="/herramientas" className="hover:underline">
             Herramientas
-          </a>
-          <a href="/acerca" className="hover:underline">
+          </Link>
+          <Link href="/acerca" className="hover:underline">
             Acerca
-          </a>
-          <a href="/contacto" className="hover:underline">
+          </Link>
+          <Link href="/contacto" className="hover:underline">
             Contacto
-          </a>
+          </Link>
         </div>
       </div>
 

@@ -10,11 +10,8 @@ export const metadata = {
 };
 
 import Banner from "@/components/sections/Banner";
-import { CallToAction2 } from "@/components/sections/CallToAction";
 import PlaxAccordion from "@/components/ui/PlaxAccordion";
-import Testimonials1 from "@/components/sections/Testimonials";
 import PlaxLayout from "@/layouts/PlaxLayout";
-import Link from "next/link";
 import Image from "next/image";
 import { getLatestArticles } from "@/lib/sanityClient";
 import ArticlesCarousel from "@/components/sections/ArticlesCarousel";
