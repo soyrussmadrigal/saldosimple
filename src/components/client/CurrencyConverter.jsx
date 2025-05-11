@@ -44,7 +44,7 @@ const CurrencyConverter = () => {
   // Hora local (para evitar error de hidratación)
   useEffect(() => {
     setLastUpdated(new Date().toLocaleString("es-MX"));
-  }, []);
+  }, [appId]);
 
   // Detección automática del país
   useEffect(() => {

@@ -1,13 +1,5 @@
-import SwiperCore from "swiper";
-import {
-  Autoplay,
-  EffectFade,
-  Grid,
-  Navigation,
-  Pagination,
-  Parallax,
-} from "swiper/modules";
-SwiperCore.use([Pagination, Navigation, EffectFade, Autoplay, Grid, Parallax]);
+// src/utility/sliderProps.js
+
 export const sliderProps = {
   testimonials: {
     slidesPerView: 1,

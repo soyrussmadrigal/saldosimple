@@ -30,7 +30,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
 
   const formatDate = (dateStr) => {
     try {
-      return new Date(dateStr).toLocaleDateString("es-CR", {
+      return new Date(dateStr).toLocaleDateString("es-MX", {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -73,6 +73,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
               src={mainArticle.coverImage?.asset?.url || "/img/default.webp"}
               alt={mainArticle.title}
               fill
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
           </Link>
@@ -90,7 +91,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
                   alt={mainArticle.author?.name || "SaldoSimple"}
                   width={32}
                   height={32}
-                  className="rounded-full object-cover w-8 h-8"
+                  className="rounded-full object-cover"
                 />
                 <span className="text-sm text-gray-600">
                   {mainArticle.author?.name || "SaldoSimple"}
@@ -109,68 +110,70 @@ const ArticlesCarousel = ({ articles = [] }) => {
         </div>
 
         {/* Carrusel */}
-        <Swiper
-          modules={[Navigation, Pagination]}
-          navigation={{
-            nextEl: ".swiper-btn-next",
-            prevEl: ".swiper-btn-prev",
-          }}
-          pagination={{ clickable: true }}
-          spaceBetween={20}
-          slidesPerView={1.2}
-          breakpoints={{
-            640: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-          }}
-        >
-          {otherArticles.map((article, index) => (
-            <SwiperSlide key={article.slug}>
-              <Link
-                href={`/articulos/${article.categoria}/${article.slug}`}
-                className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition relative"
-              >
-                <div>
-                  <h4 className="text-lg font-semibold text-green-900 mb-2 line-clamp-2">
-                    {article.title}
-                  </h4>
+        <div className="relative">
+          <Swiper
+            modules={[Navigation, Pagination]}
+            navigation={{
+              nextEl: ".swiper-btn-next",
+              prevEl: ".swiper-btn-prev",
+            }}
+            pagination={{ clickable: true }}
+            spaceBetween={20}
+            slidesPerView={1.2}
+            breakpoints={{
+              640: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
+            }}
+          >
+            {otherArticles.map((article) => (
+              <SwiperSlide key={article.slug}>
+                <Link
+                  href={`/articulos/${article.categoria}/${article.slug}`}
+                  className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition"
+                >
+                  <div>
+                    <h4 className="text-lg font-semibold text-green-900 mb-2 line-clamp-2">
+                      {article.title}
+                    </h4>
 
-                  <div className="text-sm text-gray-500 flex items-center gap-2 mb-2">
-                    <span className="text-green-600">●</span>
-                    <span>{formatDate(article.publishedAt)}</span>
-                    <span>•</span>
-                    <span>{article.readingTime || "2 min"} lectura</span>
+                    <div className="text-sm text-gray-500 flex items-center gap-2 mb-2">
+                      <span className="text-green-600">●</span>
+                      <span>{formatDate(article.publishedAt)}</span>
+                      <span>•</span>
+                      <span>{article.readingTime || "2 min"} lectura</span>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex items-center gap-2 mt-2">
-                  <Image
-                    src={
-                      article.author?.image?.asset?.url || "/img/default.webp"
-                    }
-                    alt={article.author?.name || "SaldoSimple"}
-                    width={24}
-                    height={24}
-                    className="rounded-full object-cover w-6 h-6"
-                  />
-                  <p className="text-sm text-green-900 font-medium">
-                    {article.author?.name || "SaldoSimple"}
-                  </p>
-                </div>
-
-                {index === otherArticles.length - 1 && (
-                  <div className="absolute bottom-4 right-4 flex gap-2">
-                    <button className="swiper-btn-prev bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
-                      &larr;
-                    </button>
-                    <button className="swiper-btn-next bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
-                      &rarr;
-                    </button>
+                  <div className="flex items-center gap-2 mt-2">
+                    <Image
+                      src={
+                        article.author?.image?.asset?.url ||
+                        "/img/default.webp"
+                      }
+                      alt={article.author?.name || "SaldoSimple"}
+                      width={24}
+                      height={24}
+                      className="rounded-full object-cover"
+                    />
+                    <p className="text-sm text-green-900 font-medium">
+                      {article.author?.name || "SaldoSimple"}
+                    </p>
                   </div>
-                )}
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Botones de navegación */}
+          <div className="absolute -top-14 right-0 flex gap-2 z-10">
+            <button className="swiper-btn-prev bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
+              &larr;
+            </button>
+            <button className="swiper-btn-next bg-green-100 hover:bg-green-700 text-green-900 hover:text-white rounded-full w-9 h-9 flex items-center justify-center shadow transition">
+              &rarr;
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   );
