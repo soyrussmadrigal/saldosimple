@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { Questrial } from "next/font/google";
 import "@fonts/css/switzer.css";
 import "./globals.css";
@@ -27,8 +28,10 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const lang = headers().get("x-lang") || "es-MX"; // 👈 Detecta lo que envió el middleware
+
   return (
-    <html lang="es-MX" className={secondaryFont.variable}>
+    <html lang={lang} className={secondaryFont.variable}>
       <head>
         <TrackingScripts />
       </head>
