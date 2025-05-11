@@ -20,7 +20,7 @@ export default async function HerramientasPage() {
     <PlaxLayout>
       <PageBanner
         pageName="Herramientas"
-        title="Calculadoras y simuladores financieros"
+        title="Herramientas"
       />
 
       <section className="bg-white py-16 px-4 sm:px-8 lg:px-24">
