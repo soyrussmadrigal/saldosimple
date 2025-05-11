@@ -18,20 +18,20 @@ const Navbar = ({ dark }) => {
       className={`fixed top-0 left-0 w-full z-50 ${
         dark ? "mil-dark-2" : "bg-white shadow"
       }`}
-      style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 50 }}
     >
       <div className="container flex items-center justify-between py-4">
-        {/* Logo */}
+        {/* Logo con enlace al home */}
+        <Link href="/" onClick={handleLinkClick} className="flex items-center">
           <Image
             src={dark ? "/img/logo-light.png" : "/img/logo.png"}
-            alt="SaldoSimple"
+            alt="SaldoSimple logo"
             width={83}
             height={32}
             priority
           />
-         
+        </Link>
 
-        {/* Menu */}
+        {/* Menú */}
         <nav className={`mil-top-menu ${toggle ? "mil-active" : ""}`}>
           <ul className="mil-nav-list">
             <li className={currentPath === "/" ? "mil-active" : ""}>
@@ -39,30 +39,17 @@ const Navbar = ({ dark }) => {
                 Inicio
               </Link>
             </li>
-
-            <li
-              className={
-                currentPath.startsWith("/articulos") ? "mil-active" : ""
-              }
-            >
+            <li className={currentPath.startsWith("/articulos") ? "mil-active" : ""}>
               <Link href="/articulos" onClick={handleLinkClick}>
                 Artículos
               </Link>
             </li>
-
-            <li
-              className={
-                currentPath.startsWith("/herramientas") ? "mil-active" : ""
-              }
-            >
+            <li className={currentPath.startsWith("/herramientas") ? "mil-active" : ""}>
               <Link href="/herramientas" onClick={handleLinkClick}>
                 Herramientas
               </Link>
             </li>
-
-            <li
-              className={currentPath.startsWith("/contact") ? "mil-active" : ""}
-            >
+            <li className={currentPath.startsWith("/contact") ? "mil-active" : ""}>
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto
               </Link>
