@@ -1,3 +1,5 @@
+import IconDropdown from "../components/IconDropdown";
+
 export default {
   name: "toolPage",
   title: "Herramientas",
@@ -43,14 +45,14 @@ export default {
       title: "Descripción corta",
       type: "text",
       rows: 2,
-      description: "Descripción que se mostrará como resumen en la sección de herramientas.",
+      description: "Resumen que se mostrará en la sección de herramientas.",
       validation: (Rule) => Rule.required(),
     },
     {
       name: "ctaText",
       title: "Texto del botón",
       type: "string",
-      description: "Texto para el botón (ej. 'Usar calculadora')",
+      description: "Texto del botón (ej. 'Usar calculadora')",
       initialValue: "Usar herramienta",
     },
     {
@@ -67,19 +69,22 @@ export default {
         {
           type: "object",
           fields: [
-            {
-              name: "question",
-              title: "Pregunta",
-              type: "string",
-            },
-            {
-              name: "answer",
-              title: "Respuesta",
-              type: "text",
-            },
+            { name: "question", title: "Pregunta", type: "string" },
+            { name: "answer", title: "Respuesta", type: "text" },
           ],
         },
       ],
+    },
+    {
+      name: "icon",
+      title: "Ícono",
+      type: "string",
+      components: {
+        input: IconDropdown,
+      },
+      description: "Seleccioná un ícono desde el dropdown visual.",
+      validation: (Rule) =>
+        Rule.required().error("Debés seleccionar un ícono."),
     },
   ],
 };
