@@ -15,7 +15,7 @@ export async function getToolPageData(slug) {
     const data = await client.fetch(
       toolPageQuery,
       { slug },
-      { cache: "no-store" }
+      { cache: "no-store" } // 👈 válido para desarrollo, siempre fresco
     );
     return data;
   } catch (error) {
@@ -43,8 +43,7 @@ export async function getAllTools() {
       toolsQuery,
       {},
       {
-        next: { revalidate: 0 },
-        cache: "no-store",
+        cache: "no-store" // ✅ Elimina revalidate para evitar conflicto
       }
     );
     return data;
