@@ -75,7 +75,8 @@ export default {
             {
               name: "answer",
               title: "Respuesta",
-              type: "text",
+              type: "array",
+              of: [{ type: "block" }],
             },
           ],
         },
