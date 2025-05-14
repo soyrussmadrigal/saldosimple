@@ -43,7 +43,7 @@ const Page = async () => {
                 <li>
                   <div className="mil-up">
                     <h5 className="mil-mb-15 mil-up">
-                      Calculadoras financieras
+                      Calculadoras financieras.
                     </h5>
                     <p className="mil-text-m mil-soft mil-up">
                       Todas las herramientas financieras en un solo lugar, el
