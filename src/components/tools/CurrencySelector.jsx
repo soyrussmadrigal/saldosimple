@@ -66,6 +66,8 @@ export default function CurrencySelector({
               alt={currency.label}
               width={24}
               height={16}
+              className="object-contain"
+              priority
             />
             <span>
               {currency.label} ({currency.symbol})

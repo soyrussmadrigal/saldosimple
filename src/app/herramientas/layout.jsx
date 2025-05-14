@@ -5,12 +5,8 @@ export const metadata = {
 
 export default function HerramientasLayout({ children }) {
   return (
-    <html lang="es">
-      <body>
-        <section className="max-w-3xl mx-auto p-6">
-          {children}
-        </section>
-      </body>
-    </html>
+    <section className="max-w-3xl mx-auto p-6">
+      {children}
+    </section>
   );
 }
