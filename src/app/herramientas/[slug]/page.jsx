@@ -26,9 +26,12 @@ export async function generateMetadata({ params }) {
 
   return {
     title: data.metaTitle || data.title,
-    description: data.metaDescription || "Explora esta herramienta financiera gratuita.",
+    description:
+      data.metaDescription || "Explora esta herramienta financiera gratuita.",
     alternates: {
-      canonical: data.canonicalUrl || `https://www.saldosimple.com/herramientas/${params.slug}`,
+      canonical:
+        data.canonicalUrl ||
+        `https://www.saldosimple.com/herramientas/${params.slug}`,
     },
   };
 }
@@ -53,7 +56,8 @@ export default async function ToolPage({ params }) {
             applicationCategory: "Finanzas",
             operatingSystem: "All",
             url: `https://www.saldosimple.com/herramientas/${params.slug}`,
-            description: "Herramienta financiera gratuita para cálculos rápidos. Contenido y preguntas frecuentes dinámicas desde Sanity.",
+            description:
+              "Herramienta financiera gratuita para cálculos rápidos. Contenido y preguntas frecuentes dinámicas desde Sanity.",
             inLanguage: "es",
             dateModified: new Date().toISOString().split("T")[0],
             offers: {
@@ -105,7 +109,7 @@ export default async function ToolPage({ params }) {
       />
 
       <PlaxLayout>
-        <section className="text-center py-20 px-4 bg-white">
+        <section className="text-center py-20 px-4 bg-white mt-20">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-teal-900">
               {data.title}
@@ -128,8 +132,14 @@ export default async function ToolPage({ params }) {
               components={{
                 block: {
                   normal: ({ children }) => <p className="mb-4">{children}</p>,
-                  h2: ({ children }) => <h2 className="text-xl font-bold mt-6 mb-2">{children}</h2>,
-                  h3: ({ children }) => <h3 className="text-lg font-semibold mt-5 mb-2">{children}</h3>,
+                  h2: ({ children }) => (
+                    <h2 className="text-xl font-bold mt-6 mb-2">{children}</h2>
+                  ),
+                  h3: ({ children }) => (
+                    <h3 className="text-lg font-semibold mt-5 mb-2">
+                      {children}
+                    </h3>
+                  ),
                 },
               }}
             />
