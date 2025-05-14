@@ -17,11 +17,11 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@sanity/ui": "^2.15.17",
-    "@sanity/vision": "^3.86.1",
+    "@sanity/vision": "^3.88.3",
     "lucide-react": "^0.509.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sanity": "^3.86.1",
+    "sanity": "^3.88.3",
     "styled-components": "^6.1.15"
   },
   "devDependencies": {
