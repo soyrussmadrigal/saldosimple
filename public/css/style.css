@@ -287,7 +287,7 @@ blockquote.mil-with-bg {
   padding: 60px 30px;
 }
 blockquote.mil-with-bg-2 {
-  background: linear-gradient(0deg, #B3D4D8 0%, #DEECE8 100%);
+  background: linear-gradient(0deg, #b3d4d8 0%, #deece8 100%);
   border-radius: 40px;
   padding: 60px 30px;
 }
@@ -311,7 +311,7 @@ blockquote svg.mil-accent path {
   fill: rgb(242, 116, 87);
 }
 blockquote.mil-dark {
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
 }
 
 @media (max-width: 1200px) {
@@ -342,7 +342,11 @@ blockquote.mil-dark {
 
 @supports (--css: variables) {
   .mil-text-gradient {
-    background: linear-gradient(to right, rgb(160, 205, 205), rgb(242, 250, 250));
+    background: linear-gradient(
+      to right,
+      rgb(160, 205, 205),
+      rgb(242, 250, 250)
+    );
     color: transparent;
     background-clip: text;
   }
@@ -364,7 +368,12 @@ blockquote.mil-dark {
 
 @supports (--css: variables) {
   .mil-text-gradient-3 {
-    background: linear-gradient(to right, rgb(13, 81, 82), 50%, rgba(13, 81, 82, 0.8));
+    background: linear-gradient(
+      to right,
+      rgb(13, 81, 82),
+      50%,
+      rgba(13, 81, 82, 0.8)
+    );
     color: transparent;
     background-clip: text;
   }
@@ -574,13 +583,13 @@ frames
   width: calc(100% + 200px);
 }
 .mil-out-frame.mil-bg-1 {
-  background: linear-gradient(0deg, #B3D4D8 0%, #DEECE8 100%);
+  background: linear-gradient(0deg, #b3d4d8 0%, #deece8 100%);
 }
 .mil-out-frame.mil-bg-2 {
-  background: linear-gradient(180deg, #F27457 0%, #A08488 100%);
+  background: linear-gradient(180deg, #f27457 0%, #a08488 100%);
 }
 .mil-out-frame.mil-bg-3 {
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
 }
 .mil-out-frame.mil-bg-4 {
   background-color: rgb(39, 38, 38);
@@ -594,11 +603,9 @@ frames
   }
 }
 .mil-out-frame.mil-image {
-  background-image: url(../img/home-2/bg.png);
   background-size: cover;
 }
 .mil-out-frame.mil-image-2 {
-  background-image: url(../img/home-4/bg.png);
   background-size: cover;
 }
 .mil-out-frame.mil-out-image-fix {
@@ -1231,7 +1238,9 @@ menu button
     display: flex;
   }
 }
-.mil-menu-btn span, .mil-menu-btn span:after, .mil-menu-btn span:before {
+.mil-menu-btn span,
+.mil-menu-btn span:after,
+.mil-menu-btn span:before {
   content: "";
   display: block;
   width: 24px;
@@ -1243,7 +1252,8 @@ menu button
 .mil-menu-btn span {
   position: relative;
 }
-.mil-menu-btn span:after, .mil-menu-btn span:before {
+.mil-menu-btn span:after,
+.mil-menu-btn span:before {
   position: absolute;
 }
 .mil-menu-btn span:before {
@@ -1266,14 +1276,18 @@ menu button
 .mil-dark-1 .mil-menu-btn {
   background-color: rgb(3, 166, 166);
 }
-.mil-dark-1 .mil-menu-btn span, .mil-dark-1 .mil-menu-btn span:after, .mil-dark-1 .mil-menu-btn span:before {
+.mil-dark-1 .mil-menu-btn span,
+.mil-dark-1 .mil-menu-btn span:after,
+.mil-dark-1 .mil-menu-btn span:before {
   background-color: rgb(242, 250, 250);
 }
 
 .mil-dark-2 .mil-menu-btn {
   background-color: rgb(27, 23, 23);
 }
-.mil-dark-2 .mil-menu-btn span, .mil-dark-2 .mil-menu-btn span:after, .mil-dark-2 .mil-menu-btn span:before {
+.mil-dark-2 .mil-menu-btn span,
+.mil-dark-2 .mil-menu-btn span:after,
+.mil-dark-2 .mil-menu-btn span:before {
   background-color: rgb(242, 250, 250);
 }
 
@@ -1342,11 +1356,16 @@ banner
   align-items: flex-end;
 }
 .mil-banner.mil-dark-1 {
-  background: linear-gradient(90deg, #1B1D1D 0%, #0D5152 50%, #1B1D1D 100%);
+  background: linear-gradient(90deg, #1b1d1d 0%, #0d5152 50%, #1b1d1d 100%);
 }
 .mil-banner.mil-dark-2 {
-  background-color: #1B1717;
-  background: linear-gradient(90deg, #1B1717 0%, rgba(242, 116, 87, 0.4) 50%, #1B1717 100%);
+  background-color: #1b1717;
+  background: linear-gradient(
+    90deg,
+    #1b1717 0%,
+    rgba(242, 116, 87, 0.4) 50%,
+    #1b1717 100%
+  );
 }
 
 .mil-radial-g-1 {
@@ -1374,7 +1393,7 @@ banner
 }
 
 .mil-radial-g-3 {
-  background-color: #FDE400;
+  background-color: #fde400;
   opacity: 1;
   position: absolute;
   width: 60vw;
@@ -1549,7 +1568,7 @@ facts
 .mil-fact-bg {
   padding: 60px;
   border-radius: 40px;
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
 }
 
 /* -------------------------------------------
@@ -1569,7 +1588,8 @@ testimonials
   background-color: rgb(137, 141, 150);
   transition: 0.2s cubic-bezier(0, 0, 0.3642, 1);
 }
-.mil-testi-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+.mil-testi-pagination
+  .swiper-pagination-bullet.swiper-pagination-bullet-active {
   background-color: rgb(242, 116, 87);
 }
 
@@ -1666,10 +1686,17 @@ accordion
   background-color: rgb(242, 250, 250);
   transition: 0.4s cubic-bezier(0, 0, 0.3642, 1);
 }
-.mil-accordion .mil-accordion-group .mil-accordion-menu .mil-accordion-icon.mil-dark {
+.mil-accordion
+  .mil-accordion-group
+  .mil-accordion-menu
+  .mil-accordion-icon.mil-dark {
   background-color: rgb(13, 81, 82);
 }
-.mil-accordion .mil-accordion-group .mil-accordion-menu .mil-accordion-icon.mil-dark i {
+.mil-accordion
+  .mil-accordion-group
+  .mil-accordion-menu
+  .mil-accordion-icon.mil-dark
+  i {
   color: rgb(242, 250, 250);
 }
 @media screen and (max-width: 992px) {
@@ -1678,10 +1705,17 @@ accordion
     height: 30px;
   }
 }
-.mil-accordion .mil-accordion-group .mil-accordion-menu .mil-accordion-icon.mil-active {
+.mil-accordion
+  .mil-accordion-group
+  .mil-accordion-menu
+  .mil-accordion-icon.mil-active {
   background-color: rgb(242, 116, 87);
 }
-.mil-accordion .mil-accordion-group .mil-accordion-menu .mil-accordion-icon.mil-active i {
+.mil-accordion
+  .mil-accordion-group
+  .mil-accordion-menu
+  .mil-accordion-icon.mil-active
+  i {
   color: rgb(255, 255, 255);
 }
 .mil-accordion .mil-accordion-group .mil-accordion-content {
@@ -1741,10 +1775,10 @@ illustrations
   bottom: -50px;
 }
 .mil-image-frame .mil-img-box.mil-accent-box {
-  background: linear-gradient(180deg, #F27457 0%, #A08488 100%);
+  background: linear-gradient(180deg, #f27457 0%, #a08488 100%);
 }
 .mil-image-frame .mil-img-box.mil-soft-box {
-  background: linear-gradient(0deg, #B3D4D8 0%, #DEECE8 100%);
+  background: linear-gradient(0deg, #b3d4d8 0%, #deece8 100%);
 }
 .mil-image-frame .mil-img-box div {
   width: 100%;
@@ -1837,7 +1871,7 @@ illustrations
   height: 70%;
   left: -30%;
   top: 50%;
-  background: #F27457;
+  background: #f27457;
   opacity: 0.7;
   transform: translate(0, -50%);
   filter: blur(250px);
@@ -1928,7 +1962,7 @@ icon box
 }
 .mil-icon-box.mil-dark {
   padding: 60px 30px;
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
 }
 .mil-icon-box.mil-dark-2 {
   padding: 60px 30px;
@@ -1948,10 +1982,14 @@ icon box
   padding: 60px 30px;
   transition: 0.2s cubic-bezier(0, 0, 0.3642, 1);
 }
-.mil-icon-box.mil-hover:hover, .mil-icon-box.mil-hover.mil-hover-active {
+.mil-icon-box.mil-hover:hover,
+.mil-icon-box.mil-hover.mil-hover-active {
   background-color: rgb(242, 250, 250);
 }
-.mil-icon-box.mil-hover:hover h5, .mil-icon-box.mil-hover:hover p, .mil-icon-box.mil-hover.mil-hover-active h5, .mil-icon-box.mil-hover.mil-hover-active p {
+.mil-icon-box.mil-hover:hover h5,
+.mil-icon-box.mil-hover:hover p,
+.mil-icon-box.mil-hover.mil-hover-active h5,
+.mil-icon-box.mil-hover.mil-hover-active p {
   color: rgb(13, 81, 82);
 }
 @media screen and (max-width: 992px) {
@@ -1992,10 +2030,12 @@ icon box
   background-color: transparent;
   color: rgb(242, 116, 87);
 }
-.mil-icon-box-2.mil-hover:hover, .mil-icon-box-2.mil-hover.mil-hover-active {
+.mil-icon-box-2.mil-hover:hover,
+.mil-icon-box-2.mil-hover.mil-hover-active {
   opacity: 1;
 }
-.mil-icon-box-2.mil-hover:hover .mil-button-transform, .mil-icon-box-2.mil-hover.mil-hover-active .mil-button-transform {
+.mil-icon-box-2.mil-hover:hover .mil-button-transform,
+.mil-icon-box-2.mil-hover.mil-hover-active .mil-button-transform {
   background-color: rgb(242, 116, 87);
   padding: 0 30px;
   color: rgb(255, 255, 255);
@@ -2018,7 +2058,9 @@ icon box
 .mil-icon-box-2-frame:hover .mil-icon-box-2.mil-hover:hover {
   opacity: 1;
 }
-.mil-icon-box-2-frame:hover .mil-icon-box-2.mil-hover:hover .mil-button-transform {
+.mil-icon-box-2-frame:hover
+  .mil-icon-box-2.mil-hover:hover
+  .mil-button-transform {
   background-color: rgb(242, 116, 87);
   padding: 0 30px;
   color: rgb(255, 255, 255);
@@ -2072,7 +2114,7 @@ vacancie
   position: absolute;
   top: 0;
   left: 0;
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
   width: 100%;
   height: 100%;
   z-index: 1;
@@ -2466,16 +2508,16 @@ textarea::placeholder {
   width: 12px;
 }
 
-.mil-checkbox input[type=checkbox] {
+.mil-checkbox input[type="checkbox"] {
   visibility: hidden;
 }
 
-.mil-checkbox input[type=checkbox]:checked + label {
+.mil-checkbox input[type="checkbox"]:checked + label {
   background-color: rgb(242, 116, 87);
   border-color: rgb(242, 116, 87);
 }
 
-.mil-checkbox input[type=checkbox]:checked + label:after {
+.mil-checkbox input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
 
@@ -2556,7 +2598,7 @@ price
 }
 .mil-switcher:after {
   content: "-30%";
-  background: linear-gradient(180deg, #F27457 0%, #A08488 100%);
+  background: linear-gradient(180deg, #f27457 0%, #a08488 100%);
   padding: 10px 15px;
   border-radius: 40px;
   position: absolute;
@@ -2601,7 +2643,7 @@ price
   margin-left: 5px;
 }
 .mil-price-card.mil-featured {
-  background: linear-gradient(0deg, #224D50 0%, #1C6360 100%);
+  background: linear-gradient(0deg, #224d50 0%, #1c6360 100%);
 }
 .mil-price-card li {
   list-style: none;
@@ -2704,4 +2746,4 @@ footer.mil-footer-dark-2 .mil-footer-bottom {
 }
 .mil-subscripe-form-footer button i.mil-dark {
   color: rgb(13, 81, 82);
-}/*# sourceMappingURL=style.css.map */
+} /*# sourceMappingURL=style.css.map */

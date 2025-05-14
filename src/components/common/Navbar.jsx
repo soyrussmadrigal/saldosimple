@@ -23,10 +23,11 @@ const Navbar = ({ dark }) => {
         {/* Logo con enlace al home */}
         <Link href="/" onClick={handleLinkClick} className="flex items-center">
           <Image
-            src={dark ? "/img/logo-light.png" : "/img/logo.png"}
+            src={dark ? "/img/logo-light.svg" : "/img/logo.svg"}
             alt="SaldoSimple logo"
             width={83}
             height={32}
+            className="scale-150"
             priority
           />
         </Link>
@@ -39,17 +40,27 @@ const Navbar = ({ dark }) => {
                 Inicio
               </Link>
             </li>
-            <li className={currentPath.startsWith("/articulos") ? "mil-active" : ""}>
+            <li
+              className={
+                currentPath.startsWith("/articulos") ? "mil-active" : ""
+              }
+            >
               <Link href="/articulos" onClick={handleLinkClick}>
                 Artículos
               </Link>
             </li>
-            <li className={currentPath.startsWith("/herramientas") ? "mil-active" : ""}>
+            <li
+              className={
+                currentPath.startsWith("/herramientas") ? "mil-active" : ""
+              }
+            >
               <Link href="/herramientas" onClick={handleLinkClick}>
                 Herramientas
               </Link>
             </li>
-            <li className={currentPath.startsWith("/contact") ? "mil-active" : ""}>
+            <li
+              className={currentPath.startsWith("/contact") ? "mil-active" : ""}
+            >
               <Link href="/contact" onClick={handleLinkClick}>
                 Contacto
               </Link>
