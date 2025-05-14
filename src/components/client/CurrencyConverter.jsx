@@ -13,13 +13,25 @@ import CurrencySelector from "@/components/tools/CurrencySelector";
 import { Card, CardContent } from "@/components/ui/card";
 
 const currencyOptions = [
-  { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
+  {
+    code: "CRC",
+    label: "Costa Rica",
+    locale: "es-CR",
+    symbol: "₡",
+    flag: "cr",
+  },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "COP", label: "Colombia", locale: "es-CO", symbol: "$", flag: "co" },
   { code: "ARS", label: "Argentina", locale: "es-AR", symbol: "$", flag: "ar" },
   { code: "PEN", label: "Perú", locale: "es-PE", symbol: "S/", flag: "pe" },
   { code: "CLP", label: "Chile", locale: "es-CL", symbol: "$", flag: "cl" },
-  { code: "USD", label: "Estados Unidos", locale: "en-US", symbol: "$", flag: "us" },
+  {
+    code: "USD",
+    label: "Estados Unidos",
+    locale: "en-US",
+    symbol: "$",
+    flag: "us",
+  },
   { code: "EUR", label: "España", locale: "es-ES", symbol: "€", flag: "es" },
 ];
 
@@ -27,8 +39,10 @@ const CurrencyConverter = () => {
   const appId = process.env.NEXT_PUBLIC_EXCHANGE_RATES_API_KEY;
 
   const [amount, setAmount] = useState(1);
-  const [from, setFrom] = useState(currencyOptions.find(c => c.code === "USD"));
-  const [to, setTo] = useState(currencyOptions.find(c => c.code === "MXN"));
+  const [from, setFrom] = useState(
+    currencyOptions.find((c) => c.code === "USD")
+  );
+  const [to, setTo] = useState(currencyOptions.find((c) => c.code === "MXN"));
   const [converted, setConverted] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -41,10 +55,11 @@ const CurrencyConverter = () => {
       maximumFractionDigits: 2,
     }).format(value);
 
-  // Hora local (para evitar error de hidratación)
+  // Hora local
   useEffect(() => {
     setLastUpdated(new Date().toLocaleString("es-MX"));
-  }, [appId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Detección automática del país
   useEffect(() => {
@@ -52,7 +67,9 @@ const CurrencyConverter = () => {
       try {
         const res = await fetch("https://ipinfo.io/json?token=ccb7b44cb83fb2");
         const data = await res.json();
-        const match = currencyOptions.find(opt => opt.flag === data.country_code?.toLowerCase());
+        const match = currencyOptions.find(
+          (opt) => opt.flag === data.country_code?.toLowerCase()
+        );
         if (match) setFrom(match);
       } catch {}
     };
@@ -71,6 +88,7 @@ const CurrencyConverter = () => {
       setConverted((amount * rate).toFixed(4));
     };
     fetchConversion();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [amount, from, to]);
 
   // Historial
@@ -103,6 +121,7 @@ const CurrencyConverter = () => {
     };
 
     fetchHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [from, to, range]);
 
   return (
@@ -127,7 +146,8 @@ const CurrencyConverter = () => {
 
             {converted && (
               <p className="text-center text-xl text-green-800 font-medium mb-4">
-                {amount} {from.symbol} = {formatNumber(converted, to.locale)} {to.symbol}
+                {amount} {from.symbol} = {formatNumber(converted, to.locale)}{" "}
+                {to.symbol}
               </p>
             )}
 
@@ -149,12 +169,17 @@ const CurrencyConverter = () => {
 
             <div className="w-full h-64 mt-4">
               {loading ? (
-                <p className="text-center text-sm text-gray-500">Cargando gráfico...</p>
+                <p className="text-center text-sm text-gray-500">
+                  Cargando gráfico...
+                </p>
               ) : (
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData}>
                     <XAxis dataKey="date" />
-                    <YAxis domain={["auto", "auto"]} tickFormatter={(v) => v.toFixed(2)} />
+                    <YAxis
+                      domain={["auto", "auto"]}
+                      tickFormatter={(v) => v.toFixed(2)}
+                    />
                     <Tooltip
                       formatter={(value) => `${value.toFixed(4)} ${to.code}`}
                       labelFormatter={(label) => `Fecha: ${label}`}

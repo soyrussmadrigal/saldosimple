@@ -33,6 +33,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang={lang} className={secondaryFont.variable}>
       <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <TrackingScripts />
       </head>
       <body>
