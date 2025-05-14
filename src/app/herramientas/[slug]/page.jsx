@@ -107,7 +107,6 @@ export default async function ToolPage({ params }) {
             : {}),
         }}
       />
-
       <PlaxLayout>
         <section className="text-center py-20 px-4 bg-white mt-5">
           <div className="max-w-3xl mx-auto">
