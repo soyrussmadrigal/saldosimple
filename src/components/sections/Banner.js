@@ -6,6 +6,7 @@ const Banner = ({
   title = "Your Ally for Financial Control",
   subTitle = "SaldoSimple",
   img = "/img/home-1/1.webp", // Imagen principal
+  style = { maxWidth: "135%", transform: "translateX(5%)" },
   dark = false,
 }) => {
   return (
@@ -29,18 +30,30 @@ const Banner = ({
               </div>
             </div>
           </div>
-
-          {/* Imagen sin flash */}
+          {/* Imagen principal del home */}
           <div className="col-xl-6">
-            <div className="mil-banner-img relative w-full h-[300px] md:h-[400px] lg:h-[500px]">
-              <Image
-                src={img}
-                alt="Banner"
-                fill
-                className="object-cover rounded-xl"
-                sizes="(max-width: 768px) 100vw, 50vw"
-                priority
-              />
+            <div className="mil-banner-img" style={{ overflow: "visible" }}>
+              <div
+                style={{
+                  position: "relative",
+                  width: "135%",
+                  height: "auto",
+                  transform: "translateX(5%)",
+                }}
+              >
+                <Image
+                  src={img}
+                  alt="banner"
+                  width={800}
+                  height={700}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "1rem",
+                  }}
+                  priority
+                />
+              </div>
             </div>
           </div>
         </div>
