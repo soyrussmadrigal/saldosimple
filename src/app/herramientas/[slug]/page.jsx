@@ -140,6 +140,26 @@ export default async function ToolPage({ params }) {
                     </h3>
                   ),
                 },
+                list: {
+                  bullet: ({ children }) => (
+                    <ul className="list-disc list-inside my-4 pl-4 text-gray-800">
+                      {children}
+                    </ul>
+                  ),
+                  number: ({ children }) => (
+                    <ol className="list-decimal list-inside my-4 pl-4 text-gray-800">
+                      {children}
+                    </ol>
+                  ),
+                },
+                listItem: {
+                  bullet: ({ children }) => (
+                    <li className="mb-2">{children}</li>
+                  ),
+                  number: ({ children }) => (
+                    <li className="mb-2">{children}</li>
+                  ),
+                },
               }}
             />
           </section>
