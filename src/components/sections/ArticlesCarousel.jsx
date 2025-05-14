@@ -91,7 +91,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
                   alt={mainArticle.author?.name || "SaldoSimple"}
                   width={32}
                   height={32}
-                  className="rounded-full object-cover"
+                  className="rounded-full object-cover w-8 h-8"
                 />
                 <span className="text-sm text-gray-600">
                   {mainArticle.author?.name || "SaldoSimple"}
@@ -147,8 +147,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
                   <div className="flex items-center gap-2 mt-2">
                     <Image
                       src={
-                        article.author?.image?.asset?.url ||
-                        "/img/default.webp"
+                        article.author?.image?.asset?.url || "/img/default.webp"
                       }
                       alt={article.author?.name || "SaldoSimple"}
                       width={24}
