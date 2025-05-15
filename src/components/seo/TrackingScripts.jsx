@@ -4,7 +4,10 @@ const TrackingScripts = () => {
   return (
     <>
       {/* Google Search Console */}
-      <meta name="google-site-verification" content="TU_TOKEN_DE_VERIFICACION" />
+      <meta
+        name="google-site-verification"
+        content="KjyvG0WYzqfk5IAek3iIDGNe_I46IAygf6P4AvxFTUY"
+      />
 
       {/* Google Tag Manager (head) */}
       <Script id="gtm-head" strategy="afterInteractive">
