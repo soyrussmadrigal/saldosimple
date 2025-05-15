@@ -40,9 +40,9 @@ const CurrencyConverter = () => {
 
   const [amount, setAmount] = useState(1);
   const [from, setFrom] = useState(
-    currencyOptions.find((c) => c.code === "USD")
+    currencyOptions.find((c) => c.code === "MXN")
   );
-  const [to, setTo] = useState(currencyOptions.find((c) => c.code === "MXN"));
+  const [to, setTo] = useState(currencyOptions.find((c) => c.code === "USD"));
   const [converted, setConverted] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(false);
