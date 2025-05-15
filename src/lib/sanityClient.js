@@ -4,7 +4,7 @@ const client = createClient({
   projectId: 'g88p7aul',
   dataset: 'production',
   apiVersion: '2023-01-01',
-  useCdn: true, /// cambiar a true para producción
+  useCdn: false, /// cambiar a true para producción
 });
 
 export default client;

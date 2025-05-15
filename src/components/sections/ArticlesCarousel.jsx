@@ -64,50 +64,58 @@ const ArticlesCarousel = ({ articles = [] }) => {
         </div>
 
         {/* Artículo principal */}
-        <div className="flex flex-col md:flex-row-reverse gap-6 mb-10 bg-white rounded-2xl shadow-md overflow-hidden">
-          <Link
-            href={`/articulos/${mainArticle.categoria}/${mainArticle.slug}`}
-            className="relative w-full md:w-1/2 aspect-video md:aspect-auto md:h-auto"
-          >
-            <Image
-              src={mainArticle.coverImage?.asset?.url || "/img/default.webp"}
-              alt={mainArticle.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </Link>
+        {mainArticle && (
+          <div className="flex flex-col md:flex-row-reverse gap-6 mb-10 bg-white rounded-2xl shadow-md overflow-hidden">
+            <Link
+              href={`/articulos/${mainArticle.categoria}/${mainArticle.slug}`}
+              className="relative w-full md:w-1/2 aspect-video md:aspect-auto md:h-auto"
+            >
+              <Image
+                src={
+                  mainArticle.coverImage?.asset?.url ||
+                  mainArticle.coverImage?.url ||
+                  "/img/default.webp"
+                }
+                alt={mainArticle.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </Link>
 
-          <div className="p-6 flex flex-col justify-between w-full md:w-1/2">
-            <div>
-              <h3 className="text-2xl font-bold text-green-900 mb-3">
-                {mainArticle.title}
-              </h3>
-              <div className="flex items-center gap-3 mb-4">
-                <Image
-                  src={
-                    mainArticle.author?.image?.asset?.url || "/img/default.webp"
-                  }
-                  alt={mainArticle.author?.name || "SaldoSimple"}
-                  width={32}
-                  height={32}
-                  className="rounded-full object-cover w-8 h-8"
-                />
-                <span className="text-sm text-gray-600">
-                  {mainArticle.author?.name || "SaldoSimple"}
-                </span>
+            <div className="p-6 flex flex-col justify-between w-full md:w-1/2">
+              <div>
+                <h3 className="text-2xl font-bold text-green-900 mb-3">
+                  {mainArticle.title}
+                </h3>
+                <div className="flex items-center gap-3 mb-4">
+                  <Image
+                    src={
+                      mainArticle.author?.image?.asset?.url ||
+                      mainArticle.author?.image?.url ||
+                      "/img/default.webp"
+                    }
+                    alt={mainArticle.author?.name || "SaldoSimple"}
+                    width={32}
+                    height={32}
+                    className="rounded-full object-cover w-8 h-8"
+                  />
+                  <span className="text-sm text-gray-600">
+                    {mainArticle.author?.name || "SaldoSimple"}
+                  </span>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed mb-6">
+                  {getExcerpt(mainArticle)}
+                </p>
               </div>
-              <p className="text-gray-700 text-sm leading-relaxed mb-6">
-                {getExcerpt(mainArticle)}
-              </p>
-            </div>
-            <div className="text-sm text-gray-500 flex justify-end">
-              <span>{formatDate(mainArticle.publishedAt)}</span>
-              <span className="mx-2">•</span>
-              <span>{mainArticle.readingTime || "2 min"} lectura</span>
+              <div className="text-sm text-gray-500 flex justify-end">
+                <span>{formatDate(mainArticle.publishedAt)}</span>
+                <span className="mx-2">•</span>
+                <span>{mainArticle.readingTime || "2 min"} lectura</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Carrusel */}
         <div className="relative">
@@ -147,7 +155,9 @@ const ArticlesCarousel = ({ articles = [] }) => {
                   <div className="flex items-center gap-2 mt-2">
                     <Image
                       src={
-                        article.author?.image?.asset?.url || "/img/default.webp"
+                        article.author?.image?.asset?.url ||
+                        article.author?.image?.url ||
+                        "/img/default.webp"
                       }
                       alt={article.author?.name || "SaldoSimple"}
                       width={24}
