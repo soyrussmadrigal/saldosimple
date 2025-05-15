@@ -13,7 +13,20 @@ export default {
       name: 'slug',
       type: 'slug',
       title: 'Slug',
-      options: { source: 'title', maxLength: 96 },
+      options: {
+        source: 'title',
+        maxLength: 96,
+        slugify: input =>
+          input
+            .toLowerCase()
+            .normalize("NFD") // 🔥 Elimina acentos
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s+/g, "-")
+            .replace(/[^\w\-]+/g, "")
+            .replace(/\-\-+/g, "-")
+            .replace(/^-+/, "")
+            .replace(/-+$/, "")
+      }
     },
     {
       name: 'excerpt',
