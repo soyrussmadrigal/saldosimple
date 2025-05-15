@@ -1,9 +1,9 @@
-import { createClient } from '@sanity/client';
+import { createClient } from "@sanity/client";
 
 const client = createClient({
-  projectId: 'g88p7aul',
-  dataset: 'production',
-  apiVersion: '2023-01-01',
+  projectId: "g88p7aul",
+  dataset: "production",
+  apiVersion: "2023-01-01",
   useCdn: false, /// cambiar a true para producción
 });
 
