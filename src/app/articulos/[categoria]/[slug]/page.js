@@ -4,7 +4,7 @@ import ExcerptBox from "@/components/post/ExcerptBox";
 import FactCheckBox from "@/components/post/FactCheckBox";
 import TableOfContents from "@/components/post/TableOfContents";
 import PlaxLayout from "@/layouts/PlaxLayout";
-import client from "@/lib/sanityClient";
+import { createClient } from "next-sanity";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/lib/portableTextConfig";
 import { notFound } from "next/navigation";
@@ -16,7 +16,16 @@ import SourcesBox from "@/components/post/SourcesBox";
 import FeedbackButton from "@/components/post/FeedbackButton";
 import SummaryButton from "@/components/post/SummaryButton";
 
-export const revalidate = 60;
+// 🚨 Fuerza render dinámico (no cache)
+export const dynamic = "force-dynamic";
+
+// Cliente sin CDN para asegurar datos en tiempo real
+const client = createClient({
+  projectId: "g88p7aul",
+  dataset: "production",
+  apiVersion: "2023-05-03",
+  useCdn: false,
+});
 
 async function getPost(slug) {
   if (!slug || typeof slug !== "string") {
@@ -107,7 +116,6 @@ export default async function PostPage({ params }) {
     notFound();
   }
 
-  // SEO JSON-LD schemas
   const blogPostingSchema = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
