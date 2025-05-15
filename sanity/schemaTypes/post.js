@@ -16,17 +16,17 @@ export default {
       options: {
         source: 'title',
         maxLength: 96,
-        slugify: input =>
+        slugify: (input) =>
           input
             .toLowerCase()
-            .normalize("NFD") // 🔥 Elimina acentos
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s+/g, "-")
-            .replace(/[^\w\-]+/g, "")
-            .replace(/\-\-+/g, "-")
-            .replace(/^-+/, "")
-            .replace(/-+$/, "")
-      }
+            .normalize('NFD') // 🔥 Elimina acentos
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/[^\w\-]+/g, '')
+            .replace(/\-\-+/g, '-')
+            .replace(/^-+/, '')
+            .replace(/-+$/, ''),
+      },
     },
     {
       name: 'excerpt',
@@ -59,8 +59,10 @@ export default {
     },
     {
       name: 'categoria',
-      type: 'string',
+      type: 'reference',
       title: 'Categoría',
+      to: [{type: 'category'}],
+      description: 'Selecciona una categoría para este artículo.',
     },
 
     // 👤 Autor y editor (referencias a documents author.js)
@@ -68,14 +70,14 @@ export default {
       name: 'author',
       type: 'reference',
       title: 'Autor',
-      to: [{ type: 'author' }],
+      to: [{type: 'author'}],
       description: 'Selecciona el autor principal de este artículo.',
     },
     {
       name: 'lastEditedBy',
       type: 'reference',
       title: 'Editado por',
-      to: [{ type: 'author' }],
+      to: [{type: 'author'}],
       description: 'Selecciona quién fue el último en editar este artículo.',
     },
 
@@ -99,7 +101,7 @@ export default {
       type: 'array',
       title: 'Contenido',
       of: [
-        { type: 'block' },
+        {type: 'block'},
 
         // 🟨 Bloque CTA
         {
@@ -128,10 +130,10 @@ export default {
               type: 'array',
               title: 'Contenido del CTA',
               of: [
-                { type: 'block' },
+                {type: 'block'},
                 {
                   type: 'image',
-                  options: { hotspot: true },
+                  options: {hotspot: true},
                   fields: [
                     {
                       name: 'alt',
@@ -161,8 +163,8 @@ export default {
                       title: 'Estilo',
                       options: {
                         list: [
-                          { title: 'Primario (azul)', value: 'primary' },
-                          { title: 'Secundario (gris)', value: 'secondary' },
+                          {title: 'Primario (azul)', value: 'primary'},
+                          {title: 'Secundario (gris)', value: 'secondary'},
                         ],
                         layout: 'radio',
                       },
@@ -170,8 +172,8 @@ export default {
                     },
                   ],
                   preview: {
-                    select: { title: 'label' },
-                    prepare: ({ title }) => ({
+                    select: {title: 'label'},
+                    prepare: ({title}) => ({
                       title: `🔘 Botón: ${title}`,
                     }),
                   },
@@ -180,8 +182,8 @@ export default {
             },
           ],
           preview: {
-            select: { title: 'title' },
-            prepare: ({ title }) => ({
+            select: {title: 'title'},
+            prepare: ({title}) => ({
               title: `📣 CTA: ${title}`,
             }),
           },
@@ -248,4 +250,4 @@ export default {
       ],
     },
   ],
-};
+}
