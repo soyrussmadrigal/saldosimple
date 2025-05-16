@@ -36,8 +36,8 @@ async function getPost(slug) {
   const query = `
     *[_type == "post" && slug.current == "${slug}"][0] {
       title,
-      slug,
-      categoria,
+      "slug": slug.current,
+      "categoria": categoria->{ title, "slug": slug.current },
       excerpt,
       coverImage {
         asset->{ url },
