@@ -16,7 +16,7 @@ export default function AnimatedSecondaryList({ posts }) {
             viewport={{ once: true }}
           >
             <Link
-              href={`/articulos/${post.categoria}/${post.slug.current}`}
+              href={`/articulos/${post.categoria.slug}/${post.slug}`}
               className="block p-3 sm:p-4 bg-white rounded-xl shadow hover:shadow-lg transition-all"
             >
               <span

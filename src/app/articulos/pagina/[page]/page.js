@@ -97,7 +97,7 @@ export default async function Page({ params, searchParams }) {
           {posts.length > 0 ? (
             posts.map((post) => (
               <div key={post.slug.current} className="mil-blog-card mil-up rounded-xl overflow-hidden shadow-md bg-white">
-                <Link href={`/articulos/${post.categoria}/${post.slug.current}`}>
+                <Link href={`/articulos/${post.categoria?.slug}/${post.slug}`}>
                   <div className="relative w-full h-[200px]">
                     {post.coverImage?.asset?.url ? (
                       <Image

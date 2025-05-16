@@ -15,7 +15,7 @@ export default function AnimatedPostGrid({ posts }) {
           viewport={{ once: true }}
         >
           <Link
-            href={`/articulos/${post.categoria}/${post.slug.current}`}
+            href={`/articulos/${post.categoria.slug}/${post.slug}`}
             className="block p-5 border rounded-xl shadow-sm hover:shadow-md transition-all"
           >
             <span className="text-xs text-blue-500 uppercase font-medium">
