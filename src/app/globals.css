@@ -222,5 +222,14 @@ html {
   animation: fade-in 0.3s ease-out;
 }
 
+/* Este CSS puedes colocarlo en styles/globals.css o en tu layout base */
+.mil-wrapper .mil-banner {
+  margin-top: 0 !important;
+}
 
-
+header,
+#Header,
+.Header {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
