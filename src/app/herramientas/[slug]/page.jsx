@@ -3,6 +3,7 @@ import { getToolPageData } from "@/lib/queries/toolPage";
 import { PortableText } from "@portabletext/react";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import IVACalculator from "@/components/tools/IVACalculator";
+import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalculator";
 import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
@@ -10,8 +11,7 @@ import SEOJsonLd from "@/components/seo/SEOJsonLd";
 // 🧠 Mapa de componentes por slug
 const toolMap = {
   "calculadora-iva": IVACalculator,
-  // Ejemplo de futuros:
-  // "interes-compuesto": InterestCalculator,
+  "calculadora-interes-compuesto": CompoundInterestCalculator,
 };
 
 export async function generateMetadata({ params }) {
