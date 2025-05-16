@@ -22,14 +22,16 @@ const Navbar = ({ dark }) => {
       <div className="container flex items-center justify-between py-4">
         {/* Logo con enlace al home */}
         <Link href="/" onClick={handleLinkClick} className="flex items-center">
-          <Image
-            src={dark ? "/img/logo-light.svg" : "/img/logo.svg"}
-            alt="SaldoSimple logo"
-            width={83}
-            height={32}
-            className="scale-150"
-            priority
-          />
+          <div className="relative w-32 sm:w-36 h-auto">
+            <Image
+              src={dark ? "/img/logo-light.svg" : "/img/logo.svg"}
+              alt="SaldoSimple logo"
+              layout="responsive"
+              width={132}
+              height={52}
+              priority
+            />
+          </div>
         </Link>
 
         {/* Menú */}

@@ -5,8 +5,8 @@ import Image from "next/image";
 const Banner = ({
   title = "Your Ally for Financial Control",
   subTitle = "SaldoSimple",
-  img = "/img/home-1/1.webp", // Imagen principal
-  style = { maxWidth: "135%", transform: "translateX(5%)" },
+  img = "/img/home-1/1.webp",
+  style = {},
   dark = false,
 }) => {
   return (
@@ -14,13 +14,13 @@ const Banner = ({
       <div className="container">
         <div className="row align-items-center">
           {/* Texto */}
-          <div className="col-xl-6">
-            <div className="mil-banner-text">
+          <div className="col-xl-6 col-12 mb-5 mb-xl-0">
+            <div className="mil-banner-text text-center text-xl-start">
               <h6 className="mil-text-gradient-2 mil-mb-20">{subTitle}</h6>
-              <h1 className="mil-display mil-text-gradient-3 mil-mb-60">
+              <h1 className="mil-display mil-text-gradient-3 mil-mb-40">
                 {title}
               </h1>
-              <div className="mil-buttons-frame">
+              <div className="mil-buttons-frame justify-content-center justify-content-xl-start">
                 <Link
                   href="/herramientas"
                   className="mil-btn mil-md mil-add-arrow"
@@ -30,15 +30,15 @@ const Banner = ({
               </div>
             </div>
           </div>
+
           {/* Imagen principal del home */}
-          <div className="col-xl-6">
-            <div className="mil-banner-img" style={{ overflow: "visible" }}>
+          <div className="col-xl-6 col-12">
+            <div className="mil-banner-img d-flex justify-content-center">
               <div
                 style={{
                   position: "relative",
-                  width: "135%",
-                  height: "auto",
-                  transform: "translateX(5%)",
+                  width: "100%",
+                  maxWidth: "500px",
                 }}
               >
                 <Image
