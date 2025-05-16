@@ -14,7 +14,9 @@ async function getPosts(page, categoria) {
   const start = (page - 1) * POSTS_PER_PAGE;
   const end = start + POSTS_PER_PAGE;
 
-  const filter = categoria ? `&& categoria->slug.current == "${categoria}"` : "";
+  const filter = categoria
+    ? `&& categoria->slug.current == "${categoria}"`
+    : "";
   const query = `
     *[_type == "post" ${filter}] | order(publishedAt desc)[${start}...${end}] {
       title,
@@ -33,7 +35,9 @@ async function getPosts(page, categoria) {
 }
 
 async function getTotalPosts(categoria) {
-  const filter = categoria ? `&& categoria->slug.current == "${categoria}"` : "";
+  const filter = categoria
+    ? `&& categoria->slug.current == "${categoria}"`
+    : "";
   const countQuery = `count(*[_type == "post" ${filter}])`;
   return await client.fetch(countQuery);
 }
@@ -85,7 +89,9 @@ export default async function Page({ params, searchParams }) {
           <Link
             href={`/articulos/pagina/1`}
             className={`px-4 py-2 rounded-full text-sm border ${
-              !categoria ? "text-white" : "bg-white text-gray-800 hover:bg-blue-50"
+              !categoria
+                ? "text-white"
+                : "bg-white text-gray-800 hover:bg-blue-50"
             }`}
             style={!categoria ? { backgroundColor: "#0d5152" } : {}}
           >
@@ -94,13 +100,17 @@ export default async function Page({ params, searchParams }) {
           {categories.map((cat) => (
             <Link
               key={cat.slug}
-              href={`/articulos/pagina/1?categoria=${encodeURIComponent(cat.slug)}`}
+              href={`/articulos/pagina/1?categoria=${encodeURIComponent(
+                cat.slug
+              )}`}
               className={`px-4 py-2 rounded-full text-sm border ${
                 categoria === cat.slug
                   ? "text-white"
                   : "bg-white text-gray-800 hover:bg-blue-50"
               }`}
-              style={categoria === cat.slug ? { backgroundColor: "#f27457" } : {}}
+              style={
+                categoria === cat.slug ? { backgroundColor: "#f27457" } : {}
+              }
             >
               {cat.title}
             </Link>

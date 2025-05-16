@@ -1,65 +1,72 @@
-export default {
+// ./schemas/toolPage.js
+
+import { defineField, defineType } from "sanity";
+import IconDropdown from "../components/IconDropdown"; // ✅ Asegúrate de que la ruta sea correcta
+
+export default defineType({
   name: "toolPage",
   title: "Herramientas",
   type: "document",
   fields: [
-    {
+    defineField({
       name: "title",
       title: "Título de la herramienta",
       type: "string",
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: {
-        source: "title",
-        maxLength: 96,
+      options: { source: "title", maxLength: 96 },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "icon",
+      title: "Ícono",
+      type: "string",
+      description: "Seleccioná un ícono representativo para la herramienta.",
+      components: {
+        input: IconDropdown,
       },
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: "metaTitle",
       title: "Meta Título (SEO)",
       type: "string",
-      description: "Título que se mostrará en Google (máx 60 caracteres).",
-    },
-    {
+    }),
+    defineField({
       name: "metaDescription",
       title: "Meta Descripción (SEO)",
       type: "text",
       rows: 3,
-      description: "Descripción breve para Google (máx 160 caracteres).",
-    },
-    {
+    }),
+    defineField({
       name: "canonicalUrl",
       title: "Canonical URL",
       type: "url",
-      description: "URL canónica para evitar contenido duplicado.",
-    },
-    {
+    }),
+    defineField({
       name: "shortDescription",
       title: "Descripción corta",
       type: "text",
       rows: 2,
-      description: "Descripción que se mostrará como resumen en la sección de herramientas.",
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: "ctaText",
       title: "Texto del botón",
       type: "string",
-      description: "Texto para el botón (ej. 'Usar calculadora')",
       initialValue: "Usar herramienta",
-    },
-    {
+    }),
+    defineField({
       name: "content",
       title: "Contenido principal",
       type: "array",
       of: [{ type: "block" }],
-    },
-    {
+    }),
+    defineField({
       name: "faqs",
       title: "Preguntas Frecuentes",
       type: "array",
@@ -67,11 +74,7 @@ export default {
         {
           type: "object",
           fields: [
-            {
-              name: "question",
-              title: "Pregunta",
-              type: "string",
-            },
+            { name: "question", title: "Pregunta", type: "string" },
             {
               name: "answer",
               title: "Respuesta",
@@ -81,6 +84,6 @@ export default {
           ],
         },
       ],
-    },
+    }),
   ],
-};
+});
