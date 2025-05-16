@@ -129,6 +129,11 @@ export default async function PostPage({ params }) {
       "@type": "WebPage",
       "@id": `https://www.saldosimple.com/articulos/${post.categoria?.slug}/${post.slug}`,
     },
+    articleBody: post.content
+      ?.filter((block) => block._type === "block" && block.children)
+      .map((block) => block.children.map((child) => child.text).join(" "))
+      .join("\n")
+      .trim(),
     citation: post.sources?.map((source) => source.url),
   };
 
