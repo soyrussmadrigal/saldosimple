@@ -28,6 +28,7 @@ async function getPosts(page, categoria) {
       publishedAt
     }
   `;
+
   return await client.fetch(query);
 }
 
