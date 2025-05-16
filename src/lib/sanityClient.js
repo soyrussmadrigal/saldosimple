@@ -27,5 +27,12 @@ export async function getLatestArticles() {
       }
     }
   }`;
-  return await client.fetch(query);
+
+  return await client.fetch(
+    query,
+    {},
+    {
+      next: { revalidate: 0 }, // 👈 fuerza regeneración en cada llamada
+    }
+  );
 }

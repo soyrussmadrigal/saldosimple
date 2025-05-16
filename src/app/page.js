@@ -9,6 +9,8 @@ export const metadata = {
   },
 };
 
+export const revalidate = 0; // 👈 fuerza que esta página se regenere en cada request
+
 import Banner from "@/components/sections/Banner";
 import PlaxAccordion from "@/components/ui/PlaxAccordion";
 import PlaxLayout from "@/layouts/PlaxLayout";
