@@ -89,7 +89,9 @@ export async function generateMetadata({ params }) {
       url: `https://www.saldosimple.com/articulos/${post.categoria?.slug}/${post.slug}`,
       images: [
         {
-          url: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-og.jpg",
+          url:
+            post.coverImage?.asset?.url ||
+            "https://www.saldosimple.com/default-og.jpg",
           width: 800,
           height: 600,
           alt: post.title,
@@ -110,7 +112,9 @@ export default async function PostPage({ params }) {
     headline: post.metaTitle || post.title,
     description: post.metaDescription || post.excerpt,
     datePublished: post.publishedAt,
-    image: post.coverImage?.asset?.url || "https://www.saldosimple.com/default-image.jpg",
+    image:
+      post.coverImage?.asset?.url ||
+      "https://www.saldosimple.com/default-image.jpg",
     articleSection: post.categoria?.title,
     author: { "@type": "Organization", name: "SaldoSimple" },
     publisher: {
@@ -159,18 +163,21 @@ export default async function PostPage({ params }) {
     ],
   };
 
-  const faqSchema = post.faqs?.length > 0 ? {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: post.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  } : null;
+  const faqSchema =
+    post.faqs?.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: post.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
 
   return (
     <>
@@ -192,10 +199,17 @@ export default async function PostPage({ params }) {
                 <h1 className="text-4xl font-bold text-black leading-tight mb-2">
                   {post.title}
                 </h1>
-                <Breadcrumb categoria={post.categoria?.title} titulo={post.title} />
+                <Breadcrumb
+                  categoria={post.categoria?.title}
+                  titulo={post.title}
+                />
               </div>
 
-              {post.excerpt && <div className="mb-6"><ExcerptBox excerpt={post.excerpt} /></div>}
+              {post.excerpt && (
+                <div className="mb-6">
+                  <ExcerptBox excerpt={post.excerpt} />
+                </div>
+              )}
 
               <div className="mb-6">
                 <FactCheckBox
@@ -233,19 +247,24 @@ export default async function PostPage({ params }) {
                 <div className="mt-4 flex justify-end">
                   <SummaryButton
                     slug={post.slug}
-                    content={post.content
-                      ?.filter((block) => block._type === "block" && block.children)
-                      .map((block) => {
-                        const text = block.children.map((child) => child.text).join(" ");
-                        if (block.style === "h1") return `# ${text}`;
-                        if (block.style === "h2") return `## ${text}`;
-                        if (block.style === "h3") return `### ${text}`;
-                        if (block.listItem === "bullet") return `- ${text}`;
-                        if (block.listItem === "number") return `1. ${text}`;
-                        return text;
-                      })
-                      .join("\n")
-                      .trim() || ""
+                    content={
+                      post.content
+                        ?.filter(
+                          (block) => block._type === "block" && block.children
+                        )
+                        .map((block) => {
+                          const text = block.children
+                            .map((child) => child.text)
+                            .join(" ");
+                          if (block.style === "h1") return `# ${text}`;
+                          if (block.style === "h2") return `## ${text}`;
+                          if (block.style === "h3") return `### ${text}`;
+                          if (block.listItem === "bullet") return `- ${text}`;
+                          if (block.listItem === "number") return `1. ${text}`;
+                          return text;
+                        })
+                        .join("\n")
+                        .trim() || ""
                     }
                   />
                 </div>
@@ -260,7 +279,9 @@ export default async function PostPage({ params }) {
               </div>
 
               {post.faqs?.length > 0 && <FAQsSection faqs={post.faqs} />}
-              {post.sources?.length > 0 && <SourcesBox sources={post.sources} />}
+              {post.sources?.length > 0 && (
+                <SourcesBox sources={post.sources} />
+              )}
               <FeedbackButton />
 
               {post.author && (
