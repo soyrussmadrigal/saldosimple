@@ -8,15 +8,10 @@ const ToolsShowcase = () => {
   const [tools, setTools] = useState([]);
 
   useEffect(() => {
-  getAllTools()
-    .then((data) => {
-      console.log("✅ Herramientas:", data);
-      setTools(data);
-    })
-    .catch((err) => {
-      console.error("❌ Error de herramientas:", err);
-    });
-}, []);
+    getAllTools()
+      .then(setTools)
+      .catch((err) => console.error("❌ Error al cargar herramientas:", err));
+  }, []);
 
   if (!tools.length) return null;
 
