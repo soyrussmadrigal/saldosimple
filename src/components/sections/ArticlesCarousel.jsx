@@ -67,7 +67,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
         {mainArticle && (
           <div className="flex flex-col md:flex-row-reverse gap-6 mb-10 bg-white rounded-2xl shadow-md overflow-hidden">
             <Link
-              href={`/articulos/${mainArticle.categoria}/${mainArticle.slug}`}
+              href={`/articulos/${mainArticle.categoria?.slug}/${mainArticle.slug}`}
               className="relative w-full md:w-1/2 aspect-video md:aspect-auto md:h-auto"
             >
               <Image
@@ -136,7 +136,7 @@ const ArticlesCarousel = ({ articles = [] }) => {
             {otherArticles.map((article) => (
               <SwiperSlide key={article.slug}>
                 <Link
-                  href={`/articulos/${article.categoria}/${article.slug}`}
+                  href={`/articulos/${article.categoria?.slug}/${article.slug}`}
                   className="flex flex-col justify-between bg-white rounded-2xl shadow p-5 h-[260px] hover:shadow-lg transition"
                 >
                   <div>

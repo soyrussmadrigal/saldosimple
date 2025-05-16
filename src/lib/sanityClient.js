@@ -4,7 +4,7 @@ const client = createClient({
   projectId: "g88p7aul",
   dataset: "production",
   apiVersion: "2023-01-01",
-  useCdn: false, /// cambiar a true para producción
+  useCdn: false, // cambiar a true para producción
 });
 
 export default client;
@@ -14,7 +14,7 @@ export async function getLatestArticles() {
   const query = `*[_type == "post"] | order(publishedAt desc)[0...6] {
     title,
     "slug": slug.current,
-    categoria,
+    "categoria": categoria->{ title, "slug": slug.current },
     excerpt,
     coverImage {
       asset->{ url },
