@@ -5,47 +5,19 @@ import Image from "next/image";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+// Lista de monedas con banderas (usa código ISO)
 const currencyOptions = [
-  {
-    code: "CRC",
-    label: "Costa Rica",
-    locale: "es-CR",
-    symbol: "₡",
-    flag: "cr",
-  },
+  { code: "USD", label: "Estados Unidos", locale: "en-US", symbol: "$", flag: "us" },
+  { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "COP", label: "Colombia", locale: "es-CO", symbol: "$", flag: "co" },
   { code: "ARS", label: "Argentina", locale: "es-AR", symbol: "$", flag: "ar" },
   { code: "PEN", label: "Perú", locale: "es-PE", symbol: "S/", flag: "pe" },
   { code: "CLP", label: "Chile", locale: "es-CL", symbol: "$", flag: "cl" },
-  { code: "USD", label: "Panamá", locale: "es-PA", symbol: "$", flag: "pa" },
-  {
-    code: "USD",
-    label: "Estados Unidos",
-    locale: "en-US",
-    symbol: "$",
-    flag: "us",
-  },
   { code: "EUR", label: "España", locale: "es-ES", symbol: "€", flag: "es" },
 ];
 
-const ivaPorPais = {
-  cr: 13,
-  mx: 16,
-  co: 19,
-  ar: 21,
-  pe: 18,
-  cl: 19,
-  pa: 7,
-  us: 0,
-  es: 21,
-};
-
-export default function CurrencySelector({
-  currency,
-  setCurrency,
-  showIVA = false,
-}) {
+export default function CurrencySelector({ currency, setCurrency }) {
   const [open, setOpen] = useState(false);
 
   const handleSelect = (option) => {
@@ -56,36 +28,35 @@ export default function CurrencySelector({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className="w-full justify-start text-left h-11 rounded-xl"
-        >
+        <Button variant="outline" className="w-full h-11 justify-start text-left rounded-md">
           <div className="flex items-center gap-3">
-            <Image
-              src={`/flags/${currency.flag}.svg`}
-              alt={currency.label}
-              width={24}
-              height={16}
-              className="object-contain"
-              priority
-            />
-            <span>
-              {currency.label} ({currency.symbol})
+            {currency?.flag ? (
+              <Image
+                src={`/flags/${currency.flag}.svg`}
+                alt={currency.label}
+                width={24}
+                height={16}
+                className="object-contain"
+                onError={(e) => (e.currentTarget.style.display = "none")}
+              />
+            ) : (
+              <div className="w-6 h-4 bg-gray-200 rounded" />
+            )}
+            <span className="text-sm font-medium">
+              {currency?.label} ({currency?.symbol})
             </span>
           </div>
         </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl p-6 rounded-xl">
-        <h3 className="text-lg font-semibold mb-4">
-          Selecciona tu país o moneda
-        </h3>
+        <h3 className="text-lg font-semibold mb-4">Selecciona tu moneda</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {currencyOptions.map((option) => (
             <button
-              key={`${option.code}-${option.flag}`}
+              key={option.code}
               onClick={() => handleSelect(option)}
-              className="p-3 border rounded-xl hover:bg-gray-50 transition text-sm text-left flex flex-col items-center shadow-sm"
+              className="flex flex-col items-center text-sm p-3 border rounded-lg hover:bg-gray-50 transition"
             >
               <Image
                 src={`/flags/${option.flag}.svg`}
@@ -93,16 +64,10 @@ export default function CurrencySelector({
                 width={36}
                 height={24}
                 className="mb-2"
+                onError={(e) => (e.currentTarget.style.display = "none")}
               />
               <span className="font-medium">{option.label}</span>
-              <span className="text-muted-foreground text-xs">
-                {option.symbol}
-              </span>
-              {showIVA && (
-                <span className="text-gray-500 text-xs mt-1">
-                  IVA {ivaPorPais[option.flag] ?? 0}%
-                </span>
-              )}
+              <span className="text-gray-500 text-xs">{option.symbol}</span>
             </button>
           ))}
         </div>

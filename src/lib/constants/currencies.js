@@ -1,6 +1,3 @@
-// Paso 1: Crea archivo de monedas centralizado
-// Ruta: /lib/constants/currencies.js
-
 const currencyOptions = [
     { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
     { code: "USD", label: "Estados Unidos", locale: "en-US", symbol: "$", flag: "us" },

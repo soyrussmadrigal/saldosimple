@@ -233,3 +233,10 @@ header,
   margin-bottom: 0 !important;
   padding-bottom: 0 !important;
 }
+
+.export-friendly * {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  border-color: #e5e7eb !important; /* opcional: bordes grises */
+}
