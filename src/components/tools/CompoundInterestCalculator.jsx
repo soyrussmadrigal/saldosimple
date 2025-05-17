@@ -89,7 +89,7 @@ export default function CompoundInterestCalculator() {
   const last = data[data.length - 1];
   const displayedData = showAll ? data : data.slice(0, 10);
 
-  const handleExportCSV = () => {
+  const exportToCSV = () => {
     const headers = ["Fecha", "Balance acumulado", "Total aportado", "Interés ganado"];
     const rows = data.map((row) => [
       row.label,
@@ -97,13 +97,16 @@ export default function CompoundInterestCalculator() {
       row.principal.toFixed(2),
       row.interest.toFixed(2),
     ]);
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers, ...rows]
+        .map((row) => row.join(","))
+        .join("\n");
 
-    const csvContent = [headers, ...rows].map((row) => row.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+    const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "interes-compuesto.csv");
+    link.href = encodedUri;
+    link.download = "proyeccion_interes_compuesto.csv";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -111,13 +114,14 @@ export default function CompoundInterestCalculator() {
 
   return (
     <section className="max-w-screen-2xl mx-auto px-4 md:px-10 py-16">
-      {/* Formulario */}
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm max-w-2xl mx-auto space-y-4 mb-12">
         <div className="text-xl font-semibold text-gray-800 mb-4">
           Detalles de inversión
         </div>
 
-        <CurrencySelector currency={currency} setCurrency={setCurrency} />
+        <div className="mb-3 -mt-2">
+          <CurrencySelector currency={currency} setCurrency={setCurrency} />
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -145,7 +149,7 @@ export default function CompoundInterestCalculator() {
             />
           </div>
           <div>
-            <Label className="mb-1 block">Monto de contribución</Label>
+            <Label className="mb-1 block">Contribución periódica</Label>
             <Input
               type="number"
               value={contribution}
@@ -186,7 +190,7 @@ export default function CompoundInterestCalculator() {
         </div>
       </div>
 
-      {/* Balance estimado y gráfico */}
+      {/* Balance y gráfico */}
       <div className="max-w-4xl mx-auto mb-12">
         <div className="text-center mb-6">
           <h2 className="text-xl font-medium text-gray-700 mb-1">
@@ -218,18 +222,44 @@ export default function CompoundInterestCalculator() {
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={data}>
                 <defs>
-                  <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
+                  <linearGradient
+                    id="balanceGradient"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
                     <stop offset="0%" stopColor="#22c55e" stopOpacity={0.3} />
                     <stop offset="100%" stopColor="#22c55e" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="label" />
-                <YAxis tickFormatter={(val) => `${currency.symbol}${(val / 1000).toFixed(1)}k`} />
-                <Tooltip formatter={(val) => `${currency.symbol}${val.toLocaleString()}`} />
+                <YAxis
+                  tickFormatter={(val) =>
+                    `${currency.symbol}${(val / 1000).toFixed(1)}k`
+                  }
+                />
+                <Tooltip
+                  formatter={(val) =>
+                    `${currency.symbol}${val.toLocaleString()}`
+                  }
+                />
                 <Legend />
-                <Area type="monotone" dataKey="principal" stroke="#2563eb" fill="#bfdbfe" name="Total aportado" />
-                <Area type="monotone" dataKey="interest" stroke="#16a34a" fill="url(#balanceGradient)" name="Interés ganado" />
+                <Area
+                  type="monotone"
+                  dataKey="principal"
+                  stroke="#2563eb"
+                  fill="#bfdbfe"
+                  name="Total aportado"
+                />
+                <Area
+                  type="monotone"
+                  dataKey="interest"
+                  stroke="#16a34a"
+                  fill="url(#balanceGradient)"
+                  name="Interés ganado"
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -238,12 +268,12 @@ export default function CompoundInterestCalculator() {
 
       {/* Tabla de proyección */}
       <div className="max-w-5xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
+        <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-gray-700">
             Proyección {contributionFreq === "monthly" ? "mensual" : "anual"}
           </h3>
-          <Button onClick={handleExportCSV} variant="outline">
-            Exportar a CSV
+          <Button onClick={exportToCSV} size="sm" variant="outline">
+            Exportar CSV
           </Button>
         </div>
 
@@ -261,9 +291,24 @@ export default function CompoundInterestCalculator() {
               {displayedData.map((row, idx) => (
                 <tr key={idx} className="border-t">
                   <td className="px-4 py-2 whitespace-nowrap">{row.label}</td>
-                  <td className="px-4 py-2">{currency.symbol}{row.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                  <td className="px-4 py-2">{currency.symbol}{row.principal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
-                  <td className="px-4 py-2">{currency.symbol}{row.interest.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                  <td className="px-4 py-2">
+                    {currency.symbol}
+                    {row.balance.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
+                  <td className="px-4 py-2">
+                    {currency.symbol}
+                    {row.principal.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
+                  <td className="px-4 py-2">
+                    {currency.symbol}
+                    {row.interest.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                    })}
+                  </td>
                 </tr>
               ))}
             </tbody>
