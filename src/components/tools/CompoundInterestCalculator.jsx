@@ -42,10 +42,7 @@ export default function CompoundInterestCalculator() {
   const isInvalidDeposit = isNaN(initialDeposit) || Number(initialDeposit) < 0;
   const isInvalidContribution = isNaN(contribution) || Number(contribution) < 0;
   const isValid =
-    !isInvalidYears &&
-    !isInvalidRate &&
-    !isInvalidDeposit &&
-    !isInvalidContribution;
+    !isInvalidYears && !isInvalidRate && !isInvalidDeposit && !isInvalidContribution;
 
   const getCompoundings = (freq) => (freq === "monthly" ? 12 : 1);
 
@@ -98,12 +95,7 @@ export default function CompoundInterestCalculator() {
   const displayedData = showAll ? data : data.slice(0, 10);
 
   const exportToCSV = () => {
-    const headers = [
-      "Fecha",
-      "Balance acumulado",
-      "Total aportado",
-      "Interés ganado",
-    ];
+    const headers = ["Fecha", "Balance acumulado", "Total aportado", "Interés ganado"];
     const rows = data.map((row) => [
       row.label,
       row.balance.toFixed(2),
@@ -123,8 +115,8 @@ export default function CompoundInterestCalculator() {
   };
 
   return (
-   <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-10 py-10">
-      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm w-full md:max-w-2xl mx-auto space-y-4 mb-12">
+    <section className="max-w-screen-2xl mx-auto px-4 md:px-10 py-16">
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm max-w-2xl mx-auto space-y-4 mb-12">
         <div className="text-xl font-semibold text-gray-800 mb-4">
           Detalles de inversión
         </div>
@@ -141,11 +133,7 @@ export default function CompoundInterestCalculator() {
               className={isInvalidDeposit ? "border-red-500" : ""}
               onChange={(e) => setInitialDeposit(e.target.value)}
             />
-            {isInvalidDeposit && (
-              <p className="text-sm text-red-500 mt-1">
-                No puede ser negativo.
-              </p>
-            )}
+            {isInvalidDeposit && <p className="text-sm text-red-500 mt-1">No puede ser negativo.</p>}
           </div>
           <div>
             <Label className="mb-1 block">Años de crecimiento</Label>
@@ -156,11 +144,7 @@ export default function CompoundInterestCalculator() {
               className={isInvalidYears ? "border-red-500" : ""}
               onChange={(e) => setYears(e.target.value)}
             />
-            {isInvalidYears && (
-              <p className="text-sm text-red-500 mt-1">
-                Mínimo 1 año requerido.
-              </p>
-            )}
+            {isInvalidYears && <p className="text-sm text-red-500 mt-1">Mínimo 1 año requerido.</p>}
           </div>
           <div>
             <Label className="mb-1 block">Tasa de retorno (%)</Label>
@@ -172,11 +156,7 @@ export default function CompoundInterestCalculator() {
               className={isInvalidRate ? "border-red-500" : ""}
               onChange={(e) => setRate(e.target.value)}
             />
-            {isInvalidRate && (
-              <p className="text-sm text-red-500 mt-1">
-                Debe estar entre 0 y 100.
-              </p>
-            )}
+            {isInvalidRate && <p className="text-sm text-red-500 mt-1">Debe estar entre 0 y 100.</p>}
           </div>
           <div>
             <Label className="mb-1 block">Contribución periódica</Label>
@@ -187,11 +167,7 @@ export default function CompoundInterestCalculator() {
               className={isInvalidContribution ? "border-red-500" : ""}
               onChange={(e) => setContribution(e.target.value)}
             />
-            {isInvalidContribution && (
-              <p className="text-sm text-red-500 mt-1">
-                No puede ser negativo.
-              </p>
-            )}
+            {isInvalidContribution && <p className="text-sm text-red-500 mt-1">No puede ser negativo.</p>}
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
@@ -216,9 +192,7 @@ export default function CompoundInterestCalculator() {
                 Mensual
               </Button>
               <Button
-                variant={
-                  contributionFreq === "annually" ? "default" : "outline"
-                }
+                variant={contributionFreq === "annually" ? "default" : "outline"}
                 onClick={() => setContributionFreq("annually")}
               >
                 Anual
@@ -231,21 +205,13 @@ export default function CompoundInterestCalculator() {
       {isValid && last && (
         <div className="max-w-4xl mx-auto mb-12">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-medium text-gray-700 mb-1">
-              Balance estimado
-            </h2>
+            <h2 className="text-xl font-medium text-gray-700 mb-1">Balance estimado</h2>
             <p className="text-4xl font-bold text-green-700">
               {currency.symbol}
-              {last.balance.toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}
+              {last.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </p>
             <p className="text-gray-500 text-sm mt-2">
-              Con un depósito de {currency.symbol}
-              {parseFloat(initialDeposit).toLocaleString()}, contribuciones{" "}
-              {contributionFreq === "monthly" ? "mensuales" : "anuales"} de{" "}
-              {currency.symbol}
-              {parseFloat(contribution).toLocaleString()} durante {years} años.
+              Con un depósito de {currency.symbol}{parseFloat(initialDeposit).toLocaleString()}, contribuciones {contributionFreq === "monthly" ? "mensuales" : "anuales"} de {currency.symbol}{parseFloat(contribution).toLocaleString()} durante {years} años.
             </p>
           </div>
           <div className="mb-6 flex justify-end">
@@ -254,48 +220,22 @@ export default function CompoundInterestCalculator() {
             </Button>
           </div>
           {showChart && (
-            <div className="w-full h-[300px] sm:h-[350px] md:h-[400px]">
+            <div className="w-full h-[400px]">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={data}>
                   <defs>
-                    <linearGradient
-                      id="balanceGradient"
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="1"
-                    >
+                    <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stopColor="#22c55e" stopOpacity={0.3} />
                       <stop offset="100%" stopColor="#22c55e" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="label" />
-                  <YAxis
-                    tickFormatter={(val) =>
-                      `${currency.symbol}${(val / 1000).toFixed(1)}k`
-                    }
-                  />
-                  <Tooltip
-                    formatter={(val) =>
-                      `${currency.symbol}${val.toLocaleString()}`
-                    }
-                  />
+                  <YAxis tickFormatter={(val) => `${currency.symbol}${(val / 1000).toFixed(1)}k`} />
+                  <Tooltip formatter={(val) => `${currency.symbol}${val.toLocaleString()}`} />
                   <Legend />
-                  <Area
-                    type="monotone"
-                    dataKey="principal"
-                    stroke="#2563eb"
-                    fill="#bfdbfe"
-                    name="Total aportado"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="interest"
-                    stroke="#16a34a"
-                    fill="url(#balanceGradient)"
-                    name="Interés ganado"
-                  />
+                  <Area type="monotone" dataKey="principal" stroke="#2563eb" fill="#bfdbfe" name="Total aportado" />
+                  <Area type="monotone" dataKey="interest" stroke="#16a34a" fill="url(#balanceGradient)" name="Interés ganado" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
@@ -327,24 +267,9 @@ export default function CompoundInterestCalculator() {
                 {displayedData.map((row, idx) => (
                   <tr key={idx} className="border-t">
                     <td className="px-4 py-2 whitespace-nowrap">{row.label}</td>
-                    <td className="px-4 py-2">
-                      {currency.symbol}
-                      {row.balance.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </td>
-                    <td className="px-4 py-2">
-                      {currency.symbol}
-                      {row.principal.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </td>
-                    <td className="px-4 py-2">
-                      {currency.symbol}
-                      {row.interest.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </td>
+                    <td className="px-4 py-2">{currency.symbol}{row.balance.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-4 py-2">{currency.symbol}{row.principal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
+                    <td className="px-4 py-2">{currency.symbol}{row.interest.toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                   </tr>
                 ))}
               </tbody>
