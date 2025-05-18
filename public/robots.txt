@@ -1,5 +1,5 @@
 ## Robots.txt para SaldoSimple.com
-## Proyecto enfocado en finanzas personales y servicios financieros en Costa Rica
+## Proyecto enfocado en finanzas personales y servicios financieros.
 
 User-agent: *
 Disallow: /admin/
