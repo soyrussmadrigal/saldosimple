@@ -759,7 +759,7 @@ space
 }
 
 .mil-p-0-160 {
-  padding-bottom: 160px;
+  padding-bottom: 1px;
 }
 @media (max-width: 1200px) {
   .mil-p-0-160 {

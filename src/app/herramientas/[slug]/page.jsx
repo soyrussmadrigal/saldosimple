@@ -139,7 +139,7 @@ export default async function ToolPage({ params }) {
       />
 
       {/* 🧾 Título + breadcrumb */}
-      <section className="text-center py-20 px-4 bg-white mt-5">
+      <section className="text-center py-1 px-4 bg-white mt-5">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-bold mb-2 text-teal-900">
             {titulo}

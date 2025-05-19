@@ -285,6 +285,33 @@ export default function LoanCalculator() {
 
         <div className="mt-8">
           <Bar data={chartData} />
+          {totalPayment && totalInterest && (
+            <div className="mt-6 bg-blue-50 text-gray-700 text-center p-6 rounded-xl text-base sm:text-lg font-medium shadow-sm">
+              En {term} {termUnit === "years" ? "años" : "meses"}, pagarás un
+              total de{" "}
+              <span className="font-semibold">
+                {currency.symbol}
+                {parseFloat(totalPayment).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>{" "}
+              incluyendo{" "}
+              <span className="font-semibold">
+                {currency.symbol}
+                {parseFloat(totalInterest).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>{" "}
+              en intereses por un préstamo de{" "}
+              <span className="font-semibold">
+                {currency.symbol}
+                {parseFloat(loanAmount).toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
+              .
+            </div>
+          )}
         </div>
 
         {/* Tabla con marca de agua */}
