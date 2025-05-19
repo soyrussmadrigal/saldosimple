@@ -142,14 +142,14 @@ export default async function Page({ params, searchParams }) {
                   <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
                     <span
                       className="text-sm uppercase font-semibold px-2 py-1 rounded-md"
-                      style={{ backgroundColor: "#0d5152" }}
+                      style={{ backgroundColor: "#0d5152", color: "white" }}
                     >
                       {featured.categoria?.title}
                     </span>
-                    <h2 className="text-2xl font-bold leading-snug mt-1">
+                    <h2 className="text-2xl font-bold leading-snug mt-1 text-white">
                       {featured.title}
                     </h2>
-                    <p className="text-sm mt-2 line-clamp-2 max-w-xl">
+                    <p className="text-sm mt-2 line-clamp-2 max-w-xl text-white">
                       {featured.excerpt}
                     </p>
                   </div>
