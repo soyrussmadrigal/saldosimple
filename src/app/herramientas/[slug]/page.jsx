@@ -111,6 +111,24 @@ export default async function ToolPage({ params }) {
     articleBody: extractPlainText(data.content),
   };
 
+  // 🔧 JSON-LD: FAQ schema
+  const faqSchema =
+    data.faqs && data.faqs.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: data.faqs.map((faq) => ({
+            "@type": "Question",
+            name: faq.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: faq.answer,
+              text: extractPlainText(faq.answer),
+            },
+          })),
+        }
+      : null;
+
   // 🔧 JSON-LD: SoftwareApplication schema
   const softwareSchema = {
     "@context": "https://schema.org",
@@ -135,6 +153,7 @@ export default async function ToolPage({ params }) {
           breadcrumb: breadcrumbSchema,
           article: articleSchema,
           software: softwareSchema,
+          ...(faqSchema && { faq: faqSchema }),
         }}
       />
 
