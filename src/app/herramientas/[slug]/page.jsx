@@ -14,7 +14,7 @@ import Breadcrumb from "@/components/post/Breadcrumb";
 const toolMap = {
   "calculadora-iva": IVACalculator,
   "calculadora-interes-compuesto": CompoundInterestCalculator,
-  "calculadora-de-prestamo-personal": LoanCalculator,
+  "calculadora-credito-personal": LoanCalculator,
 };
 
 // ✅ SEO generado dinámicamente para <head>
