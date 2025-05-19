@@ -18,18 +18,19 @@ async function getPosts(page, categoria) {
     ? `&& categoria->slug.current == "${categoria}"`
     : "";
   const query = `
-    *[_type == "post" ${filter}] | order(publishedAt desc)[${start}...${end}] {
-      title,
-      "slug": slug.current,
-      "categoria": categoria->{ title, "slug": slug.current },
-      excerpt,
-      coverImage {
-        asset->{ url },
-        alt
-      },
-      publishedAt
-    }
-  `;
+  *[_type == "post" && !(_id in path("drafts.**")) ${filter}]
+    | order(publishedAt desc)[${start}...${end}] {
+    title,
+    "slug": slug.current,
+    "categoria": categoria->{ title, "slug": slug.current },
+    excerpt,
+    coverImage {
+      asset->{ url },
+      alt
+    },
+    publishedAt
+  }
+`;
 
   return await client.fetch(query);
 }

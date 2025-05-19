@@ -26,7 +26,7 @@ export default function AnimatedSecondaryList({ posts }) {
                   color: "white",
                 }}
               >
-                {post.categoria}
+                {post.categoria?.title}
               </span>
               <h3 className="text-base sm:text-lg font-semibold mt-1">
                 {post.title}
