@@ -139,7 +139,7 @@ export default async function Page({ params, searchParams }) {
                     height={450}
                     className="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105"
                   />
-                  <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-6 text-white">
+                  <div className="absolute bottom-0 left-0 bg-gradient-to-t from-black/90 to-transparent p-6 text-white">
                     <span
                       className="text-sm uppercase font-semibold px-2 py-1 rounded-md"
                       style={{ backgroundColor: "#0d5152", color: "white" }}
