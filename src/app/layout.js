@@ -23,7 +23,6 @@ const secondaryFont = Questrial({
 export const metadata = {
   title: {
     default: "SaldoSimple",
-    template: "%s | SaldoSimple",
   },
 };
 
