@@ -43,7 +43,12 @@ async function getTotalPosts(categoria) {
 }
 
 async function getAllCategories() {
-  const query = `*[_type == "category"]{ title, "slug": slug.current }`;
+  const query = `
+    *[_type == "category" && count(*[_type == "post" && categoria._ref == ^._id]) > 0] {
+      title,
+      "slug": slug.current
+    }
+  `;
   return await client.fetch(query);
 }
 
