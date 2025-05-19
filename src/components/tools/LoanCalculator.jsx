@@ -1,12 +1,10 @@
-// Código actualizado de LoanCalculator con corrección de sección Plazo
-
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator } from "lucide-react";
+import { Calculator, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CurrencySelector from "@/components/tools/CurrencySelector";
 import { Bar } from "react-chartjs-2";
@@ -26,25 +24,13 @@ import autoTable from "jspdf-autotable";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const currencyOptions = [
-  {
-    code: "CRC",
-    label: "Costa Rica",
-    locale: "es-CR",
-    symbol: "₡",
-    flag: "cr",
-  },
+  { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "COP", label: "Colombia", locale: "es-CO", symbol: "$", flag: "co" },
   { code: "ARS", label: "Argentina", locale: "es-AR", symbol: "$", flag: "ar" },
   { code: "PEN", label: "Perú", locale: "es-PE", symbol: "S/", flag: "pe" },
   { code: "CLP", label: "Chile", locale: "es-CL", symbol: "$", flag: "cl" },
-  {
-    code: "USD",
-    label: "Panamá / USA",
-    locale: "en-US",
-    symbol: "$",
-    flag: "pa",
-  },
+  { code: "USD", label: "Panamá / USA", locale: "en-US", symbol: "$", flag: "pa" },
   { code: "EUR", label: "España", locale: "es-ES", symbol: "€", flag: "es" },
 ];
 
@@ -58,6 +44,8 @@ export default function LoanCalculator() {
   const [totalPayment, setTotalPayment] = useState(null);
   const [totalInterest, setTotalInterest] = useState(null);
   const [amortization, setAmortization] = useState([]);
+  const [visibleRows, setVisibleRows] = useState(10);
+  const tableRef = useRef(null);
 
   useEffect(() => {
     const detectCountry = async () => {
@@ -73,7 +61,6 @@ export default function LoanCalculator() {
         console.error("No se pudo detectar el país automáticamente.");
       }
     };
-
     detectCountry();
   }, []);
 
@@ -113,33 +100,18 @@ export default function LoanCalculator() {
     }
 
     setAmortization(schedule);
+    setVisibleRows(10);
   };
 
   useEffect(() => {
     calculateLoan();
   }, [loanAmount, term, termUnit, interestRate]);
 
-  const chartData = {
-    labels: amortization.map((item) => `Mes ${item.month}`),
-    datasets: [
-      {
-        label: "Capital",
-        data: amortization.map((item) => item.principal.toFixed(2)),
-        backgroundColor: "#0f766e",
-      },
-      {
-        label: "Interés",
-        data: amortization.map((item) => item.interest.toFixed(2)),
-        backgroundColor: "#facc15",
-      },
-    ],
-  };
-
-  const copyPayment = () => {
-    navigator.clipboard.writeText(monthlyPayment);
-    toast.success(
-      `Se copió ${currency.symbol}${monthlyPayment} al portapapeles.`
-    );
+  const handleShowMore = () => {
+    setVisibleRows((prev) => prev + 10);
+    setTimeout(() => {
+      tableRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    }, 100);
   };
 
   const exportToCSV = () => {
@@ -177,116 +149,99 @@ export default function LoanCalculator() {
     doc.save("tabla_amortizacion.pdf");
   };
 
+  const chartData = {
+    labels: amortization.map((item) => `Mes ${item.month}`),
+    datasets: [
+      {
+        label: "Capital",
+        data: amortization.map((item) => parseFloat(item.principal.toFixed(2))),
+        backgroundColor: "#0f766e",
+      },
+      {
+        label: "Interés",
+        data: amortization.map((item) => parseFloat(item.interest.toFixed(2))),
+        backgroundColor: "#facc15",
+      },
+    ],
+  };
+
+  const copyPayment = () => {
+    navigator.clipboard.writeText(monthlyPayment);
+    toast.success(`Se copió ${currency.symbol}${monthlyPayment} al portapapeles.`);
+  };
+
   return (
     <Card className="w-full max-w-6xl mx-auto mt-16 px-2 sm:px-8 py-8 shadow-xl rounded-3xl bg-white border border-gray-200">
       <CardContent>
-        <div className="flex items-center gap-3 text-xl font-semibold text-gray-800 mb-6">
-          <Calculator className="w-6 h-6" />
-          Calculadora de Préstamo Personal
-        </div>
+        <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-teal-900">
+          <Calculator size={28} /> Calculadora de Préstamo Personal
+        </h2>
 
-        <Label className="text-sm text-gray-600 mt-0 block">
-          Selecciona tu país
-        </Label>
-        <div className="mt-2 mb-4">
-          <CurrencySelector
-            currency={currency}
-            setCurrency={handleSelectCountry}
-          />
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
-          <div className="sm:col-span-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <div>
             <Label>Monto del préstamo</Label>
             <Input
               type="number"
               value={loanAmount}
-              onChange={(e) => setLoanAmount(Number(e.target.value))}
-              min={0}
+              onChange={(e) => setLoanAmount(e.target.value)}
             />
           </div>
-
-          <div className="sm:col-span-5">
+          <div>
             <Label>Plazo</Label>
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2">
               <Input
                 type="number"
                 value={term}
-                onChange={(e) => setTerm(Number(e.target.value))}
-                min={1}
-                className="h-11"
+                onChange={(e) => setTerm(e.target.value)}
               />
               <select
                 value={termUnit}
                 onChange={(e) => setTermUnit(e.target.value)}
-                className="rounded-lg text-sm text-gray-700 h-11 px-2 bg-white border border-gray-300"
+                className="border rounded px-2 text-sm"
               >
                 <option value="years">Años</option>
                 <option value="months">Meses</option>
               </select>
             </div>
           </div>
-
-          <div className="sm:col-span-3">
+          <div>
             <Label>Interés (%)</Label>
             <Input
               type="number"
               value={interestRate}
-              onChange={(e) => setInterestRate(Number(e.target.value))}
-              min={0}
-              step="0.01"
+              onChange={(e) => setInterestRate(e.target.value)}
+            />
+          </div>
+          <div>
+            <Label>País / Moneda</Label>
+            <CurrencySelector
+              selected={currency}
+              onSelect={handleSelectCountry}
+              options={currencyOptions}
             />
           </div>
         </div>
 
         {monthlyPayment && (
-          <div className="bg-green-50 text-green-800 text-center p-6 rounded-xl text-xl font-semibold shadow-md mt-6">
-            Cuota mensual: {currency.symbol}
-            {monthlyPayment}
-            <Button
-              variant="link"
-              onClick={copyPayment}
-              className="text-xs ml-4 p-0 h-auto"
-            >
-              Copiar
+          <div className="my-4 flex items-center gap-4 flex-wrap">
+            <div className="text-lg font-semibold">
+              Cuota mensual: {currency.symbol}
+              {monthlyPayment}
+            </div>
+            <Button variant="secondary" size="sm" onClick={copyPayment}>
+              <Copy size={16} className="mr-2" />
+              Copiar cuota
             </Button>
           </div>
         )}
 
-        {monthlyPayment && (
-          <div className="text-sm text-gray-700 mt-4 space-y-1">
-            <p>
-              Préstamo: {currency.symbol}
-              {parseFloat(loanAmount).toLocaleString(currency.locale)}
-            </p>
-            <p>
-              Total pagado: {currency.symbol}
-              {totalPayment}
-            </p>
-            <p>
-              Intereses totales: {currency.symbol}
-              {totalInterest}
-            </p>
-          </div>
-        )}
-
         <div className="mt-8">
-          <h3 className="text-lg font-medium mb-2">Distribución de pagos</h3>
-          <Bar
-            data={chartData}
-            options={{
-              responsive: true,
-              plugins: { legend: { position: "top" } },
-              scales: { x: { ticks: { display: false } } },
-            }}
-          />
+          <Bar data={chartData} />
         </div>
 
-        <div className="overflow-x-auto mt-8">
+        <div className="overflow-x-auto mt-10" ref={tableRef}>
           <div className="flex justify-between items-center mb-2 gap-2 flex-wrap">
-            <h3 className="text-lg font-medium">
-              Tabla de amortización mensual
-            </h3>
+            <h3 className="text-lg font-medium">Tabla de amortización mensual</h3>
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={exportToCSV}>
                 Exportar CSV
@@ -306,25 +261,31 @@ export default function LoanCalculator() {
               </tr>
             </thead>
             <tbody>
-              {amortization.map((item, idx) => (
+              {amortization.slice(0, visibleRows).map((item, idx) => (
                 <tr key={idx} className="border-t">
                   <td className="px-4 py-2">{item.month}</td>
                   <td className="px-4 py-2">
-                    {currency.symbol}
-                    {item.principal.toFixed(2)}
+                    {currency.symbol}{item.principal.toFixed(2)}
                   </td>
                   <td className="px-4 py-2">
-                    {currency.symbol}
-                    {item.interest.toFixed(2)}
+                    {currency.symbol}{item.interest.toFixed(2)}
                   </td>
                   <td className="px-4 py-2">
-                    {currency.symbol}
-                    {item.balance.toFixed(2)}
+                    {currency.symbol}{item.balance.toFixed(2)}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {visibleRows < amortization.length ? (
+            <div className="flex justify-center mt-4">
+              <Button onClick={handleShowMore}>Ver más</Button>
+            </div>
+          ) : (
+            amortization.length > 0 && (
+              <div className="text-center mt-4 text-sm text-gray-500">Fin de tabla</div>
+            )
+          )}
         </div>
       </CardContent>
     </Card>

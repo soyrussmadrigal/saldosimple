@@ -154,12 +154,12 @@ export default async function ToolPage({ params }) {
 
       {/* ⚙️ Componente de herramienta asociado al slug */}
       {ToolComponent && (
-  <div className="mil-blog-list mil-p-0-160 mb-16">
-    <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-12">
-      <ToolComponent />
-    </div>
-  </div>
-)}
+        <div className="mil-blog-list mil-p-0-160 mb-16">
+          <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-12">
+            <ToolComponent />
+          </div>
+        </div>
+      )}
 
       {/* 📄 Contenido enriquecido desde Sanity */}
       {data.content && (
