@@ -223,7 +223,7 @@ export default function LoanCalculator() {
     <Card className="w-full max-w-6xl mx-auto mt-16 px-2 sm:px-8 py-8 shadow-xl rounded-3xl bg-white border border-gray-200">
       <CardContent>
         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-teal-900">
-          <Calculator size={28} /> Calcula tu crédito
+          <Calculator size={28} /> Calcular crédito rápido y sencillo
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
