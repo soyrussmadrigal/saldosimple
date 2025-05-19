@@ -4,6 +4,7 @@ import { PortableText } from "@portabletext/react";
 import PlaxLayout from "@/layouts/PlaxLayout";
 import IVACalculator from "@/components/tools/IVACalculator";
 import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalculator";
+import LoanCalculator from "@/components/tools/LoanCalculator";
 import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
@@ -13,6 +14,7 @@ import Breadcrumb from "@/components/post/Breadcrumb";
 const toolMap = {
   "calculadora-iva": IVACalculator,
   "calculadora-interes-compuesto": CompoundInterestCalculator,
+  "calculadora-de-prestamo-personal": LoanCalculator,
 };
 
 // ✅ SEO generado dinámicamente para <head>
@@ -152,16 +154,12 @@ export default async function ToolPage({ params }) {
 
       {/* ⚙️ Componente de herramienta asociado al slug */}
       {ToolComponent && (
-        <div
-          className={`mx-auto mb-16 px-4 ${
-            params.slug === "calculadora-interes-compuesto"
-              ? "max-w-screen-2xl"
-              : "max-w-xl"
-          }`}
-        >
-          <ToolComponent />
-        </div>
-      )}
+  <div className="mil-blog-list mil-p-0-160 mb-16">
+    <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-12">
+      <ToolComponent />
+    </div>
+  </div>
+)}
 
       {/* 📄 Contenido enriquecido desde Sanity */}
       {data.content && (

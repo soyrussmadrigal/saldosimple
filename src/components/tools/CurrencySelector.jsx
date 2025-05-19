@@ -5,15 +5,15 @@ import Image from "next/image";
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
-// Lista de monedas con banderas (usa código ISO)
 const currencyOptions = [
-  { code: "USD", label: "Estados Unidos", locale: "en-US", symbol: "$", flag: "us" },
   { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "COP", label: "Colombia", locale: "es-CO", symbol: "$", flag: "co" },
   { code: "ARS", label: "Argentina", locale: "es-AR", symbol: "$", flag: "ar" },
   { code: "PEN", label: "Perú", locale: "es-PE", symbol: "S/", flag: "pe" },
   { code: "CLP", label: "Chile", locale: "es-CL", symbol: "$", flag: "cl" },
+  { code: "USD", label: "Estados Unidos", locale: "en-US", symbol: "$", flag: "us" },
+  { code: "PAB", label: "Panamá", locale: "es-PA", symbol: "B/.", flag: "pa" },
   { code: "EUR", label: "España", locale: "es-ES", symbol: "€", flag: "es" },
 ];
 
@@ -25,25 +25,29 @@ export default function CurrencySelector({ currency, setCurrency }) {
     setOpen(false);
   };
 
+  if (!currency?.code) {
+    return (
+      <Button variant="outline" className="w-full h-11 rounded-md text-gray-400 text-sm">
+        Selecciona una moneda
+      </Button>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full h-11 justify-start text-left rounded-md">
           <div className="flex items-center gap-3">
-            {currency?.flag ? (
-              <Image
-                src={`/flags/${currency.flag}.svg`}
-                alt={currency.label}
-                width={24}
-                height={16}
-                className="object-contain"
-                onError={(e) => (e.currentTarget.style.display = "none")}
-              />
-            ) : (
-              <div className="w-6 h-4 bg-gray-200 rounded" />
-            )}
+            <Image
+              src={`/flags/${currency.flag}.svg`}
+              alt={currency.label}
+              width={24}
+              height={16}
+              className="object-contain"
+              onError={(e) => (e.currentTarget.style.display = "none")}
+            />
             <span className="text-sm font-medium">
-              {currency?.label} ({currency?.symbol})
+              {currency.label} ({currency.symbol})
             </span>
           </div>
         </Button>

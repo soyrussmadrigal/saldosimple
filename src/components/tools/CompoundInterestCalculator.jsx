@@ -1,4 +1,3 @@
-// Código completo de CompoundInterestCalculator.jsx finalizado, validado, optimizado móvil y con resumen textual
 
 "use client";
 
