@@ -24,13 +24,25 @@ import autoTable from "jspdf-autotable";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const currencyOptions = [
-  { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
+  {
+    code: "CRC",
+    label: "Costa Rica",
+    locale: "es-CR",
+    symbol: "₡",
+    flag: "cr",
+  },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "COP", label: "Colombia", locale: "es-CO", symbol: "$", flag: "co" },
   { code: "ARS", label: "Argentina", locale: "es-AR", symbol: "$", flag: "ar" },
   { code: "PEN", label: "Perú", locale: "es-PE", symbol: "S/", flag: "pe" },
   { code: "CLP", label: "Chile", locale: "es-CL", symbol: "$", flag: "cl" },
-  { code: "USD", label: "Panamá / USA", locale: "en-US", symbol: "$", flag: "pa" },
+  {
+    code: "USD",
+    label: "Panamá / USA",
+    locale: "en-US",
+    symbol: "$",
+    flag: "pa",
+  },
   { code: "EUR", label: "España", locale: "es-ES", symbol: "€", flag: "es" },
 ];
 
@@ -66,6 +78,7 @@ export default function LoanCalculator() {
 
   const handleSelectCountry = (option) => {
     setCurrency(option);
+    calculateLoan(); // opcional: recalcular al cambiar país
   };
 
   const calculateLoan = () => {
@@ -128,11 +141,45 @@ export default function LoanCalculator() {
     writeFile(wb, "tabla_amortizacion.csv");
   };
 
-  const exportToPDF = () => {
+  const exportToPDF = async () => {
     const doc = new jsPDF();
-    doc.setFontSize(14);
-    doc.text("Tabla de Amortización Mensual", 14, 16);
 
+    // Convertir logo a base64
+    const getImageBase64 = (url) =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = url;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext("2d");
+
+          // Simular opacidad (dibujar con transparencia)
+          ctx.globalAlpha = 0.05;
+          ctx.drawImage(img, 0, 0);
+
+          resolve(canvas.toDataURL("image/png"));
+        };
+        img.onerror = () => reject("Error al cargar el logo.");
+      });
+
+    try {
+      const logoBase64 = await getImageBase64("/img/logo.png");
+
+      // Marca de agua con el logo
+      doc.addImage(logoBase64, "PNG", 25, 90, 160, 40, undefined, "FAST");
+    } catch (e) {
+      console.warn("Logo no cargado para PDF:", e);
+    }
+
+    // Título
+    doc.setFontSize(14);
+    doc.setTextColor(33);
+    doc.text("Tabla de Amortización Mensual", 14, 20);
+
+    // Contenido tabla
     const tableData = amortization.map((row) => [
       row.month,
       `${currency.symbol}${row.principal.toFixed(2)}`,
@@ -141,7 +188,7 @@ export default function LoanCalculator() {
     ]);
 
     autoTable(doc, {
-      startY: 20,
+      startY: 28,
       head: [["Mes", "Capital", "Interés", "Saldo"]],
       body: tableData,
     });
@@ -167,7 +214,9 @@ export default function LoanCalculator() {
 
   const copyPayment = () => {
     navigator.clipboard.writeText(monthlyPayment);
-    toast.success(`Se copió ${currency.symbol}${monthlyPayment} al portapapeles.`);
+    toast.success(
+      `Se copió ${currency.symbol}${monthlyPayment} al portapapeles.`
+    );
   };
 
   return (
@@ -215,9 +264,8 @@ export default function LoanCalculator() {
           <div>
             <Label>País / Moneda</Label>
             <CurrencySelector
-              selected={currency}
-              onSelect={handleSelectCountry}
-              options={currencyOptions}
+              currency={currency}
+              setCurrency={handleSelectCountry}
             />
           </div>
         </div>
@@ -239,53 +287,80 @@ export default function LoanCalculator() {
           <Bar data={chartData} />
         </div>
 
-        <div className="overflow-x-auto mt-10" ref={tableRef}>
-          <div className="flex justify-between items-center mb-2 gap-2 flex-wrap">
-            <h3 className="text-lg font-medium">Tabla de amortización mensual</h3>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={exportToCSV}>
-                Exportar CSV
-              </Button>
-              <Button variant="outline" size="sm" onClick={exportToPDF}>
-                Exportar PDF
-              </Button>
-            </div>
+        {/* Tabla con marca de agua */}
+        <div className="relative overflow-x-auto mt-10" ref={tableRef}>
+          {/* Marca de agua visual */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+            <span
+              className="text-4xl font-bold text-gray-300"
+              style={{
+                transform: "rotate(-30deg)",
+                opacity: 0.1,
+                userSelect: "none",
+              }}
+            >
+              SaldoSimple.com
+            </span>
           </div>
-          <table className="min-w-full text-sm border border-gray-200">
-            <thead className="bg-gray-100 text-left">
-              <tr>
-                <th className="px-4 py-2">Mes</th>
-                <th className="px-4 py-2">Capital</th>
-                <th className="px-4 py-2">Interés</th>
-                <th className="px-4 py-2">Saldo</th>
-              </tr>
-            </thead>
-            <tbody>
-              {amortization.slice(0, visibleRows).map((item, idx) => (
-                <tr key={idx} className="border-t">
-                  <td className="px-4 py-2">{item.month}</td>
-                  <td className="px-4 py-2">
-                    {currency.symbol}{item.principal.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2">
-                    {currency.symbol}{item.interest.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2">
-                    {currency.symbol}{item.balance.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {visibleRows < amortization.length ? (
-            <div className="flex justify-center mt-4">
-              <Button onClick={handleShowMore}>Ver más</Button>
+
+          {/* Tabla */}
+          <div className="relative z-10">
+            <div className="flex justify-between items-center mb-2 gap-2 flex-wrap">
+              <h3 className="text-lg font-medium">
+                Tabla de amortización mensual
+              </h3>
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" onClick={exportToCSV}>
+                  Exportar CSV
+                </Button>
+                <Button variant="outline" size="sm" onClick={exportToPDF}>
+                  Exportar PDF
+                </Button>
+              </div>
             </div>
-          ) : (
-            amortization.length > 0 && (
-              <div className="text-center mt-4 text-sm text-gray-500">Fin de tabla</div>
-            )
-          )}
+            <table className="min-w-full text-sm border border-gray-200 bg-white">
+              <thead className="bg-gray-100 text-left">
+                <tr>
+                  <th className="px-4 py-2">Mes</th>
+                  <th className="px-4 py-2">Capital</th>
+                  <th className="px-4 py-2">Interés</th>
+                  <th className="px-4 py-2">Saldo</th>
+                </tr>
+              </thead>
+              <tbody>
+                {amortization.slice(0, visibleRows).map((item, idx) => (
+                  <tr key={idx} className="border-t">
+                    <td className="px-4 py-2">{item.month}</td>
+                    <td className="px-4 py-2">
+                      {currency.symbol}
+                      {item.principal.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2">
+                      {currency.symbol}
+                      {item.interest.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2">
+                      {currency.symbol}
+                      {item.balance.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* Ver más o fin de tabla */}
+            {visibleRows < amortization.length ? (
+              <div className="flex justify-center mt-4">
+                <Button onClick={handleShowMore}>Ver más</Button>
+              </div>
+            ) : (
+              amortization.length > 0 && (
+                <div className="text-center mt-4 text-sm text-gray-500">
+                  Fin de tabla
+                </div>
+              )
+            )}
+          </div>
         </div>
       </CardContent>
     </Card>
