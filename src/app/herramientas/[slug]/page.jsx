@@ -6,6 +6,7 @@ import IVACalculator from "@/components/tools/IVACalculator";
 import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalculator";
 import LoanCalculator from "@/components/tools/LoanCalculator";
 import PayPalCalculator from "@/components/tools/PayPalCalculator";
+import AguinaldoCalculatorCR from "@/components/tools/AguinaldoCalculatorCR";
 import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
@@ -17,6 +18,7 @@ const toolMap = {
   "calculadora-interes-compuesto": CompoundInterestCalculator,
   "calculadora-credito-personal": LoanCalculator,
   "calculadora-paypal": PayPalCalculator,
+  "calculadora-de-aguinaldo-costa-rica": AguinaldoCalculatorCR,
 };
 
 // ✅ SEO generado dinámicamente para <head>
