@@ -31,20 +31,14 @@ const paypalFees = {
 };
 
 const currencyOptions = [
-  {
-    code: "CRC",
-    label: "Costa Rica",
-    locale: "es-CR",
-    symbol: "₡",
-    flag: "cr",
-  },
+  { code: "CRC", label: "Costa Rica", locale: "es-CR", symbol: "₡", flag: "cr" },
   { code: "MXN", label: "México", locale: "es-MX", symbol: "$", flag: "mx" },
   { code: "USD", label: "USA", locale: "en-US", symbol: "$", flag: "us" },
 ];
 
 export default function PayPalCalculator() {
   const [amount, setAmount] = useState(100);
-  const [currency, setCurrency] = useState(currencyOptions[0]);
+  const [currency, setCurrency] = useState(currencyOptions.find(opt => opt.flag === "mx"));
   const [calculationType, setCalculationType] = useState("receive");
   const [customPercentage, setCustomPercentage] = useState(null);
   const [result, setResult] = useState({ fee: 0, net: 0, gross: 0 });
@@ -56,9 +50,10 @@ export default function PayPalCalculator() {
         const data = await res.json();
         const countryCode = data?.country?.toLowerCase();
         const match = currencyOptions.find((opt) => opt.flag === countryCode);
-        if (match) setCurrency(match);
+        setCurrency(match || currencyOptions.find(opt => opt.flag === "mx"));
       } catch (err) {
         console.error("Geo detection failed");
+        setCurrency(currencyOptions.find(opt => opt.flag === "mx"));
       }
     };
     detectCountry();
@@ -66,8 +61,7 @@ export default function PayPalCalculator() {
 
   useEffect(() => {
     const feeData = paypalFees[currency.flag] || paypalFees.default;
-    const pct =
-      (customPercentage !== null ? customPercentage : feeData.percentage) / 100;
+    const pct = (customPercentage !== null ? customPercentage : feeData.percentage) / 100;
     const fixed = feeData.fixed;
 
     if (calculationType === "receive") {
@@ -84,9 +78,7 @@ export default function PayPalCalculator() {
   const copyToClipboard = () => {
     toast.success("Resultado copiado al portapapeles");
     navigator.clipboard.writeText(
-      `Debes cobrar ${currency.symbol}${result.gross.toFixed(2)} para recibir ${
-        currency.symbol
-      }${result.net.toFixed(2)}`
+      `Debes cobrar ${currency.symbol}${result.gross.toFixed(2)} para recibir ${currency.symbol}${result.net.toFixed(2)}`
     );
   };
 
@@ -94,7 +86,7 @@ export default function PayPalCalculator() {
     const ws = utils.json_to_sheet([
       {
         Monto: amount,
-        Comisión: result.fee.toFixed(2),
+        "Comisión": result.fee.toFixed(2),
         "Total a recibir": result.net.toFixed(2),
         "Total a cobrar": result.gross.toFixed(2),
       },
@@ -111,14 +103,12 @@ export default function PayPalCalculator() {
     autoTable(doc, {
       startY: 22,
       head: [["Monto", "Comisión", "A recibir", "A cobrar"]],
-      body: [
-        [
-          `${currency.symbol}${amount}`,
-          `${currency.symbol}${result.fee.toFixed(2)}`,
-          `${currency.symbol}${result.net.toFixed(2)}`,
-          `${currency.symbol}${result.gross.toFixed(2)}`,
-        ],
-      ],
+      body: [[
+        `${currency.symbol}${amount}`,
+        `${currency.symbol}${result.fee.toFixed(2)}`,
+        `${currency.symbol}${result.net.toFixed(2)}`,
+        `${currency.symbol}${result.gross.toFixed(2)}`,
+      ]],
     });
     doc.save("paypal_calculadora.pdf");
   };
@@ -142,35 +132,18 @@ export default function PayPalCalculator() {
           Calculadora de Comisiones PayPal
         </div>
 
-        <Label className="text-sm text-gray-600 mt-0 block">
-          Selecciona tu país
-        </Label>
+        <Label className="text-sm text-gray-600 mt-0 block">Selecciona tu país</Label>
         <div className="mt-2 mb-4">
           <CurrencySelector currency={currency} setCurrency={setCurrency} />
         </div>
 
-        <Label className="block text-sm text-gray-600 mt-4 mb-2">
-          Tipo de cálculo
-        </Label>
+        <Label className="block text-sm text-gray-600 mt-4 mb-2">Tipo de cálculo</Label>
         <div className="flex gap-4 mb-4">
-          <Button
-            variant={calculationType === "receive" ? "default" : "outline"}
-            onClick={() => setCalculationType("receive")}
-          >
-            Quiero recibir
-          </Button>
-          <Button
-            variant={calculationType === "send" ? "default" : "outline"}
-            onClick={() => setCalculationType("send")}
-          >
-            Quiero enviar
-          </Button>
+          <Button variant={calculationType === "receive" ? "default" : "outline"} onClick={() => setCalculationType("receive")}>Quiero recibir</Button>
+          <Button variant={calculationType === "send" ? "default" : "outline"} onClick={() => setCalculationType("send")}>Quiero enviar</Button>
         </div>
 
-        <Label
-          htmlFor="amount"
-          className="block text-sm text-gray-600 mt-4 mb-2"
-        >
+        <Label htmlFor="amount" className="block text-sm text-gray-600 mt-4 mb-2">
           Monto ({calculationType === "receive" ? "a recibir" : "neto deseado"})
         </Label>
         <Input
@@ -181,10 +154,7 @@ export default function PayPalCalculator() {
           className="w-full h-11"
         />
 
-        <Label
-          htmlFor="percentage"
-          className="block text-sm text-gray-600 mt-6 mb-2"
-        >
+        <Label htmlFor="percentage" className="block text-sm text-gray-600 mt-6 mb-2">
           Porcentaje de comisión personalizada (opcional)
         </Label>
         <Input
@@ -194,32 +164,15 @@ export default function PayPalCalculator() {
           placeholder="Ej. 5.4"
           value={customPercentage ?? ""}
           onChange={(e) =>
-            setCustomPercentage(
-              e.target.value === "" ? null : parseFloat(e.target.value)
-            )
+            setCustomPercentage(e.target.value === "" ? null : parseFloat(e.target.value))
           }
           className="w-full h-11"
         />
 
         <div className="text-sm text-gray-700 space-y-1 mt-6">
-          <p>
-            Comisión estimada: {currency.symbol}
-            {result.fee.toFixed(2)}
-          </p>
-          <p>
-            Total a recibir:{" "}
-            <strong>
-              {currency.symbol}
-              {result.net.toFixed(2)}
-            </strong>
-          </p>
-          <p>
-            Total a cobrar:{" "}
-            <strong>
-              {currency.symbol}
-              {result.gross.toFixed(2)}
-            </strong>
-          </p>
+          <p>Comisión estimada: {currency.symbol}{result.fee.toFixed(2)}</p>
+          <p>Total a recibir: <strong>{currency.symbol}{result.net.toFixed(2)}</strong></p>
+          <p>Total a cobrar: <strong>{currency.symbol}{result.gross.toFixed(2)}</strong></p>
         </div>
 
         <div className="flex justify-between items-center mt-6 flex-wrap gap-2">
@@ -229,23 +182,13 @@ export default function PayPalCalculator() {
           <Button onClick={exportToPDF} variant="outline" className="text-sm">
             <Download className="w-4 h-4 mr-2" /> Exportar PDF
           </Button>
-          <Button
-            variant="link"
-            onClick={copyToClipboard}
-            className="text-xs p-0 h-auto"
-          >
+          <Button variant="link" onClick={copyToClipboard} className="text-xs p-0 h-auto">
             Copiar resumen
           </Button>
         </div>
 
         <div className="mt-10">
-          <Bar
-            data={chartData}
-            options={{
-              responsive: true,
-              plugins: { legend: { display: false } },
-            }}
-          />
+          <Bar data={chartData} options={{ responsive: true, plugins: { legend: { display: false } } }} />
         </div>
       </CardContent>
     </Card>
