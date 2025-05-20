@@ -51,7 +51,7 @@ export default function AguinaldoCalculatorCR() {
         </div>
 
         <Label htmlFor="salary" className="text-sm text-gray-600 block">
-          Salario mensual promedio
+          Salario mensual promedio.
         </Label>
         <Input
           id="salary"
