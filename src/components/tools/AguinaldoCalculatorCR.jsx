@@ -6,12 +6,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CurrencySelector from "@/components/tools/CurrencySelector";
 import GaugeChart from "react-gauge-chart";
 
 const currencyOptions = [
-  { code: "CRC", label: "Colones", locale: "es-CR", symbol: "₡", flag: "cr" },
-  { code: "USD", label: "Dólares", locale: "en-US", symbol: "$", flag: "us" },
+  { code: "CRC", label: "Colones", locale: "es-CR", symbol: "₡" },
+  { code: "USD", label: "Dólares", locale: "en-US", symbol: "$" },
 ];
 
 export default function AguinaldoCalculatorCR() {
@@ -28,7 +27,7 @@ export default function AguinaldoCalculatorCR() {
     setAguinaldo(result);
   };
 
-  const maxAguinaldo = salary * 2; // Valor arbitrario para escala del gráfico
+  const maxAguinaldo = salary * 2; // escala del odómetro
 
   return (
     <Card className="w-full max-w-3xl mx-auto mt-16 px-4 sm:px-8 py-8 shadow-xl rounded-3xl bg-white border border-gray-200">
@@ -39,11 +38,21 @@ export default function AguinaldoCalculatorCR() {
         </div>
 
         <Label className="text-sm text-gray-600 block">Moneda</Label>
-        <div className="mt-2 mb-4">
-          <CurrencySelector currency={currency} setCurrency={setCurrency} options={currencyOptions} />
+        <div className="flex gap-4 my-4">
+          {currencyOptions.map((option) => (
+            <Button
+              key={option.code}
+              variant={currency.code === option.code ? "default" : "outline"}
+              onClick={() => setCurrency(option)}
+            >
+              {option.label}
+            </Button>
+          ))}
         </div>
 
-        <Label htmlFor="salary" className="text-sm text-gray-600 block">Salario mensual promedio</Label>
+        <Label htmlFor="salary" className="text-sm text-gray-600 block">
+          Salario mensual promedio
+        </Label>
         <Input
           id="salary"
           type="number"
@@ -55,11 +64,23 @@ export default function AguinaldoCalculatorCR() {
 
         <Label className="text-sm text-gray-600 block">Tipo de duración</Label>
         <div className="flex gap-4 mb-4">
-          <Button variant={durationType === "dias" ? "default" : "outline"} onClick={() => setDurationType("dias")}>Días</Button>
-          <Button variant={durationType === "meses" ? "default" : "outline"} onClick={() => setDurationType("meses")}>Meses</Button>
+          <Button
+            variant={durationType === "dias" ? "default" : "outline"}
+            onClick={() => setDurationType("dias")}
+          >
+            Días
+          </Button>
+          <Button
+            variant={durationType === "meses" ? "default" : "outline"}
+            onClick={() => setDurationType("meses")}
+          >
+            Meses
+          </Button>
         </div>
 
-        <Label htmlFor="duration" className="text-sm text-gray-600 block">Cantidad de {durationType}</Label>
+        <Label htmlFor="duration" className="text-sm text-gray-600 block">
+          Cantidad de {durationType}
+        </Label>
         <Input
           id="duration"
           type="number"
@@ -75,7 +96,7 @@ export default function AguinaldoCalculatorCR() {
 
         {aguinaldo > 0 && (
           <div className="text-center">
-            <div className="text-xl font-bold text-green-700 mb-4">
+            <div className="text-xl font-bold text-teal-900 mb-4">
               Aguinaldo estimado: {currency.symbol}
               {aguinaldo.toLocaleString(currency.locale, {
                 minimumFractionDigits: 2,
@@ -87,9 +108,9 @@ export default function AguinaldoCalculatorCR() {
                 id="gauge-chart-aguinaldo"
                 nrOfLevels={20}
                 percent={Math.min(aguinaldo / maxAguinaldo, 1)}
-                textColor="#0f766e"
-                needleColor="#0f766e"
-                colors={["#d6f6eb", "#0f766e"]}
+                textColor="#034d5a"
+                needleColor="#034d5a"
+                colors={["#a4ced4", "#034d5a"]} // degradado: claro → base
                 arcWidth={0.3}
               />
             </div>
