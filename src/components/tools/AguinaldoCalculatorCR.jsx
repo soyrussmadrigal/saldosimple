@@ -110,9 +110,26 @@ export default function AguinaldoCalculatorCR() {
                 percent={Math.min(aguinaldo / maxAguinaldo, 1)}
                 textColor="#034d5a"
                 needleColor="#034d5a"
-                colors={["#a4ced4", "#034d5a"]} // degradado: claro → base
+                colors={["#a4ced4", "#034d5a"]}
                 arcWidth={0.3}
               />
+
+              <div className="mt-6 text-sm text-gray-700 leading-relaxed">
+                Trabajaste {duration}{" "}
+                {durationType === "dias" ? "días" : "meses"} y tu salario
+                promedio fue de {currency.symbol}
+                {salary.toLocaleString(currency.locale, {
+                  minimumFractionDigits: 2,
+                })}
+                . Te corresponde un aguinaldo aproximado de{" "}
+                <span className="font-semibold text-[#034d5a]">
+                  {currency.symbol}
+                  {aguinaldo.toLocaleString(currency.locale, {
+                    minimumFractionDigits: 2,
+                  })}
+                </span>
+                .
+              </div>
             </div>
           </div>
         )}
