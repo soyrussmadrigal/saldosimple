@@ -7,7 +7,8 @@ export const toolPageQuery = `*[_type == "toolPage" && slug.current == $slug][0]
   metaDescription,
   canonicalUrl,
   content,
-  faqs
+  faqs,
+  noIndex
 }`;
 
 export async function getToolPageData(slug) {

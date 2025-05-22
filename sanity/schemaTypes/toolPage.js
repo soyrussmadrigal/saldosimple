@@ -1,7 +1,7 @@
 // ./schemas/toolPage.js
 
 import { defineField, defineType } from "sanity";
-import IconDropdown from "../components/IconDropdown"; // ✅ Asegúrate de que la ruta sea correcta
+import IconDropdown from "../components/IconDropdown";
 
 export default defineType({
   name: "toolPage",
@@ -46,6 +46,13 @@ export default defineType({
       name: "canonicalUrl",
       title: "Canonical URL",
       type: "url",
+    }),
+    defineField({
+      name: "noIndex",
+      title: "Excluir de buscadores (noindex)",
+      type: "boolean",
+      description: "Si está activado, esta página no será indexada por Google ni otros motores de búsqueda.",
+      initialValue: false,
     }),
     defineField({
       name: "shortDescription",

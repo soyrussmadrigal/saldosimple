@@ -29,6 +29,7 @@ export async function generateMetadata({ params }) {
     return {
       title: "Herramienta no encontrada | SaldoSimple",
       description: "La herramienta solicitada no se encuentra disponible.",
+      robots: "noindex, nofollow",
     };
   }
 
@@ -36,6 +37,7 @@ export async function generateMetadata({ params }) {
     title: data.metaTitle || data.title,
     description:
       data.metaDescription || "Explora esta herramienta financiera gratuita.",
+      robots: data.noIndex ? "noindex, nofollow" : "index, follow",
     alternates: {
       canonical:
         data.canonicalUrl ||
