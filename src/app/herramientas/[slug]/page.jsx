@@ -33,11 +33,13 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  const isHidden = data.ocultarDelListado === true;
+
   return {
     title: data.metaTitle || data.title,
     description:
       data.metaDescription || "Explora esta herramienta financiera gratuita.",
-      robots: data.noIndex ? "noindex, nofollow" : "index, follow",
+    robots: isHidden ? "noindex, nofollow" : "index, follow",
     alternates: {
       canonical:
         data.canonicalUrl ||
@@ -128,7 +130,6 @@ export default async function ToolPage({ params }) {
             name: faq.question,
             acceptedAnswer: {
               "@type": "Answer",
-              text: faq.answer,
               text: extractPlainText(faq.answer),
             },
           })),
@@ -153,7 +154,6 @@ export default async function ToolPage({ params }) {
 
   return (
     <PlaxLayout>
-      {/* ✅ SEO JSON-LD con los tres esquemas */}
       <SEOJsonLd
         schemas={{
           breadcrumb: breadcrumbSchema,
@@ -163,7 +163,6 @@ export default async function ToolPage({ params }) {
         }}
       />
 
-      {/* 🧾 Título + breadcrumb */}
       <section className="text-center py-1 px-4 bg-white mt-5">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-bold mb-2 text-teal-900">
@@ -177,7 +176,6 @@ export default async function ToolPage({ params }) {
         </div>
       </section>
 
-      {/* ⚙️ Componente de herramienta asociado al slug */}
       {ToolComponent && (
         <div className="mil-blog-list mil-p-0-160 mb-16">
           <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-12">
@@ -186,7 +184,6 @@ export default async function ToolPage({ params }) {
         </div>
       )}
 
-      {/* 📄 Contenido enriquecido desde Sanity */}
       {data.content && (
         <section className="px-6 pb-2 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
           <PortableText
@@ -224,14 +221,12 @@ export default async function ToolPage({ params }) {
         </section>
       )}
 
-      {/* ❓ FAQs asociadas */}
       {data.faqs?.length > 0 && (
         <div className="max-w-3xl mx-auto px-6 mt-4">
           <FAQsSection faqs={data.faqs} />
         </div>
       )}
 
-      {/* 🧮 Otras herramientas destacadas */}
       <ToolsList />
     </PlaxLayout>
   );

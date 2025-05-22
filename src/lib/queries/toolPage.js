@@ -8,7 +8,7 @@ export const toolPageQuery = `*[_type == "toolPage" && slug.current == $slug][0]
   canonicalUrl,
   content,
   faqs,
-  noIndex
+  ocultarDelListado
 }`;
 
 export async function getToolPageData(slug) {
@@ -27,7 +27,8 @@ export async function getToolPageData(slug) {
 
 // 🔹 Query para el listado general de herramientas (usado en /herramientas/page.jsx)
 export const toolsQuery = `
-  *[_type == "toolPage" && defined(slug.current)] | order(_createdAt asc) {
+  *[_type == "toolPage" && defined(slug.current) && ocultarDelListado != true] 
+  | order(_createdAt asc) {
     _id,
     title,
     shortDescription,
@@ -44,7 +45,7 @@ export async function getAllTools() {
       toolsQuery,
       {},
       {
-        cache: "no-store" // ✅ Elimina revalidate para evitar conflicto
+        cache: "no-store", // ✅ Elimina revalidate para evitar conflicto
       }
     );
     return data;
