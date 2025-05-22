@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import client from "@/lib/sanityClient";
 import { getToolPageData } from "@/lib/queries/toolPage";
 import { PortableText } from "@portabletext/react";
@@ -14,7 +11,7 @@ import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
 import Breadcrumb from "@/components/post/Breadcrumb";
-import { AlertTriangle } from "lucide-react";
+import { Suspense } from "react";
 
 // 🧠 Mapa que relaciona el slug con el componente visual de la herramienta
 const toolMap = {
@@ -25,12 +22,45 @@ const toolMap = {
   "calculadora-de-aguinaldo-costa-rica": AguinaldoCalculatorCR,
 };
 
-export default async function ToolPage({ params }) {
+// ✅ SEO generado dinámicamente para <head>
+export async function generateMetadata({ params }) {
   const data = await getToolPageData(params.slug);
 
   if (!data) {
-    return <div className="text-center py-20">Contenido no encontrado</div>;
+    return {
+      title: "Herramienta no encontrada | SaldoSimple",
+      description: "La herramienta solicitada no se encuentra disponible.",
+      robots: "noindex, nofollow",
+    };
   }
+
+  return {
+    title: data.metaTitle || data.title,
+    description:
+      data.metaDescription || "Explora esta herramienta financiera gratuita.",
+    robots: data.ocultarDelListado ? "noindex, nofollow" : "index, follow",
+    alternates: {
+      canonical:
+        data.canonicalUrl ||
+        `https://www.saldosimple.com/herramientas/${params.slug}`,
+    },
+  };
+}
+
+function PreviewBanner() {
+  return (
+    <div className="w-full bg-yellow-100 border-b border-yellow-400 text-yellow-900 py-3 px-4 text-center text-sm">
+      ⚠️ Estás viendo una herramienta aún no publicada. Solo visible con enlace directo.
+    </div>
+  );
+}
+
+// ✅ Página de cada herramienta individual
+export default async function ToolPage({ params }) {
+  const data = await getToolPageData(params.slug);
+
+  if (!data)
+    return <div className="text-center py-20">Contenido no encontrado</div>;
 
   const ToolComponent = toolMap[params.slug];
   const titulo = data.title;
@@ -39,34 +69,55 @@ export default async function ToolPage({ params }) {
   const siteUrl = "https://www.saldosimple.com";
   const pageUrl = `${siteUrl}/herramientas/${params.slug}`;
 
+  // 🔧 JSON-LD: Breadcrumb schema
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Inicio", item: siteUrl },
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Inicio",
+        item: siteUrl,
+      },
       {
         "@type": "ListItem",
         position: 2,
         name: "Herramientas",
         item: `${siteUrl}/herramientas`,
       },
-      { "@type": "ListItem", position: 3, name: data.title, item: pageUrl },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: data.title,
+        item: pageUrl,
+      },
     ],
   };
 
+  // 🔧 JSON-LD: Article schema
   const articleSchema = {
     "@context": "https://schema.org",
     "@type": "Article",
-    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": pageUrl,
+    },
     headline: data.title,
     description:
       data.metaDescription || "Explora esta herramienta financiera gratuita.",
     datePublished: data._createdAt,
-    author: { "@type": "Organization", name: "SaldoSimple" },
+    author: {
+      "@type": "Organization",
+      name: "SaldoSimple",
+    },
     publisher: {
       "@type": "Organization",
       name: "SaldoSimple",
-      logo: { "@type": "ImageObject", url: `${siteUrl}/img/logo.png` },
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/img/logo.png`,
+      },
     },
     image: {
       "@type": "ImageObject",
@@ -75,6 +126,7 @@ export default async function ToolPage({ params }) {
     articleBody: extractPlainText(data.content),
   };
 
+  // 🔧 JSON-LD: FAQ schema
   const faqSchema =
     data.faqs && data.faqs.length > 0
       ? {
@@ -91,6 +143,7 @@ export default async function ToolPage({ params }) {
         }
       : null;
 
+  // 🔧 JSON-LD: SoftwareApplication schema
   const softwareSchema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -106,11 +159,11 @@ export default async function ToolPage({ params }) {
     url: pageUrl,
   };
 
-  // ⚠️ Cartel para herramientas no publicadas
-  const [showNotice, setShowNotice] = useState(true);
-
   return (
     <PlaxLayout>
+      {data.ocultarDelListado && <PreviewBanner />}
+
+      {/* ✅ SEO JSON-LD con los tres esquemas */}
       <SEOJsonLd
         schemas={{
           breadcrumb: breadcrumbSchema,
@@ -120,23 +173,7 @@ export default async function ToolPage({ params }) {
         }}
       />
 
-      {data.ocultarDelListado && showNotice && (
-        <div className="relative bg-yellow-100 border border-yellow-300 text-yellow-800 text-sm text-center py-3 px-4 mb-6 rounded-md max-w-4xl mx-auto flex items-center justify-center gap-2">
-          <AlertTriangle className="w-5 h-5 text-yellow-700" />
-          <span>
-            <strong>Advertencia:</strong> Estás viendo una herramienta que aún{" "}
-            <strong>no ha sido publicada</strong>.
-          </span>
-          <button
-            onClick={() => setShowNotice(false)}
-            className="absolute right-3 top-2 text-yellow-600 hover:text-yellow-800 text-lg"
-            aria-label="Cerrar"
-          >
-            &times;
-          </button>
-        </div>
-      )}
-
+      {/* 🧾 Título + breadcrumb */}
       <section className="text-center py-1 px-4 bg-white mt-5">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-bold mb-2 text-teal-900">
@@ -150,6 +187,7 @@ export default async function ToolPage({ params }) {
         </div>
       </section>
 
+      {/* ⚙️ Componente de herramienta asociado al slug */}
       {ToolComponent && (
         <div className="mil-blog-list mil-p-0-160 mb-16">
           <div className="w-full max-w-screen-2xl mx-auto px-6 sm:px-12">
@@ -158,6 +196,7 @@ export default async function ToolPage({ params }) {
         </div>
       )}
 
+      {/* 📄 Contenido enriquecido desde Sanity */}
       {data.content && (
         <section className="px-6 pb-2 max-w-3xl mx-auto text-gray-700 text-base leading-relaxed">
           <PortableText
@@ -195,12 +234,14 @@ export default async function ToolPage({ params }) {
         </section>
       )}
 
+      {/* ❓ FAQs asociadas */}
       {data.faqs?.length > 0 && (
         <div className="max-w-3xl mx-auto px-6 mt-4">
           <FAQsSection faqs={data.faqs} />
         </div>
       )}
 
+      {/* 🧮 Otras herramientas destacadas */}
       <ToolsList />
     </PlaxLayout>
   );
@@ -213,5 +254,13 @@ function extractPlainText(content) {
     .filter((block) => block._type === "block" && block.children)
     .map((block) => block.children.map((child) => child.text).join(""))
     .join(" ")
-    .slice(0, 1000);
+    .slice(0, 1000); // Previene payloads enormes
+}
+
+// 🔁 Define los slugs a prerenderizar en build
+export async function generateStaticParams() {
+  const slugs = await client.fetch(
+    `*[_type == "toolPage"]{ "slug": slug.current }`
+  );
+  return slugs.map(({ slug }) => ({ slug }));
 }
