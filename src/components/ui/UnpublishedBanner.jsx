@@ -11,12 +11,6 @@ export default function UnpublishedBanner() {
   return (
     <div className="bg-yellow-100 text-yellow-900 px-4 py-3 text-sm text-center font-medium">
       Esta herramienta aún no ha sido publicada. Solo tú puedes verla.
-      <button
-        onClick={() => setVisible(false)}
-        className="ml-4 underline text-xs"
-      >
-        Ocultar
-      </button>
     </div>
   );
 }
