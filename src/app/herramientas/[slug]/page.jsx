@@ -7,6 +7,7 @@ import CompoundInterestCalculator from "@/components/tools/CompoundInterestCalcu
 import LoanCalculator from "@/components/tools/LoanCalculator";
 import PayPalCalculator from "@/components/tools/PayPalCalculator";
 import AguinaldoCalculatorCR from "@/components/tools/AguinaldoCalculatorCR";
+import AguinaldoCalculatorMX from "@/components/tools/AguinaldoCalculatorMX";
 import FAQsSection from "@/components/post/FAQsSection";
 import ToolsList from "@/components/tools/ToolsList";
 import SEOJsonLd from "@/components/seo/SEOJsonLd";
@@ -20,6 +21,8 @@ const toolMap = {
   "calculadora-credito-personal": LoanCalculator,
   "calculadora-paypal": PayPalCalculator,
   "calculadora-de-aguinaldo-costa-rica": AguinaldoCalculatorCR,
+  "calculadora-de-aguinaldo-mexico": AguinaldoCalculatorMX,
+
 };
 
 // ✅ SEO generado dinámicamente para <head>
